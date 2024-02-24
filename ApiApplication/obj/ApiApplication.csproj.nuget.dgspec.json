@@ -1,0 +1,85 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/Xsodia/Projects/Wrksp-Learn-Test/Movies-api-challenge.1.0.2/ApiApplication/ApiApplication.csproj": {}
+  },
+  "projects": {
+    "/Users/Xsodia/Projects/Wrksp-Learn-Test/Movies-api-challenge.1.0.2/ApiApplication/ApiApplication.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/Xsodia/Projects/Wrksp-Learn-Test/Movies-api-challenge.1.0.2/ApiApplication/ApiApplication.csproj",
+        "projectName": "ApiApplication",
+        "projectPath": "/Users/Xsodia/Projects/Wrksp-Learn-Test/Movies-api-challenge.1.0.2/ApiApplication/ApiApplication.csproj",
+        "packagesPath": "/Users/Xsodia/.nuget/packages/",
+        "outputPath": "/Users/Xsodia/Projects/Wrksp-Learn-Test/Movies-api-challenge.1.0.2/ApiApplication/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/Xsodia/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Grpc.AspNetCore": {
+              "target": "Package",
+              "version": "[2.40.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[3.1.22, )"
+            },
+            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.14.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
