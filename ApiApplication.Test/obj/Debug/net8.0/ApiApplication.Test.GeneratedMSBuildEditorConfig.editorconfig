@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ApiApplication.Test
-build_property.ProjectDir = /Users/Xsodia/Projects/Wrksp-Learn-Test/Movies-api-challenge.1.0.2/ApiApplication.Test/
+build_property.ProjectDir = D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication.Test\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

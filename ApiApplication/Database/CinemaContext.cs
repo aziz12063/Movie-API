@@ -10,6 +10,8 @@ namespace ApiApplication.Database
             
         }
 
+        
+
         public DbSet<AuditoriumEntity> Auditoriums { get; set; }
         public DbSet<ShowtimeEntity> Showtimes { get; set; }
         public DbSet<MovieEntity> Movies { get; set; }

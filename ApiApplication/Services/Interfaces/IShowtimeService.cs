@@ -1,9 +1,14 @@
-﻿using System;
+﻿using ApiApplication.Database.Entities;
+using ApiApplication.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ApiApplication
 {
     public interface IShowtimeService
     {
-
+        Task<bool> CreateShowTime(ShowtimeDto showtimeDto, CancellationToken cancel);
     }
 }

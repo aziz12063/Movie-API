@@ -1,0 +1,38 @@
+[
+  {
+    "ContainingType": "ApiApplication.Controllers.ShowtimesController",
+    "Method": "CreateShowtime",
+    "RelativePath": "showtimes/{movieId}/{sessionDate}/{auditoriumId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "movieId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "sessionDate",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      },
+      {
+        "Name": "auditoriumId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ApiApplication.Models.ShowtimeDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]

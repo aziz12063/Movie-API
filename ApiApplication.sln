@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiApplication.Test", "ApiApplication.Test\ApiApplication.Test.csproj", "{36C8F1EC-DB3A-492E-B93C-1CBF970FD4FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiApplication.Test", "ApiApplication.Test\ApiApplication.Test.csproj", "{36C8F1EC-DB3A-492E-B93C-1CBF970FD4FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

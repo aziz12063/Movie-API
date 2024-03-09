@@ -47,11 +47,19 @@ namespace ApiApplication.Database.Repositories
                 .ToListAsync(cancel);
         }
 
-        public async Task<ShowtimeEntity> CreateShowtime(ShowtimeEntity showtimeEntity, CancellationToken cancel)
+        // maube i will delete this method
+        public async Task<IEnumerable<ShowtimeEntity>> GetAllByAuditoriumIdAsync(int auditoriumId, CancellationToken cancellation)
         {
+            return await _context.Showtimes.Where(showtime => showtime.AuditoriumId == auditoriumId).ToListAsync(cancellation);
+        }
+
+        public async Task<int> CreateShowtime(ShowtimeEntity showtimeEntity, CancellationToken cancel)
+        {
+
             var showtime = await _context.Showtimes.AddAsync(showtimeEntity, cancel);
-            await _context.SaveChangesAsync(cancel);
-            return showtime.Entity;
+            var nbrOfMemberSaved = await _context.SaveChangesAsync(cancel);
+
+            return nbrOfMemberSaved;
         }
     }
 }
