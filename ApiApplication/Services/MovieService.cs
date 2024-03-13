@@ -70,7 +70,7 @@ namespace ApiApplication.Services
                             var serializer = new XmlSerializer(typeof(MoviesApiEntity));
                             movieApi = (MoviesApiEntity)serializer.Deserialize(new StringReader(content));
                         }
-
+                        
                         var movie =  _mapper.Map<MovieDto>(movieApi);
 
                         Console.WriteLine("the Id is: " + movie.Id);
