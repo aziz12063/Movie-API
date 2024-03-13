@@ -37,6 +37,6 @@ jobs:
         image: aziz12063/movie-api-challenge
         registry: docker.io
         username: aziz12063
-        password: Moughit1978
+        password: 
 
   
