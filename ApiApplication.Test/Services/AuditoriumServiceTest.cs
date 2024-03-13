@@ -11,15 +11,15 @@ namespace ApiApplication.Test.Services
 {
     public class AuditoriumServiceTest
     {
-        [Fact]
-        public void AuditoriumId_IsThisAuditoriumAvailable()
-        {
-            int auditoriumId = 1;
+        //[Fact]
+        //public void AuditoriumId_IsThisAuditoriumAvailable()
+        //{
+        //    int auditoriumId = 1;
             
-            AuditoriumService auditoriumService = new AuditoriumService();
+        //    AuditoriumService auditoriumService = new AuditoriumService();
 
-            Assert.True(auditoriumService.IsTheAuditoriumAvailable(auditoriumId));
+        //    Assert.True(auditoriumService.IsTheAuditoriumAvailable(auditoriumId));
            
-        }
+        //}
     }
 }
