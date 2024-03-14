@@ -30,3 +30,13 @@ jobs:
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
+    - name: Build and push docker Image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: aziz12063/movie-api-challenge
+        registry: docker.io
+        username: aziz12063
+        password: 
+
+  
