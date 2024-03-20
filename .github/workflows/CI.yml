@@ -5,38 +5,34 @@ name: .NET
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "CiBranche" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "CiBranche" ]
 
 jobs:
-  build:
-
+   Check:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 6.0.x
-        
-    - name: Restore dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --no-restore
-      
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-      
-    - name: Build and push docker Image
-      uses: mr-smithers-excellent/docker-build-push@v6
-      with:
-        image: aziz12063/movie-api-challenge
-        registry: docker.io
-        username: aziz12063
-        password: 
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET 6.0
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Install ReSharper CLI
+        run:
+          choco install resharper-clt -y
+     #     choco install dupfinder -y
+
+      - name: ReSharper InspectCode
+        uses: JetBrains/ReSharper-InspectCode@v0.3
+        with:
+          solution: ./ApiApplication.sln
+       
+      - name: Run CleanupCode
+        run: CleanupCode.exe ApiApplication.sln
 
   
