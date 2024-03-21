@@ -27,7 +27,7 @@ jobs:
       run: dotnet restore
 
     - name: Run ReSharper inspections
-      run: ~/.resharper/dotnet inspectcode ApiApplication.sln --output=resharper-results.xml
+      run: ./resharperinspect.sh ApiApplication.sln --output=resharper-results.xml
         #dotnet tool install JetBrains.ReSharper.GlobalTools --tool-path .
         #./resharperinspect.sh ApiApplication.sln --output=resharper-results.xml
 
