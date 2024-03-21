@@ -27,9 +27,7 @@ jobs:
       run: dotnet restore
 
     - name: Run ReSharper inspections
-      run: |
-        DOTNET_PATH=$(which dotnet)
-        $DOTNET_PATH inspectcode ApiApplication.sln --output=resharper-results.xml
+      run: dotnet tool install JetBrains.ReSharper.GlobalTools --tool-path .
 
     - name: Upload ReSharper results
       uses: actions/upload-artifact@v2
