@@ -26,6 +26,14 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
+    - name: Check .NET SDK version
+      run: dotnet --version
+
+    - name: Check ReSharper CLI version
+      run: dotnet inspectcode --version
+
+
+
     - name: Run ReSharper inspections
       run: dotnet tool install JetBrains.ReSharper.GlobalTools --tool-path .
 
