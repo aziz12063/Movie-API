@@ -28,7 +28,6 @@ jobs:
 
     - name: Run ReSharper inspections
       run: |
-        #!/bin/bash
         dotnet inspectcode ApiApplication.sln --output=resharper-results.xml
 
     - name: Upload ReSharper results
