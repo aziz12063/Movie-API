@@ -1,63 +1,55 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: ReSharper
+name: Run ReSharper CI
 
 on:
   push:
-    branches: [ "CiBranche" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "CiBranche" ]
+    branches:
+      - main
 
 jobs:
-  Check:
-    runs-on: windows-latest
-    needs: build
+  build:
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up .NET 6.0
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: '6.0.x'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'  # Set your desired .NET version
 
-      - name: Install ReSharper CLI
-        run:
-          choco install resharper-clt -y
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Run ReSharper inspections
+      run: dotnet inspectcode ApiApplication.sln --output=.github/resharper-results.xml
+
+    - name: Upload ReSharper results
+      uses: actions/upload-artifact@v2
+      with:
+        name: resharper-results
+        path: .github/resharper-results.xml
+
+
+     # - name: Install ReSharper CLI
+     #   run:
+          #choco install resharper-clt -y
      #     choco install dupfinder -y
 
-      #- name: Upload SARIF file
-        #uses: github/codeql-action/upload-sarif@v2
-        #with:
-          #sarif_file: .github/resharper-report.xml
+    
           
-      - name: ReSharper InspectCode
-        uses: JetBrains/ReSharper-InspectCode@v0.3
-        with:
-          solution: ./ApiApplication.sln
+     # - name: ReSharper InspectCode
+     #   uses: JetBrains/ReSharper-InspectCode@v0.3
+      #  with:
+       #   solution: ./ApiApplication.sln
        
-      - name: Run CleanupCode
-        run: CleanupCode.exe ApiApplication.sln
+     # - name: Run CleanupCode
+      #  run: CleanupCode.exe ApiApplication.sln
 
-  build:
-    runs-on: windows-latest
-    permissions:
-        
-      security-events: write
-      # only required for workflows in private repositories
-      actions: read
-      contents: read
-      
-    steps:
-      # This step checks out a copy of your repository.
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          # Path to SARIF file relative to the root of the repository
-          sarif_file: .github/resharper-report.xml
+
          
 
   
