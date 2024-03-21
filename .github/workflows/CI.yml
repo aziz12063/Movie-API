@@ -22,6 +22,9 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
+      
+    - name: Install ReSharper
+      run:  choco install resharper-clt -y
 
     - name: Run ReSharper inspections
       run: dotnet inspectcode ApiApplication.sln --output=resharper-results.xml
