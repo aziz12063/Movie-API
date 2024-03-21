@@ -3,10 +3,10 @@ name: Run ReSharper CI
 on:
   push:
     branches:
-      - main
+      - CiBranche
   pull_request:
     branches:
-      - main
+      - CiBranche
 
 jobs:
   build:
