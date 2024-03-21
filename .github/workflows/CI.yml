@@ -24,25 +24,30 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Check .NET SDK version
-      run: dotnet --version
-
-
     - name: Install ReSharper CLI
       run:
           choco install resharper-clt -y
+
+    - name: Find inspectcode executable
+      id: find-inspectcode
+      run: |
+        echo "::set-output name=inspectcode-path::C:\\ProgramData\\chocolatey\\lib\\resharper-clt\\tools\\inspectcode.exe"
+
+    - name: Run ReSharper inspections
+      run: |
+        ${{ steps.find-inspectcode.outputs.inspectcode-path }} YourSolution.sln --output=resharper-results.xml
         
     - name: Check ReSharper CLI version
       run: dotnet inspectcode --version
       
-    - name: Find ReSharper CLI executable
-      run: |
-        export RESHARPER_EXE=$(command -v dotnet-inspectcode)
-        echo "ReSharper CLI executable path: $RESHARPER_EXE"
+    #- name: Find ReSharper CLI executable
+     # run: |
+      #  export RESHARPER_EXE=$(command -v dotnet-inspectcode)
+       # echo "ReSharper CLI executable path: $RESHARPER_EXE"
 
-    - name: Run ReSharper inspections
-      run: |
-        $RESHARPER_EXE ApiApplication.sln --output=resharper-results.xml
+   # - name: Run ReSharper inspections
+    #  run: |
+     #   $RESHARPER_EXE ApiApplication.sln --output=resharper-results.xml
 
       
     - name: Upload ReSharper results
