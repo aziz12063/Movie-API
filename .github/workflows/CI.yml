@@ -29,14 +29,12 @@ jobs:
     - name: Check .NET SDK version
       run: dotnet --version
 
+    - name: Run ReSharper inspections
+      run: |
+        ~/.dotnet/tools/dotnet inspectcode ApiApplication.sln --output=resharper-results.xml
+
     - name: Check ReSharper CLI version
       run: dotnet inspectcode --version
-
-
-
-    - name: Run ReSharper inspections
-      run: dotnet tool install JetBrains.ReSharper.GlobalTools --tool-path .
-
     - name: Upload ReSharper results
       uses: actions/upload-artifact@v2
       with:
