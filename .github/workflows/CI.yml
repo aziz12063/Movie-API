@@ -15,9 +15,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Download and install ReSharper CLI
-      run: dotnet tool install JetBrains.ReSharper.GlobalTools --tool-path .
-        
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -28,6 +26,10 @@ jobs:
 
     - name: Check .NET SDK version
       run: dotnet --version
+
+    - name: Install ReSharper CLI
+      run: dotnet tool install JetBrains.ReSharper.GlobalTools --tool-path .
+        
 
     - name: Find ReSharper CLI executable
       run: |
