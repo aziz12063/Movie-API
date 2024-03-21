@@ -24,13 +24,13 @@ jobs:
       run: dotnet restore
 
     - name: Run ReSharper inspections
-      run: dotnet inspectcode ApiApplication.sln --output=.github/resharper-results.xml
+      run: dotnet inspectcode ApiApplication.sln --output=resharper-results.xml
 
     - name: Upload ReSharper results
       uses: actions/upload-artifact@v2
       with:
         name: resharper-results
-        path: .github/resharper-results.xml
+        path: resharper-results.xml
 
 
      # - name: Install ReSharper CLI
