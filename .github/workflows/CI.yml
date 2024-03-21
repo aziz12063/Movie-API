@@ -15,6 +15,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Download and install ReSharper CLI
+      run: |
+        mkdir -p ~/.resharper
+        curl -L https://download.jetbrains.com/resharper/dotnet-tools.tar.gz | tar xz -C ~/.resharper
+        export PATH=$PATH:~/.resharper/dotnet-tools
+        
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -22,12 +28,11 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
-      
-    - name: Install ReSharper
-      run:  choco install resharper-clt -y
 
     - name: Run ReSharper inspections
-      run: dotnet inspectcode ApiApplication.sln --output=resharper-results.xml
+      run: |
+        dotnet tool install JetBrains.ReSharper.GlobalTools --tool-path .
+        ./resharperinspect.sh ApiApplication.sln --output=resharper-results.xml
 
     - name: Upload ReSharper results
       uses: actions/upload-artifact@v2
