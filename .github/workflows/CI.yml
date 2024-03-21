@@ -31,12 +31,15 @@ jobs:
     - name: Find inspectcode executable
       id: find-inspectcode
       run: |
-        echo "::set-output name=inspectcode-path::C:\\ProgramData\\chocolatey\\lib\\resharper-clt\\tools\\inspectcode.exe"
+        $installDir = Get-ChildItem -Path "C:\ProgramData\chocolatey\lib" -Recurse -Directory -Filter "resharper-clt" | Select-Object -First 1
+        $inspectcodePath = Join-Path -Path $installDir.FullName -ChildPath "tools\inspectcode.exe"
+        echo "::set-output name=inspectcode-path::$inspectcodePath"
 
     - name: Run ReSharper inspections
       run: |
-        ${{ steps.find-inspectcode.outputs.inspectcode-path }} YourSolution.sln --output=resharper-results.xml
-        
+        & ${{ steps.find-inspectcode.outputs.inspectcode-path }} YourSolution.sln --output=resharper-results.xml
+
+  
     - name: Check ReSharper CLI version
       run: dotnet inspectcode --version
       
