@@ -16,10 +16,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Download and install ReSharper CLI
-      run: |
-        mkdir -p ~/.resharper
-        curl -L https://download-cf.jetbrains.com/resharper/dotUltimate.2022.1.2/JetBrains.ReSharper.GlobalTools.2022.1.2.zip -o dotnet-tools.zip
-        unzip -o dotnet-tools.zip -d ~/.resharper
+      run: dotnet tool install JetBrains.ReSharper.GlobalTools --tool-path .
         
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
