@@ -30,7 +30,9 @@ jobs:
     - name: Install ReSharper CLI
       run: dotnet tool install JetBrains.ReSharper.GlobalTools --tool-path .
         
-
+    - name: Check ReSharper CLI version
+      run: dotnet inspectcode --version
+      
     - name: Find ReSharper CLI executable
       run: |
         export RESHARPER_EXE=$(command -v dotnet-inspectcode)
@@ -40,9 +42,6 @@ jobs:
       run: |
         $RESHARPER_EXE ApiApplication.sln --output=resharper-results.xml
 
-
-    - name: Check ReSharper CLI version
-      run: dotnet inspectcode --version
       
     - name: Upload ReSharper results
       uses: actions/upload-artifact@v2
