@@ -24,10 +24,14 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Install ReSharper CLI
-      run:
-          choco install resharper-clt -y
-
+    - name: Download ReSharper Command Line Tools
+      run: |      
+        $url = "https://download.jetbrains.com/resharper/dotUltimate.2023.1/JetBrains.ReSharper.CommandLineTools.2023.1.zip"
+        $output = "ReSharperCLT.zip"        
+        Invoke-WebRequest -Uri $url -OutFile $output      
+        Expand-Archive $output -DestinationPath .\ReSharperCLT
+ 
+     
     - name: Run ReSharper inspections
       run: .\resharper-clt\inspectcode.exe ApiApplication.sln --output=resharper-results.xml
 
