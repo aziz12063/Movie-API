@@ -33,7 +33,7 @@ jobs:
         
     - name: path
       run: 
-        ls
+        ls -R
        
      
     - name: Run ReSharper inspections
