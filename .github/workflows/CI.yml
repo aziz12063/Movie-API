@@ -37,7 +37,7 @@ jobs:
 
     - name: Run ReSharper inspections
       run: |
-        & ${{ steps.find-inspectcode.outputs.inspectcode-path }} YourSolution.sln --output=resharper-results.xml
+        & ${{ steps.find-inspectcode.outputs.inspectcode-path }} ApiApplication.sln --output=resharper-results.xml
 
   
     - name: Check ReSharper CLI version
