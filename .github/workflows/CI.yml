@@ -28,20 +28,14 @@ jobs:
       run:
           choco install resharper-clt -y
 
-    - name: Find inspectcode executable
-      id: find-inspectcode
-      run: |
-        $installDir = Get-ChildItem -Path "C:\ProgramData\chocolatey\lib" -Recurse -Directory -Filter "resharper-clt" | Select-Object -First 1
-        $inspectcodePath = Join-Path -Path $installDir.FullName -ChildPath "tools\inspectcode.exe"
-        echo "::set-output name=inspectcode-path::$inspectcodePath"
-
-    - name: Run ReSharper inspections
-      run: |
-        & ${{ steps.find-inspectcode.outputs.inspectcode-path }} ApiApplication.sln --output=resharper-results.xml
-
-  
     - name: Check ReSharper CLI version
       run: dotnet inspectcode --version
+
+    - name: Run ReSharper inspections
+      run: inspectcode ApiApplication.sln --output=resharper-results.xml
+
+  
+   
       
     #- name: Find ReSharper CLI executable
      # run: |
@@ -49,8 +43,8 @@ jobs:
        # echo "ReSharper CLI executable path: $RESHARPER_EXE"
 
    # - name: Run ReSharper inspections
-    #  run: |
-     #   $RESHARPER_EXE ApiApplication.sln --output=resharper-results.xml
+    #  run: dotnet inspectcode ApiApplication.sln --output=resharper-results.xml
+     
 
       
     - name: Upload ReSharper results
