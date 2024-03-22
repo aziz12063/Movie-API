@@ -28,11 +28,8 @@ jobs:
       run:
           choco install resharper-clt -y
 
-    - name: Check ReSharper CLI version
-      run: dotnet inspectcode --version
-
     - name: Run ReSharper inspections
-      run: inspectcode ApiApplication.sln --output=resharper-results.xml
+      run: .\resharper-clt\inspectcode.exe ApiApplication.sln --output=resharper-results.xml
 
   
    
