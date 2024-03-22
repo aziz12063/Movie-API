@@ -30,7 +30,11 @@ jobs:
         $output = "ReSharperCLT.zip"        
         Invoke-WebRequest -Uri $url -OutFile $output      
         Expand-Archive $output -DestinationPath .\ReSharperCLT
- 
+        
+    - name: path
+      run: 
+        dir /s
+       
      
     - name: Run ReSharper inspections
       run: .\resharper-clt\inspectcode.exe ApiApplication.sln --output=resharper-results.xml
