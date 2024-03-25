@@ -45,6 +45,10 @@ jobs:
     - name: Read ReSharper results
       run: cat resharper-results.xml
 
+
+    - name: List directory contents
+      run: ls -la
+
     - name: Save ReSharper results to repository
       run: |
         mkdir -p results
@@ -53,6 +57,14 @@ jobs:
         git config --local user.name "aziz12063"
         git add results/resharper-results.xml
         git commit -m "Add ReSharper results"
+
+    - name: Update ReSharper results
+      run: |
+        echo "Result 2" > results/resharper-results.xml
+        git config --local user.email "aziz12063@gmail.com"
+        git config --local user.name "aziz12063"
+        git add results/resharper-results.xml
+        git commit -m "Update Result to 2"
 
 
     
