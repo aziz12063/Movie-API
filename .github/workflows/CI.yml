@@ -48,7 +48,7 @@ jobs:
     - name: Save ReSharper results to repository
       run: |
         git config --local user.email "aziz12063@gmail.com"
-        git config --local user.name "aziz12063"
+        git config --local user.name "aziz12063/Movie-API"
         git add results/resharper-results.xml
         git commit -m "Add ReSharper results"
 
