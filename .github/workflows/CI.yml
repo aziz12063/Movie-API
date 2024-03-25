@@ -33,7 +33,7 @@ jobs:
        
      
     - name: Run ReSharper inspections
-      run: .\resharperclt\inspectcode.exe ApiApplication.sln --output=resharper-results.xml
+      run: .\resharperclt\inspectcode.exe ApiApplication.sln --output=results\resharper-results.xml
 
       
     - name: Upload ReSharper results
@@ -47,10 +47,8 @@ jobs:
 
     - name: Save ReSharper results to repository
       run: |
-        mkdir -p results
-        dir
         cp resharper-results.xml results/
-        dir results/
+        dir
         git config --local user.email "aziz12063@gmail.com"
         git config --local user.name "aziz12063"
         git add results/resharper-results.xml
