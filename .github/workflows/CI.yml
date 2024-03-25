@@ -43,7 +43,7 @@ jobs:
         path: resharper-results.xml
 
     - name: Read ReSharper results
-      run: cat resharper-results.xml
+      run: cat results\resharper-results.xml
 
     - name: Save ReSharper results to repository
       run: |
