@@ -35,18 +35,6 @@ jobs:
     - name: Run ReSharper inspections
       run: .\resharperclt\inspectcode.exe ApiApplication.sln --output=resharper-results.xml
 
-  
-   
-      
-    #- name: Find ReSharper CLI executable
-     # run: |
-      #  export RESHARPER_EXE=$(command -v dotnet-inspectcode)
-       # echo "ReSharper CLI executable path: $RESHARPER_EXE"
-
-   # - name: Run ReSharper inspections
-    #  run: dotnet inspectcode ApiApplication.sln --output=resharper-results.xml
-     
-
       
     - name: Upload ReSharper results
       uses: actions/upload-artifact@v2
@@ -55,21 +43,7 @@ jobs:
         path: resharper-results.xml
 
 
-     # - name: Install ReSharper CLI
-     #   run:
-          #choco install resharper-clt -y
-     #     choco install dupfinder -y
-
     
-          
-     # - name: ReSharper InspectCode
-     #   uses: JetBrains/ReSharper-InspectCode@v0.3
-      #  with:
-       #   solution: ./ApiApplication.sln
-       
-     # - name: Run CleanupCode
-      #  run: CleanupCode.exe ApiApplication.sln
-
 
          
 
