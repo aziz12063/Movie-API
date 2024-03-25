@@ -55,7 +55,7 @@ jobs:
     - name: Push changes to GitHub
       uses: ad-m/github-push-action@master
       with:
-        github_token: PAT
+        github_token: ${{ secrets.RES }}
         branch: CiBranche
         
     - name: Update ReSharper results
