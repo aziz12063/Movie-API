@@ -40,15 +40,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: resharper-results
-        path: resharper-results.xml
+        path: results\resharper-results.xml
 
     - name: Read ReSharper results
       run: cat results\resharper-results.xml
 
     - name: Save ReSharper results to repository
       run: |
-        cp resharper-results.xml results/
-        dir
         git config --local user.email "aziz12063@gmail.com"
         git config --local user.name "aziz12063"
         git add results/resharper-results.xml
