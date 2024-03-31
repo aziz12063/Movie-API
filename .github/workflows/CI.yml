@@ -33,17 +33,41 @@ jobs:
        
      
     - name: Run ReSharper inspections
-      run: .\resharperclt\inspectcode.exe ApiApplication.sln --severity=Warning --output=results\resharper-results.xml
+      run: .\resharperclt\inspectcode.exe ApiApplication.sln --severity=Hint --severity=Suggestion --severity=Warning --severity=Error --output=resharper-results.xml
 
       
     - name: Upload ReSharper results
       uses: actions/upload-artifact@v2
       with:
         name: resharper-results
-        path: results\resharper-results.xml
+        path: resharper-results.xml
+
+    - name: Evaluate Quality Gate
+      run: |
+        # Parse the ReSharper inspection report to count hints, suggestions, warnings, and errors
+        $report = [xml] (Get-Content resharper-results.xml)
+        $hints = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "HINT" } | Measure-Object | Select-Object -ExpandProperty Count
+        $suggestions = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "SUGGESTION" } | Measure-Object | Select-Object -ExpandProperty Count
+        $warnings = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "WARNING" } | Measure-Object | Select-Object -ExpandProperty Count
+        $errors = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "ERROR" } | Measure-Object | Select-Object -ExpandProperty Count
+
+        # Define quality gate criteria
+        $maxHints = 10
+        $maxSuggestions = 5
+        $maxWarnings = 3
+        $maxErrors = 1
+
+        # Evaluate quality gate
+        if ($hints -le $maxHints -and $suggestions -le $maxSuggestions -and $warnings -le $maxWarnings -and $errors -le $maxErrors) {
+          Write-Host "Quality gate passed"
+          exit 0 # Success
+        } else {
+          Write-Host "Quality gate failed"
+          exit 1 # Failure
+        }
 
     - name: Read ReSharper results
-      run: cat results\resharper-results.xml
+      run: cat resharper-results.xml
 
    # - name: Save ReSharper results to repository
    #   run: |
