@@ -46,6 +46,10 @@ jobs:
       run: |
         # Parse the ReSharper inspection report to count hints, suggestions, warnings, and errors
         $report = [xml] (Get-Content resharper-results.xml)
+
+        # Debug: Print raw XML content to check if the report is correctly parsed
+        Write-Host "Raw XML Content: $($report.OuterXml)"
+        
         $hints = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "HINT" } | Measure-Object | Select-Object -ExpandProperty Count
         $suggestions = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "SUGGESTION" } | Measure-Object | Select-Object -ExpandProperty Count
         $warnings = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "WARNING" } | Measure-Object | Select-Object -ExpandProperty Count
