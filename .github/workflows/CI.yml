@@ -57,6 +57,8 @@ jobs:
         $maxWarnings = 3
         $maxErrors = 1
 
+
+        Write-Host "Number of Warning: $warnings"
         # Evaluate quality gate
         if ($hints -le $maxHints -and $suggestions -le $maxSuggestions -and $warnings -le $maxWarnings -and $errors -le $maxErrors) {
           Write-Host "Quality gate passed"
