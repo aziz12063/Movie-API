@@ -33,7 +33,7 @@ jobs:
        
      
     - name: Run ReSharper inspections
-      run: .\resharperclt\inspectcode.exe ApiApplication.sln --severity=Error --output=results\resharper-results.xml
+      run: .\resharperclt\inspectcode.exe ApiApplication.sln --severity=Warning --output=results\resharper-results.xml
 
       
     - name: Upload ReSharper results
