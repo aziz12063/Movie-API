@@ -49,6 +49,20 @@ jobs:
 
         # Debug: Print raw XML content to check if the report is correctly parsed
         Write-Host "Raw XML Content: $($report.OuterXml)"
+
+        # Debug: Print all IssueType nodes to verify XML structure
+        $allIssueTypes = $report.InspectionReport.IssueTypes.IssueType
+        foreach ($issueType in $allIssueTypes) {
+        Write-Host "IssueType - Id: $($issueType.Id), Severity: $($issueType.Severity)"
+        }
+    
+        # Count hints
+        $hints = $allIssueTypes | Where-Object { $_.Severity -eq "SUGGESTION" } | Measure-Object | Select-Object -ExpandProperty Count
+        Write-Host "Number of Hints: $hints"
+    
+        # Count suggestions
+        $suggestions = $allIssueTypes | Where-Object { $_.Severity -eq "WARNING" } | Measure-Object | Select-Object -ExpandProperty Count
+        Write-Host "Number of Warnings: $warnings"
         
         $hints = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "HINT" } | Measure-Object | Select-Object -ExpandProperty Count
         $suggestions = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "SUGGESTION" } | Measure-Object | Select-Object -ExpandProperty Count
