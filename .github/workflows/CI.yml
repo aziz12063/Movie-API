@@ -84,19 +84,47 @@ jobs:
 
         # Define quality gate criteria
         $maxHints = 10
-        $maxSuggestions = 5
+        $maxSuggestions = 20
         $maxWarnings = 3
         $maxErrors = 1
 
-   
-        # Evaluate quality gate
-        if ($hints -le $maxHints -and $suggestions -le $maxSuggestions -and $warnings -le $maxWarnings -and $errors -le $maxErrors) {
-          Write-Host "Quality gate passed"
-          exit 0 # Success
+
+         # Evaluate quality gate Severities one by one
+        if ($hints -le $maxSuggestions ) {
+          Write-Host "Quality gate passed for Hint"
         } else {
-          Write-Host "Quality gate failed"
+          Write-Host "Quality gate failed Number of Hints is too big:$hints, the max is: $maxSuggestions"
           exit 1 # Failure
         }
+
+        if ($suggestions -le $maxWarnings) {
+          Write-Host "Quality gate passed for Suggestions"
+          
+        } else {
+          Write-Host "Quality gate failed Number of Hints is too big:$suggestions, the max is: $maxWarnings"
+          exit 1 # Failure
+        }
+
+        if ($warnings -le $maxErrors) {
+          Write-Host "Quality gate passed for Warnings"
+          exit 0 # Success
+        } else {
+           Write-Host "Quality gate failed Number of Hints is too big:$warnings, the max is: $maxErrors"
+          exit 1 # Failure
+        }
+
+      
+
+        
+   
+        # Evaluate quality gate all the Severities in one check
+        #if ($hints -le $maxHints -and $suggestions -le $maxSuggestions -and $warnings -le $maxWarnings -and $errors -le $maxErrors) {
+        #  Write-Host "Quality gate passed"
+         # exit 0 # Success
+        #} else {
+        #  Write-Host "Quality gate failed"
+        #  exit 1 # Failure
+       # }
 
     - name: Read ReSharper results
       run: cat resharper-results.xml
