@@ -90,26 +90,26 @@ jobs:
 
 
          # Evaluate quality gate Severities one by one
-        if ($hints -le $maxSuggestions ) {
+        if ($hints -le $maxHints ) {
           Write-Host "Quality gate passed for Hint"
         } else {
-          Write-Host "Quality gate failed Number of Suggestion is too big: $hints, the max is: $maxSuggestions"
+          Write-Host "Quality gate failed Number of Suggestion is too big: $hints, the max is: $maxHints"
           exit 1 # Failure
         }
 
-        if ($suggestions -le $maxWarnings) {
+        if ($suggestions -le $maxSuggestions) {
           Write-Host "Quality gate passed for Suggestions"
           
         } else {
-          Write-Host "Quality gate failed Number of Warnings is too big: $suggestions, the max is: $maxWarnings"
+          Write-Host "Quality gate failed Number of Warnings is too big: $suggestions, the max is: $maxSuggestions"
           exit 1 # Failure
         }
 
-        if ($warnings -le $maxErrors) {
+        if ($warnings -le $maxWarnings) {
           Write-Host "Quality gate passed for Warnings"
           exit 0 # Success
         } else {
-           Write-Host "Quality gate failed Number of Errors is too big: $warnings, the max is: $maxErrors"
+           Write-Host "Quality gate failed Number of Errors is too big: $warnings, the max is: $maxWarnings"
           exit 1 # Failure
         }
 
