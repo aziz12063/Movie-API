@@ -50,24 +50,37 @@ jobs:
         # Debug: Print raw XML content to check if the report is correctly parsed
         Write-Host "Raw XML Content: $($report.OuterXml)"
 
-        # Debug: Print all IssueType nodes to verify XML structure
-        $allIssueTypes = $report.InspectionReport.IssueTypes.IssueType
-        foreach ($issueType in $allIssueTypes) {
-        Write-Host "IssueType - Id: $($issueType.Id), Severity: $($issueType.Severity)"
-        }
+        # Access IssueTypes node
+        $issueTypesNode = $report.InspectionReport.IssueTypes
     
-        # Count hints
-        $hints = $allIssueTypes | Where-Object { $_.Severity -eq "SUGGESTION" } | Measure-Object | Select-Object -ExpandProperty Count
-        Write-Host "Number of Hints: $hints"
-    
-        # Count suggestions
-        $suggestions = $allIssueTypes | Where-Object { $_.Severity -eq "WARNING" } | Measure-Object | Select-Object -ExpandProperty Count
-        Write-Host "Number of Warnings: $warnings"
+        if ($issueTypesNode) {
+        # Access IssueType nodes
+        $issueTypeNodes = $issueTypesNode.ChildNodes
         
-        $hints = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "HINT" } | Measure-Object | Select-Object -ExpandProperty Count
-        $suggestions = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "SUGGESTION" } | Measure-Object | Select-Object -ExpandProperty Count
-        $warnings = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "WARNING" } | Measure-Object | Select-Object -ExpandProperty Count
-        $errors = $report.InspectionReport.IssueTypes.IssueType | Where-Object { $_.Severity -eq "ERROR" } | Measure-Object | Select-Object -ExpandProperty Count
+        # Iterate through IssueType nodes
+        foreach ($issueType in $issueTypeNodes) {
+            $id = $issueType.GetAttribute("Id")
+            $severity = $issueType.GetAttribute("Severity")
+            
+            Write-Host "IssueType - Id: $id, Severity: $severity"
+        }
+        
+        # Count hints
+        $hints = $issueTypeNodes | Where-Object { $_.GetAttribute("Severity") -eq "SUGGESTION" } | Measure-Object | Select-Object -ExpandProperty Count
+        Write-Host "Number of Hints: $hints"
+        
+        # Count suggestions
+        $suggestions = $issueTypeNodes | Where-Object { $_.GetAttribute("Severity") -eq "WARNING" } | Measure-Object | Select-Object -ExpandProperty Count
+        Write-Host "Number of Warnings: $suggestions"
+        
+        # Count warnings
+        $warnings = $issueTypeNodes | Where-Object { $_.GetAttribute("Severity") -eq "ERROR" } | Measure-Object | Select-Object -ExpandProperty Count
+        Write-Host "Number of Errors: $warnings"
+        } else {
+        Write-Host "IssueTypes node not found in the XML."
+        }
+     
+        
 
         # Define quality gate criteria
         $maxHints = 10
@@ -75,10 +88,7 @@ jobs:
         $maxWarnings = 3
         $maxErrors = 1
 
-        Write-Host "Number of Hints: $hints"
-        Write-Host "Number of Errors: $errors"
-        Write-Host "Number of Suggestions: $suggestions"
-        Write-Host "Number of Warning: $warnings"
+   
         # Evaluate quality gate
         if ($hints -le $maxHints -and $suggestions -le $maxSuggestions -and $warnings -le $maxWarnings -and $errors -le $maxErrors) {
           Write-Host "Quality gate passed"
