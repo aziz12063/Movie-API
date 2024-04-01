@@ -67,7 +67,7 @@ jobs:
         
         # Count hints
         $hints = $issueTypeNodes | Where-Object { $_.GetAttribute("Severity") -eq "SUGGESTION" } | Measure-Object | Select-Object -ExpandProperty Count
-        Write-Host "Number of Hints: $hints"
+        Write-Host "Number of Suggestions: $hints"
         
         # Count suggestions
         $suggestions = $issueTypeNodes | Where-Object { $_.GetAttribute("Severity") -eq "WARNING" } | Measure-Object | Select-Object -ExpandProperty Count
