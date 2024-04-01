@@ -51,7 +51,7 @@ jobs:
         Write-Host "Raw XML Content: $($report.OuterXml)"
 
         # Access IssueTypes node
-        $issueTypesNode = $report.InspectionReport.IssueTypes
+        $issueTypesNode = $report.SelectSingleNode("//IssueTypes")
     
         if ($issueTypesNode) {
         # Access IssueType nodes
