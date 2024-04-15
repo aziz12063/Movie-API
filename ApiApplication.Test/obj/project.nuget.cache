@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "K1fx1im1OkSzGn7J9BCVx9V9qsN6hYh3ESEK6DYZ6RXyfOlwFK0lVlRrY946+XJZONMQl2NmDsrN/oKQAiLqQg==",
+  "dgSpecHash": "Yrlngv/eqzMLp7LAhQL0M3dlNI+dp/7OrOrbuxiQhCTLhQX54ffIYb3hQ8GZNXHNFqOOmhcK6ijlXT55dJXbtA==",
   "success": true,
   "projectFilePath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.Test\\ApiApplication.Test.csproj",
   "expectedPackageFiles": [
@@ -129,6 +129,7 @@
     "C:\\Users\\SM\\.nuget\\packages\\system.reflection.typeextensions\\4.3.0\\system.reflection.typeextensions.4.3.0.nupkg.sha512",
     "C:\\Users\\SM\\.nuget\\packages\\system.resources.resourcemanager\\4.3.0\\system.resources.resourcemanager.4.3.0.nupkg.sha512",
     "C:\\Users\\SM\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\SM\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\SM\\.nuget\\packages\\system.runtime.extensions\\4.3.0\\system.runtime.extensions.4.3.0.nupkg.sha512",
     "C:\\Users\\SM\\.nuget\\packages\\system.runtime.handles\\4.3.0\\system.runtime.handles.4.3.0.nupkg.sha512",
     "C:\\Users\\SM\\.nuget\\packages\\system.runtime.interopservices\\4.3.0\\system.runtime.interopservices.4.3.0.nupkg.sha512",
