@@ -1,0 +1,19 @@
+name: Sonarqube
+
+on:
+  push:
+    branches: [ "CiBranche" ]
+  pull_request:
+    branches: [ "CiBranche" ]
+
+jobs:
+  sonarqube-analysis:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Run SonarQube analysis
+        run: |
+          echo "Running SonarQube analysis"
+          # Add your SonarQube analysis command here
