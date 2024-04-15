@@ -1,42 +1,158 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: Run ReSharper CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - CiBranche
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - CiBranche
 
 jobs:
   build:
-
     runs-on: windows-latest
-
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v1 
       with:
-        dotnet-version: 6.0.x
-        
+        dotnet-version: '6.0.x'  # Set your desired .NET version
+
     - name: Restore dependencies
       run: dotnet restore
+
+    - name: Download ReSharper Command Line Tools
+      run: |      
+        $url = "https://download.jetbrains.com/resharper/dotUltimate.2023.1/JetBrains.ReSharper.CommandLineTools.2023.1.zip"
+        $output = "ReSharperCLT.zip"        
+        Invoke-WebRequest -Uri $url -OutFile $output      
+        Expand-Archive $output -DestinationPath .\ReSharperCLT
+       
+     
+    - name: Run ReSharper inspections
+      run: .\resharperclt\inspectcode.exe ApiApplication.sln --output=resharper-results.xml
+
       
-    - name: Build
-      run: dotnet build --no-restore
-      
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-      
-    - name: Build and push docker Image
-      uses: mr-smithers-excellent/docker-build-push@v6
+    - name: Upload ReSharper results
+      uses: actions/upload-artifact@v2
       with:
-        image: aziz12063/movie-api-challenge
-        registry: docker.io
-        username: aziz12063
-        password: 
+        name: resharper-results
+        path: resharper-results.xml
+
+    - name: Evaluate Quality Gate
+      run: |
+        # Parse the ReSharper inspection report to count hints, suggestions, warnings, and errors
+        $report = [xml] (Get-Content resharper-results.xml)
+
+        # Debug: Print raw XML content to check if the report is correctly parsed
+        Write-Host "Raw XML Content: $($report.OuterXml)"
+
+        # Access IssueTypes node
+        $issueTypesNode = $report.SelectSingleNode("//IssueTypes")
+    
+        if ($issueTypesNode) {
+        # Access IssueType nodes
+        $issueTypeNodes = $issueTypesNode.ChildNodes
+        
+        # Iterate through IssueType nodes
+        foreach ($issueType in $issueTypeNodes) {
+            $id = $issueType.GetAttribute("Id")
+            $severity = $issueType.GetAttribute("Severity")
+            
+            Write-Host "IssueType - Id: $id, Severity: $severity"
+        }
+        
+        # Count hints
+        $hints = $issueTypeNodes | Where-Object { $_.GetAttribute("Severity") -eq "SUGGESTION" } | Measure-Object | Select-Object -ExpandProperty Count
+        Write-Host "Number of Suggestions: $hints"
+        
+        # Count suggestions
+        $suggestions = $issueTypeNodes | Where-Object { $_.GetAttribute("Severity") -eq "WARNING" } | Measure-Object | Select-Object -ExpandProperty Count
+        Write-Host "Number of Warnings: $suggestions"
+        
+        # Count warnings
+        $warnings = $issueTypeNodes | Where-Object { $_.GetAttribute("Severity") -eq "ERROR" } | Measure-Object | Select-Object -ExpandProperty Count
+        Write-Host "Number of Errors: $warnings"
+        } else {
+        Write-Host "IssueTypes node not found in the XML."
+        }
+     
+        
+
+        # Define quality gate criteria
+        $maxHints = 10
+        $maxSuggestions = 20
+        $maxWarnings = 3
+        $maxErrors = 1
+
+
+         # Evaluate quality gate Severities one by one
+        if ($hints -le $maxHints ) {
+          Write-Host "Quality gate passed for Hint"
+        } else {
+          Write-Host "Quality gate failed Number of Suggestion is too big: $hints, the max is: $maxHints"
+          exit 1 # Failure
+        }
+
+        if ($suggestions -le $maxSuggestions) {
+          Write-Host "Quality gate passed for Suggestions"
+          
+        } else {
+          Write-Host "Quality gate failed Number of Warnings is too big: $suggestions, the max is: $maxSuggestions"
+          exit 1 # Failure
+        }
+
+        if ($warnings -le $maxWarnings) {
+          Write-Host "Quality gate passed for Warnings"
+          exit 0 # Success
+        } else {
+           Write-Host "Quality gate failed Number of Errors is too big: $warnings, the max is: $maxWarnings"
+          exit 1 # Failure
+        }
+
+      
+
+        
+   
+        # Evaluate quality gate all the Severities in one check
+        #if ($hints -le $maxHints -and $suggestions -le $maxSuggestions -and $warnings -le $maxWarnings -and $errors -le $maxErrors) {
+        #  Write-Host "Quality gate passed"
+         # exit 0 # Success
+        #} else {
+        #  Write-Host "Quality gate failed"
+        #  exit 1 # Failure
+       # }
+
+    - name: Read ReSharper results
+      run: cat resharper-results.xml
+
+   # - name: Save ReSharper results to repository
+   #   run: |
+    #    git config --local user.email "aziz12063@gmail.com"
+     #   git config --local user.name "aziz12063"
+      #  git add results/resharper-results.xml
+       # git commit -m "Add ReSharper results"
+
+#    - name: Push changes to GitHub
+ #     uses: ad-m/github-push-action@master
+  #    with:
+   #     github_token: ${{ secrets.RES }}
+    #    branch: CiBranche
+        
+   # - name: Update ReSharper results
+    #  run: |
+     #   echo "Result 2" > results/resharper-results.xml
+      #  git config --local user.email "aziz12063@gmail.com"
+       # git config --local user.name "aziz12063"
+        #git add results/resharper-results.xml
+        #git commit -m "Update Result to 2"
+
+
+    
+
+         
 
   
