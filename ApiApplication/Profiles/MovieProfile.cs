@@ -4,7 +4,6 @@ using ApiApplication.ProvidedApi.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Serilog.Parsing;
-using System;
 
 namespace ApiApplication.Profiles
 {
