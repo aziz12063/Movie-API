@@ -96,71 +96,46 @@ namespace ApiApplication.Services
         // recap this code, DRY
         public async Task<List<SeatDto>> CheckSeatsContiguous(int auditoriuomId, int nbrOfSeatsToReserve, List<SeatDto> seats, int index, int row)
         {
-            int nbrOfSeatsPerRow;
-            int nbrOfSeatsAvailable;
-            int nbrOfRowThatHasThisIndex;
-            int nbrOfSeatsContiguous = 0;
-            int indexInTempList = 0;
-            int maxRow;
-            int initialRow = row;
-
-
-            List<SeatDto> listSeatReserved = new List<SeatDto>();
-
-            switch (auditoriuomId)
+            return await Task.Run(() =>
             {
-                case 1:
-                    nbrOfSeatsPerRow = 22;
-                    maxRow = 28;
-                    break;
-                case 2:
-                    nbrOfSeatsPerRow = 18;
-                    maxRow = 21;
-                    break;
-                default:
-                    nbrOfSeatsPerRow = 21;
-                    maxRow = 15;
-                    break;
-            }
+                int nbrOfSeatsPerRow;
+                int nbrOfSeatsAvailable;
+                int nbrOfRowThatHasThisIndex;
+                int nbrOfSeatsContiguous = 0;
+                int indexInTempList = 0;
+                int maxRow;
+                int initialRow = row;
 
-            nbrOfSeatsAvailable = nbrOfSeatsPerRow - ((index + 1) % nbrOfSeatsPerRow);
 
-            // check if the row that not contain other contiguous seats.
-            // are there some other contiguous.
+                List<SeatDto> listSeatReserved = new List<SeatDto>();
 
-            // fetch the nbr of row that contain the seat with index:
-            nbrOfRowThatHasThisIndex = (index + 1) / nbrOfSeatsPerRow;
-
-            var tempList =  seats.Skip(index).Take(nbrOfSeatsAvailable).ToList();
-
-            for(int i = 0; i < nbrOfSeatsAvailable; i++)
-            {
-                
-                if (tempList[i].IsReserved == false)
+                switch (auditoriuomId)
                 {
-                    nbrOfSeatsContiguous++;
-                    if(nbrOfSeatsContiguous == nbrOfSeatsToReserve)
-                    {
-                        indexInTempList = i - nbrOfSeatsToReserve + 1;
-                        for (int j = 0; j < nbrOfSeatsToReserve; j++)
-                        {
-                            listSeatReserved.Add(tempList[indexInTempList]);
-                            indexInTempList++;
-                        }
-                        return listSeatReserved; ;
-
-                    }
+                    case 1:
+                        nbrOfSeatsPerRow = 22;
+                        maxRow = 28;
+                        break;
+                    case 2:
+                        nbrOfSeatsPerRow = 18;
+                        maxRow = 21;
+                        break;
+                    default:
+                        nbrOfSeatsPerRow = 21;
+                        maxRow = 15;
+                        break;
                 }
-                nbrOfSeatsToReserve = 0;
-            }
 
-            do
-            {
-                tempList.Clear();
+                nbrOfSeatsAvailable = nbrOfSeatsPerRow - ((index + 1) % nbrOfSeatsPerRow);
 
-                tempList = seats.Skip(row * nbrOfSeatsPerRow).Take(nbrOfSeatsPerRow).ToList();
+                // check if the row that not contain other contiguous seats.
+                // are there some other contiguous.
 
-                for (int i = 0; i < nbrOfSeatsPerRow; i++)
+                // fetch the nbr of row that contain the seat with index:
+                nbrOfRowThatHasThisIndex = (index + 1) / nbrOfSeatsPerRow;
+
+                var tempList = seats.Skip(index).Take(nbrOfSeatsAvailable).ToList();
+
+                for (int i = 0; i < nbrOfSeatsAvailable; i++)
                 {
 
                     if (tempList[i].IsReserved == false)
@@ -174,26 +149,53 @@ namespace ApiApplication.Services
                                 listSeatReserved.Add(tempList[indexInTempList]);
                                 indexInTempList++;
                             }
-                            return listSeatReserved;
+                            return listSeatReserved; ;
 
                         }
                     }
                     nbrOfSeatsToReserve = 0;
                 }
 
-                row++;
-
-                if(row == maxRow + 1)
+                do
                 {
-                    throw new ArgumentOutOfRangeException("there's no seats contiguous for your reservation");
-                    
-                }
+                    tempList.Clear();
 
-            } while (true);
+                    tempList = seats.Skip(row * nbrOfSeatsPerRow).Take(nbrOfSeatsPerRow).ToList();
+
+                    for (int i = 0; i < nbrOfSeatsPerRow; i++)
+                    {
+
+                        if (tempList[i].IsReserved == false)
+                        {
+                            nbrOfSeatsContiguous++;
+                            if (nbrOfSeatsContiguous == nbrOfSeatsToReserve)
+                            {
+                                indexInTempList = i - nbrOfSeatsToReserve + 1;
+                                for (int j = 0; j < nbrOfSeatsToReserve; j++)
+                                {
+                                    listSeatReserved.Add(tempList[indexInTempList]);
+                                    indexInTempList++;
+                                }
+                                return listSeatReserved;
+
+                            }
+                        }
+                        nbrOfSeatsToReserve = 0;
+                    }
+
+                    row++;
+
+                    if (row == maxRow + 1)
+                    {
+                        throw new ArgumentOutOfRangeException("there's no seats contiguous for your reservation");
+
+                    }
+
+                } while (true);
 
 
-           // check 10 min validation reservation
-   
+                // check 10 min validation reservation
+            });
         }
 
         public Task<ReservationDto> ReserveSeat(int showtimeId, int nbrOfSeatsToReserve)
