@@ -13,7 +13,53 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Run SonarQube analysis
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: |
+            ${{ runner.os }}-sonar
+
+      - name: Run SonarQube Scanner
+        env:
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MYGITHUB_TOKEN }}
         run: |
-          echo "Running SonarQube analysis"
-          # Add your SonarQube analysis command here
+          # Download SonarQube scanner
+          
+          # this code if using command prompt version
+          #curl --output sonar-scanner-cli.zip --location https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-windows.zip
+          #Expand-Archive -Path "sonar-scanner-cli.zip" -DestinationPath "sonar-scanner"
+         
+
+          # this if using powerShell
+          Invoke-WebRequest -Uri "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-windows.zip" -OutFile "sonar-scanner-cli.zip"
+          Expand-Archive -Path "sonar-scanner-cli.zip" -DestinationPath "sonar-scanner"
+
+          # Set SonarQube scanner path
+          $env:PATH += ";$(Get-Location)/sonar-scanner/sonar-scanner-4.6.2.2472-windows/bin"
+
+
+          # Run SonarQube analysis
+          sonar-scanner ^
+          -Dsonar.projectKey=my_project_key ^
+          -Dsonar.sources=. ^
+          -Dsonar.host.url=http://localhost:9000 ^
+          -Dsonar.login=$env:SONAR_TOKEN ^
+          -Dsonar.scm.provider=git ^
+          -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts ^
+          -Dsonar.coverage.exclusions=**/node_modules/**,**/*.spec.ts ^
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+
+      - name: Upload SonarQube results
+        uses: sonarsource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: .
+          tokens: ${{ secrets.SONARQUBE_TOKEN }}
