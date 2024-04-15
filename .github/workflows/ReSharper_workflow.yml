@@ -9,7 +9,7 @@ on:
       - CiBranche
 
 jobs:
-  build:
+  resharper-analusis:
     runs-on: windows-latest
     steps:
     - name: Checkout code
