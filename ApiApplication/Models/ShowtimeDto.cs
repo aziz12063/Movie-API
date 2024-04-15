@@ -1,6 +1,4 @@
-﻿using ApiApplication.Database.Entities;
-using System.Collections.Generic;
-using System;
+﻿using System;
 
 namespace ApiApplication.Models
 {

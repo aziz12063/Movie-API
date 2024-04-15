@@ -1,17 +1,9 @@
-﻿using ApiApplication.Database.Entities;
-using ApiApplication.Database.Repositories.Abstractions;
-using ApiApplication.Database.Repositories;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using ApiApplication.Models;
 using System;
 using System.Threading.Tasks;
-using ApiApplication.Services;
-using System.Collections.Generic;
-using ApiApplication.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using ApiApplication.Database;
-using Serilog;
 using Microsoft.Extensions.Logging;
 
 namespace ApiApplication.Controllers
