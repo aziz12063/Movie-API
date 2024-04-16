@@ -1,4 +1,4 @@
-name: Sonarqube
+name: Sonarqube analysis
 
 on:
   push:
@@ -6,60 +6,42 @@ on:
   pull_request:
     branches: [ "CiBranche" ]
 
+
 jobs:
-  sonarqube-analysis:
+  SonarQube-Analysis:
+    name: Build
     runs-on: windows-latest
+    permissions: read-all
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
-      - name: Set up JDK
-        uses: actions/setup-java@v2
+      - uses: actions/checkout@v2
         with:
-          distribution: 'adopt'
-          java-version: '11'
-
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
       - name: Cache SonarQube packages
-        uses: actions/cache@v2
+        uses: actions/cache@v1
         with:
-          path: ~/.sonar/cache
+          path: ~\.sonar\cache
           key: ${{ runner.os }}-sonar
-          restore-keys: |
-            ${{ runner.os }}-sonar
-
-      - name: Run SonarQube Scanner
-        env:
-          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.MYGITHUB_TOKEN }}
-        run: |
-          # Download SonarQube scanner
-          
-          # this code if using command prompt version
-          #curl --output sonar-scanner-cli.zip --location https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-windows.zip
-          #Expand-Archive -Path "sonar-scanner-cli.zip" -DestinationPath "sonar-scanner"
-         
-
-          # this if using powerShell
-          Invoke-WebRequest -Uri "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-windows.zip" -OutFile "sonar-scanner-cli.zip"
-          Expand-Archive -Path "sonar-scanner-cli.zip" -DestinationPath "sonar-scanner"
-
-          # Set SonarQube scanner path
-          $env:PATH += ";$(Get-Location)/sonar-scanner/sonar-scanner-4.6.2.2472-windows/bin"
-
-
-          # Run SonarQube analysis
-          sonar-scanner ^
-          -Dsonar.projectKey=my_project_key ^
-          -Dsonar.sources=. ^
-          -Dsonar.host.url=http://localhost:9000 ^
-          -Dsonar.login=$env:SONAR_TOKEN ^
-          -Dsonar.scm.provider=git ^
-          -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts ^
-          -Dsonar.coverage.exclusions=**/node_modules/**,**/*.spec.ts ^
-          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-
-      - name: Upload SonarQube results
-        uses: sonarsource/sonarcloud-github-action@master
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache SonarQube scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v1
         with:
-          projectBaseDir: .
-          tokens: ${{ secrets.SONARQUBE_TOKEN }}
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+      - name: Install SonarQube scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Build and analyze
+        shell: powershell
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Movie-API-Project" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
+          dotnet build
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
