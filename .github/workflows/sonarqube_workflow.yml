@@ -46,7 +46,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        working-directory: ./Movie-API  # Specify the project directory
+        working-directory: ./  # Specify the project directory
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Movie-API" /o:"aziz-rahimi" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
