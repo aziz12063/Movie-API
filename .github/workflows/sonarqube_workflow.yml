@@ -20,5 +20,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MYGITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: Movie-API  # Replace with your SonarCloud project key
+          SONAR_PROJECT_KEY: movie-api  # Replace with your SonarCloud project key
           SONAR_ORGANIZATION: aziz-rahimi  # Replace with your SonarCloud organization key
