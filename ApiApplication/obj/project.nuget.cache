@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7KB5k0O/j9Dyj/RYElKGJeEK+f9KTnj3dDDwnStL8Kn5mxlhzfkJSn3eadfLhujPvpsVne5uVN1WwzvlPqid8A==",
+  "dgSpecHash": "d4nzgjHoIchzkJRlDkUodTI44b/eEmhuYRftYRIdbE604c0kH/vBHRnk1jVDl84xLYQ0NUVIuOyFaZECwvFw6Q==",
   "success": true,
   "projectFilePath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\ApiApplication.csproj",
   "expectedPackageFiles": [
@@ -80,7 +80,11 @@
     "C:\\Users\\SM\\.nuget\\packages\\system.security.permissions\\4.5.0\\system.security.permissions.4.5.0.nupkg.sha512",
     "C:\\Users\\SM\\.nuget\\packages\\system.security.principal.windows\\4.5.0\\system.security.principal.windows.4.5.0.nupkg.sha512",
     "C:\\Users\\SM\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
-    "C:\\Users\\SM\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512"
+    "C:\\Users\\SM\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512",
+    "C:\\Users\\SM\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.11\\microsoft.windowsdesktop.app.ref.6.0.11.nupkg.sha512",
+    "C:\\Users\\SM\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.11\\microsoft.netcore.app.ref.6.0.11.nupkg.sha512",
+    "C:\\Users\\SM\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.11\\microsoft.aspnetcore.app.ref.6.0.11.nupkg.sha512",
+    "C:\\Users\\SM\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.11\\microsoft.netcore.app.host.win-x64.6.0.11.nupkg.sha512"
   ],
   "logs": []
 }

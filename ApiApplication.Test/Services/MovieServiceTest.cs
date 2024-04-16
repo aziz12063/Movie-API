@@ -13,7 +13,7 @@ namespace ApiApplication.Test.Services
         [Fact]
         public void Movies_AreGrabedFromProvidedApi_ShouldFaild()
         {
-            int x = 0;
+            
         }
     }
 }

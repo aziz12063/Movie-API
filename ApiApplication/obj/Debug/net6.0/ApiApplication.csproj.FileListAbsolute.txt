@@ -24,7 +24,6 @@ D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\obj\Debug\net6.0\Ap
 D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\obj\Debug\net6.0\ApiApplication.AssemblyInfo.cs
 D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\obj\Debug\net6.0\ApiApplication.csproj.CoreCompileInputs.cache
 D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\obj\Debug\net6.0\ApiApplication.MvcApplicationPartsAssemblyInfo.cache
-D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\obj\Debug\net6.0\ApiApplication.sourcelink.json
 D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\obj\Debug\net6.0\staticwebassets.build.json
 D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\obj\Debug\net6.0\staticwebassets.development.json
 D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\obj\Debug\net6.0\staticwebassets\msbuild.ApiApplication.Microsoft.AspNetCore.StaticWebAssets.props
