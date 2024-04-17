@@ -54,4 +54,4 @@ jobs:
           # Build the .NET project
           dotnet build ApiApplication.sln
           
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
