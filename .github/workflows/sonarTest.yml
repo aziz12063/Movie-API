@@ -48,6 +48,10 @@ jobs:
       - name: Install coverlet.console
         run: |
           dotnet tool install --global coverlet.console --version 6.0.2
+
+      - name: Install reportgenerator
+        run: |
+          dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.5
           
       - name: Check if opencover.runsettings exists
         run: |
