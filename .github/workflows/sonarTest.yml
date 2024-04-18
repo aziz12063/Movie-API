@@ -1,4 +1,4 @@
-name: SonarCloud
+name: sonarTest
 on:
   push:
     branches:
@@ -6,25 +6,26 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
-  
+
 jobs:
   build:
-    name: Build and analyze
+    name: Build, test, and analyze
     runs-on: windows-latest
-    
+
     steps:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
-        
-      - uses: actions/checkout@v3
+          distribution: 'zulu'
+          
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
           
       - name: Cache SonarCloud packages
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
@@ -32,40 +33,41 @@ jobs:
           
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
           
-      - name: Install SonarCloud scanner
+      - name: Install SonarScanner .NET Global Tool
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        working-directory: ./
         shell: powershell
         run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-
-      - name: Build and test
-        working-directory: ./  # Specify the project directory
-        shell: powershell
-        run: |
-          # Build the .NET project
-          dotnet build ApiApplication.sln
+          dotnet tool install --global dotnet-sonarscanner
           
-          # Run tests
-          dotnet test ApiApplication.sln
-        
+      - name: Install coverlet.console
+        run: |
+          dotnet tool install --global coverlet.console --version 6.0.2
+          
+      - name: Check if opencover.runsettings exists
+        run: |
+          if (-Not (Test-Path "opencover.runsettings")) { echo '<?xml version="1.0" encoding="utf-8"?><RunSettings><DataCollectionRunSettings><DataCollectors><DataCollector friendlyName="XPlat Code Coverage"><Configuration><Format>opencover</Format><Exclude>[xunit.*]*</Exclude></Configuration></DataCollector></DataCollectors></DataCollectionRunSettings></RunSettings>' > opencover.runsettings }
+          
+      - name: Generate code coverage report
+        shell: powershell
+        run: |
+          dotnet test ApiApplication/ApiApplication.csproj --collect:"XPlat Code Coverage" --settings opencover.runsettings
+          reportgenerator "-reports:**/coverage.opencover.xml" "-targetdir:coveragereport" "-reporttypes:HtmlInline_AzurePipelines"
+          
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.MYGITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        working-directory: ./  # Specify the project directory
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
-          # Build the .NET project
-          dotnet build ApiApplication.sln
+          # Build the main project
+          dotnet build ApiApplication/ApiApplication.csproj
           
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
