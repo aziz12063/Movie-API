@@ -66,7 +66,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MYGITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          $sonarScannerPath = "C:\Users\runneradmin\.dotnet\tools\dotnet-sonarscanner"
+          $sonarScannerPath = "C:\Users\runneradmin\.dotnet\tools\dotnet sonarscanner"
           & $sonarScannerPath begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
           # Build the main project
