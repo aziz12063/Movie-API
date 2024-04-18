@@ -1,4 +1,4 @@
-name: SonarTest
+name: sonarTest
 on:
   push:
     branches:
@@ -6,22 +6,23 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
-  
+
 jobs:
   build:
-    name: sonar-test
+    name: Build, test, and analyze
     runs-on: windows-latest
-    
+
     steps:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
-        
-      - uses: actions/checkout@v3
+          distribution: 'zulu'
+          
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
           
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
@@ -44,31 +45,23 @@ jobs:
         run: |
           dotnet tool install --global dotnet-sonarscanner --version 5.2.4
           
-      - name: Build and test main project
+      - name: Check if opencover.runsettings exists
+        run: |
+          if (-Not (Test-Path "opencover.runsettings")) { echo '<?xml version="1.0" encoding="utf-8"?><RunSettings><DataCollectionRunSettings><DataCollectors><DataCollector friendlyName="XPlat Code Coverage"><Configuration><Format>opencover</Format><Exclude>[xunit.*]*</Exclude></Configuration></DataCollector></DataCollectors></DataCollectionRunSettings></RunSettings>' > opencover.runsettings }
+          
+      - name: Generate code coverage report
         working-directory: ./ApiApplication  # Specify the main project directory
         shell: powershell
         run: |
-          #Build the main project
-          dotnet build ApiApplication.csproj
-          
-           #Run tests with coverage for the main project
-          dotnet test ApiApplication.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-          
-    #  - name: Build and test test project
-     #   working-directory: ./ApiApplication.Test  # Specify the test project directory
-      #  shell: powershell
-       # run: |
-          # Build the test project
-        #  dotnet build ApiApplication.Test.csproj
-          
-          # Run tests with coverage for the test project
-         # dotnet test ApiApplication.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+          dotnet tool install --global coverlet.console
+          dotnet test ApiApplication.csproj --collect:"XPlat Code Coverage" --settings ../opencover.runsettings
+          reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coveragereport" "-reporttypes:HtmlInline_AzurePipelines"
           
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.MYGITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        working-directory: ./  # Specify the main project directory
+        working-directory: ./ApiApplication  # Specify the main project directory
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
