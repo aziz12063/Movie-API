@@ -1,37 +1,71 @@
-name: SonarCloud Test
-
+name: SonarCloud
 on:
   push:
     branches:
-      - CiBranche 
-  pull_request:
-    branches:
       - CiBranche
-
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+  
 jobs:
- 
-  sonarcloud-check:
-    runs-on: self-hosted
-    container: mcr.microsoft.com/windows/servercore:ltsc2019
-
+  build:
+    name: Build and analyze
+    runs-on: windows-latest
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'zulu' # Alternative distribution options are available.
+        
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+          
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v3
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+          
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        working-directory: ./
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
 
-    - name: Setup MSBuild
-      run: echo "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin" >> $GITHUB_PATH
-
-    - name: Setup SonarCloud
-      uses: sonarsource/sonar-scanner-msbuild-action@1.0.0
-      with:
-        entryPoint: MSBuild.SonarQube.Runner.exe
-        args: begin /k:"aziz12063_Movie-API" /d:sonar.organization="aziz-rahimi" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" end
-
-    - name: Build with MSBuild
-      run: msbuild /t:Rebuild
-
-    - name: Run SonarCloud Analysis
-      uses: sonarsource/sonar-scanner-msbuild-action@1.0.0
-      with:
-        entryPoint: MSBuild.SonarQube.Runner.exe
-        args: end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      - name: Build and test
+        working-directory: ./  # Specify the project directory
+        shell: powershell
+        run: |
+          # Build the .NET project
+          dotnet build ApiApplication.sln
+          
+          # Run tests
+          dotnet test ApiApplication.sln
+        
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        working-directory: ./  # Specify the project directory
+        shell: powershell
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          
+          # Build the .NET project
+          dotnet build ApiApplication.sln
+          
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
