@@ -1,4 +1,4 @@
-name: SonarCloud Analysis
+name: SonarCloud Test
 
 on:
   push:
@@ -11,15 +11,13 @@ on:
 jobs:
   sonarcloud-check:
     runs-on: windows-latest
-
+    
+    env:
+      MSBUILD_PATH: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin'
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Setup MSBuild
-      uses: warrenbuckley/Setup-MSBuild@v1
-      with:
-        msbuild-version: 'latest'  # Use the latest MSBuild version
 
     - name: Setup SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
@@ -27,6 +25,10 @@ jobs:
         organization: "aziz-rahimi"
         project: "aziz12063_Movie-API"
         token: ${{ secrets.SONAR_TOKEN }}
+
+    - name: Setup MSBuild
+      run: echo "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin" >> $GITHUB_PATH
+  
 
     - name: Build with MSBuild
       run: msbuild /t:Rebuild
