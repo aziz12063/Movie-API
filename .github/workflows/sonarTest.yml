@@ -101,5 +101,5 @@ jobs:
           
       - name: Display code coverage report
         run: |
-          Get-Content ./ApiApplication/coveragereport/Summary.html
+          Get-Content ./ApiApplication/coverage.opencover.xml
         
