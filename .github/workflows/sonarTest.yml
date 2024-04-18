@@ -97,7 +97,7 @@ jobs:
           # Build the main project
           dotnet build ApiApplication/ApiApplication.csproj
           
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}" -d:sonar.coverage.exclusions="**/TestResults/**"
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
           
       - name: Display code coverage report
         run: |
