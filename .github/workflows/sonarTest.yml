@@ -39,11 +39,19 @@ jobs:
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
           
-      - name: Install SonarScanner .NET Global Tool
+      #- name: Install SonarScanner .NET Global Tool
+       # if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        #run: |
+         # dotnet tool install --global dotnet-sonarscanner --version 5.2.4
+
+      - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        working-directory: ./  # Specify the project directory
+        shell: powershell
         run: |
-          dotnet tool install --global dotnet-sonarscanner --version 5.2.4
-          
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+        
       - name: Install coverlet.console
         run: |
           dotnet tool install --global coverlet.console --version 6.0.2
@@ -65,11 +73,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MYGITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        working-directory: ./
+        shell: powershell
         run: |
-          $sonarScannerPath = "C:\Users\runneradmin\.dotnet\tools\dotnet sonarscanner"
-          & $sonarScannerPath begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
           # Build the main project
           dotnet build ApiApplication/ApiApplication.csproj
           
-          & $sonarScannerPath end /d:sonar.token="${{ secrets.SONAR_TOKEN }}" -d:sonar.coverage.exclusions="**/TestResults/**"
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}" -d:sonar.coverage.exclusions="**/TestResults/**"
