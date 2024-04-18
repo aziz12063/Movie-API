@@ -43,7 +43,7 @@ jobs:
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          dotnet tool install --global dotnet-sonarscanner
+          dotnet tool install --global dotnet-sonarscanner --version 5.2.4
           
       - name: Build and test main project
         working-directory: ./ApiApplication  # Specify the main project directory
@@ -72,9 +72,10 @@ jobs:
         working-directory: ./ApiApplication  # Specify the main project directory
         shell: powershell
         run: |
-          .\AppData\Roaming\dotnet\tools\dotnet-sonarscanner begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          $sonarScannerPath = "C:\Users\runneradmin\.dotnet\tools\dotnet-sonarscanner"
+          & $sonarScannerPath begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
           # Build the main project
-          dotnet build ApiApplication.csproj
+          dotnet build ApiApplication/ApiApplication.csproj
           
-          .\AppData\Roaming\dotnet\tools\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          & $sonarScannerPath end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
