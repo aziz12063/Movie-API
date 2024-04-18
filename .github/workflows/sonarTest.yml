@@ -20,12 +20,12 @@ jobs:
           distribution: 'zulu'
           
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
           
       - name: Cache SonarCloud packages
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
@@ -33,7 +33,7 @@ jobs:
           
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
@@ -45,23 +45,25 @@ jobs:
         run: |
           dotnet tool install --global dotnet-sonarscanner --version 5.2.4
           
+      - name: Install coverlet.console
+        run: |
+          dotnet tool install --global coverlet.console --version 6.0.2
+          
       - name: Check if opencover.runsettings exists
         run: |
           if (-Not (Test-Path "opencover.runsettings")) { echo '<?xml version="1.0" encoding="utf-8"?><RunSettings><DataCollectionRunSettings><DataCollectors><DataCollector friendlyName="XPlat Code Coverage"><Configuration><Format>opencover</Format><Exclude>[xunit.*]*</Exclude></Configuration></DataCollector></DataCollectors></DataCollectionRunSettings></RunSettings>' > opencover.runsettings }
           
       - name: Generate code coverage report
-        working-directory: ./ApiApplication  # Specify the main project directory
         shell: powershell
         run: |
-          dotnet tool install --global coverlet.console
-          dotnet test ApiApplication.csproj --collect:"XPlat Code Coverage" --settings ../opencover.runsettings
+          dotnet test ApiApplication/ApiApplication.csproj --collect:"XPlat Code Coverage" --settings opencover.runsettings
+          dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.5
           reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coveragereport" "-reporttypes:HtmlInline_AzurePipelines"
           
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.MYGITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        working-directory: ./ApiApplication  # Specify the main project directory
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
@@ -70,3 +72,4 @@ jobs:
           dotnet build ApiApplication/ApiApplication.csproj
           
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
