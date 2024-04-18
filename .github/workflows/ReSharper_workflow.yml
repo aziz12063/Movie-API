@@ -1,12 +1,13 @@
 name: Run ReSharper CI
 
 on:
-  push:
-    branches:
-      - CiBranche
-  pull_request:
-    branches:
-      - CiBranche
+  #push:
+    #branches:
+      #- CiBranche
+  #pull_request:
+    #branches:
+      #- CiBranche
+    workflow_dispatch:
 
 jobs:
   resharper-analysis:
