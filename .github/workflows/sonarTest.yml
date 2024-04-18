@@ -44,15 +44,15 @@ jobs:
         run: |
           dotnet tool install --global dotnet-sonarscanner --version 5.2.4
           
-      #- name: Build and test main project
-       # working-directory: ./ApiApplication  # Specify the main project directory
-        #shell: powershell
-        #run: |
-          # Build the main project
-         # dotnet build ApiApplication.csproj
+      - name: Build and test main project
+        working-directory: ./ApiApplication  # Specify the main project directory
+        shell: powershell
+        run: |
+          #Build the main project
+          dotnet build ApiApplication.csproj
           
-          # Run tests with coverage for the main project
-        #  dotnet test ApiApplication.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+           #Run tests with coverage for the main project
+          dotnet test ApiApplication.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           
     #  - name: Build and test test project
      #   working-directory: ./ApiApplication.Test  # Specify the test project directory
