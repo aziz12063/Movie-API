@@ -3,7 +3,7 @@ name: SonarCloud Test
 on:
   push:
     branches:
-      - CiBranche  
+      - CiBranche 
   pull_request:
     branches:
       - CiBranche
