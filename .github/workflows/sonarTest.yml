@@ -1,0 +1,35 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - CiBranche  
+  pull_request:
+    branches:
+      - CiBranche
+
+jobs:
+  sonarcloud-check:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup MSBuild
+      uses: warrenbuckley/Setup-MSBuild@v1
+      with:
+        msbuild-version: 'latest'  # Use the latest MSBuild version
+
+    - name: Setup SonarCloud
+      uses: sonarsource/sonarcloud-github-action@master
+      with:
+        organization: "aziz-rahimi"
+        project: "aziz12063_Movie-API"
+        token: ${{ secrets.SONAR_TOKEN }}
+
+    - name: Build with MSBuild
+      run: msbuild /t:Rebuild
+
+    - name: Run SonarCloud Analysis
+      run: msbuild /t:SonarQubeAnalysis
