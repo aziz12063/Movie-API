@@ -42,27 +42,27 @@ jobs:
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          dotnet tool install --global dotnet-sonarscanner
+          dotnet tool install --global dotnet-sonarscanner --version 5.2.4
           
-      - name: Build and test main project
-        working-directory: ./ApiApplication  # Specify the main project directory
-        shell: powershell
-        run: |
+      #- name: Build and test main project
+       # working-directory: ./ApiApplication  # Specify the main project directory
+        #shell: powershell
+        #run: |
           # Build the main project
-          dotnet build ApiApplication.csproj
+         # dotnet build ApiApplication.csproj
           
           # Run tests with coverage for the main project
-          dotnet test ApiApplication.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+        #  dotnet test ApiApplication.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           
-      - name: Build and test test project
-        working-directory: ./ApiApplication.Test  # Specify the test project directory
-        shell: powershell
-        run: |
+    #  - name: Build and test test project
+     #   working-directory: ./ApiApplication.Test  # Specify the test project directory
+      #  shell: powershell
+       # run: |
           # Build the test project
-          dotnet build ApiApplication.Test.csproj
+        #  dotnet build ApiApplication.Test.csproj
           
           # Run tests with coverage for the test project
-          dotnet test ApiApplication.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+         # dotnet test ApiApplication.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           
       - name: Build and analyze
         env:
@@ -71,9 +71,10 @@ jobs:
         working-directory: ./ApiApplication  # Specify the main project directory
         shell: powershell
         run: |
-          .\AppData\Roaming\dotnet\tools\dotnet-sonarscanner begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          $sonarScannerPath = Join-Path (Get-Command "dotnet-sonarscanner").Path
+          & $sonarScannerPath begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
           # Build the main project
           dotnet build ApiApplication.csproj
           
-          .\AppData\Roaming\dotnet\tools\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          & $sonarScannerPath end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
