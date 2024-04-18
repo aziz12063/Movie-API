@@ -68,7 +68,7 @@ jobs:
       - name: Generate code coverage report
         shell: powershell
         run: |
-          dotnet test ApiApplication/ApiApplication.csproj --collect:"XPlat Code Coverage" --settings ApiApplication/opencover.runsettings
+          dotnet test ApiApplication/ApiApplication.csproj --collect:"XPlat Code Coverage" --settings opencover.runsettings
           reportgenerator "-reports:ApiApplication/coverage.opencover.xml" "-targetdir:coveragereport" "-reporttypes:HtmlInline_AzurePipelines"
           
       - name: Build and analyze
