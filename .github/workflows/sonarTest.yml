@@ -57,8 +57,7 @@ jobs:
         shell: powershell
         run: |
           dotnet test ApiApplication/ApiApplication.csproj --collect:"XPlat Code Coverage" --settings opencover.runsettings
-          dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.5
-          reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coveragereport" "-reporttypes:HtmlInline_AzurePipelines"
+          reportgenerator "-reports:**/coverage.opencover.xml" "-targetdir:coveragereport" "-reporttypes:HtmlInline_AzurePipelines"
           
       - name: Build and analyze
         env:
@@ -72,4 +71,3 @@ jobs:
           dotnet build ApiApplication/ApiApplication.csproj
           
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-
