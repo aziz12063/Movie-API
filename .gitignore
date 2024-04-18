@@ -46,7 +46,7 @@ Generated\ Files/
 
 # NUnit
 *.VisualState.xml
-TestResult.xml
+#TestResult.xml
 nunit-*.xml
 
 # Build Results of an ATL Project
@@ -136,7 +136,7 @@ _ReSharper*/
 _TeamCity*
 
 # DotCover is a Code Coverage Tool
-*.dotCover
+#*.dotCover
 
 # AxoCover is a Code Coverage Tool
 .axoCover/*
@@ -144,11 +144,11 @@ _TeamCity*
 
 # Coverlet is a free, cross platform Code Coverage Tool
 coverage*.json
-coverage*.xml
+#coverage*.xml
 coverage*.info
 
 # Visual Studio code coverage results
-*.coverage
+#*.coverage
 *.coveragexml
 
 # NCrunch
@@ -184,13 +184,13 @@ publish/
 *.azurePubxml
 # Note: Comment the next line if you want to checkin your web deploy settings,
 # but database connection strings (with potential passwords) will be unencrypted
-*.pubxml
-*.publishproj
+#*.pubxml
+#*.publishproj
 
 # Microsoft Azure Web App publish settings. Comment the next line if you want to
 # checkin your Azure Web App publish settings, but sensitive information contained
 # in these scripts will be unencrypted
-PublishScripts/
+#PublishScripts/
 
 # NuGet Packages
 *.nupkg
@@ -344,7 +344,7 @@ __pycache__/
 *.xsd.cs
 
 # OpenCover UI analysis results
-OpenCover/
+#OpenCover/
 
 # Azure Stream Analytics local run output
 ASALocalRun/
