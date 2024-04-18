@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "3obkrggLk8WbwLw2TyNzn5JGXY9QYjCPn250shuJhyPOiS50VBYFRLryW62E61KAJelYhXtJvf5QEyspAOsG+Q==",
+  "dgSpecHash": "UzNoCs6WowBkPVUZz4u061r4GUds/qf13bN/Bw38yBg2sAG9ZhIBVNQrwrMwPOHILcMDBd0BqVqwxvJDuNDlTA==",
   "success": true,
   "projectFilePath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.Test\\ApiApplication.Test.csproj",
   "expectedPackageFiles": [
@@ -165,7 +165,10 @@
     "C:\\Users\\SM\\.nuget\\packages\\xunit.core\\2.4.2\\xunit.core.2.4.2.nupkg.sha512",
     "C:\\Users\\SM\\.nuget\\packages\\xunit.extensibility.core\\2.4.2\\xunit.extensibility.core.2.4.2.nupkg.sha512",
     "C:\\Users\\SM\\.nuget\\packages\\xunit.extensibility.execution\\2.4.2\\xunit.extensibility.execution.2.4.2.nupkg.sha512",
-    "C:\\Users\\SM\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.5\\xunit.runner.visualstudio.2.4.5.nupkg.sha512"
+    "C:\\Users\\SM\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.5\\xunit.runner.visualstudio.2.4.5.nupkg.sha512",
+    "C:\\Users\\SM\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.11\\microsoft.windowsdesktop.app.ref.6.0.11.nupkg.sha512",
+    "C:\\Users\\SM\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.11\\microsoft.netcore.app.ref.6.0.11.nupkg.sha512",
+    "C:\\Users\\SM\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.11\\microsoft.aspnetcore.app.ref.6.0.11.nupkg.sha512"
   ],
   "logs": []
 }
