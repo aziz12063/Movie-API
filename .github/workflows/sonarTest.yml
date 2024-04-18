@@ -39,11 +39,13 @@ jobs:
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
           
-      - name: Install SonarScanner .NET Global Tool
+      - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          dotnet tool install --global dotnet-sonarscanner
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+          
           
       - name: Install coverlet.console
         run: |
@@ -60,7 +62,7 @@ jobs:
       - name: Generate code coverage report
         shell: powershell
         run: |
-          dotnet test ApiApplication/ApiApplication.csproj --collect:"XPlat Code Coverage" --settings opencover.runsettings
+          dotnet test ApiApplication/ApiApplication.csproj --collect:"XPlat Code Coverage" --settings ApiApplication/opencover.runsettings
           reportgenerator "-reports:ApiApplication/coverage.opencover.xml" "-targetdir:coveragereport" "-reporttypes:HtmlInline_AzurePipelines"
           
       - name: Build and analyze
