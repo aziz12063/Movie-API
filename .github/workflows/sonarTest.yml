@@ -1,4 +1,4 @@
-name: SonarCloud
+name: SonarTest
 on:
   push:
     branches:
@@ -9,7 +9,7 @@ on:
   
 jobs:
   build:
-    name: Build and analyze
+    name: sonar-test
     runs-on: windows-latest
     
     steps:
@@ -46,26 +46,37 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
 
-      - name: Build and test
-        working-directory: ./  # Specify the project directory
+      - name: Build and test main project
+        working-directory: ./ApiApplication  # Specify the main project directory
         shell: powershell
         run: |
-          # Build the .NET project
-          dotnet build ApiApplication.sln
+          # Build the main project
+          dotnet build ApiApplication.csproj
           
-          # Run tests
-          dotnet test ApiApplication.sln
+          # Run tests with coverage for the main project
+          dotnet test ApiApplication.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+          
+      - name: Build and test test project
+        working-directory: ./ApiApplication.Test  # Specify the test project directory
+        shell: powershell
+        run: |
+          # Build the test project
+          dotnet build ApiApplication.Test.csproj
+          
+          # Run tests with coverage for the test project
+          dotnet test ApiApplication.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+          
         
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        working-directory: ./  # Specify the project directory
+        working-directory: ./ApiApplication  # Specify the project directory
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           
           # Build the .NET project
-          dotnet build ApiApplication.sln
+          dotnet build ApiApplication.csproj
           
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
