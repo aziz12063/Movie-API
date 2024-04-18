@@ -51,13 +51,13 @@ jobs:
           
       - name: Check if opencover.runsettings exists
         run: |
-          if (-Not (Test-Path "opencover.runsettings")) { echo '<?xml version="1.0" encoding="utf-8"?><RunSettings><DataCollectionRunSettings><DataCollectors><DataCollector friendlyName="XPlat Code Coverage"><Configuration><Format>opencover</Format><Exclude>[xunit.*]*</Exclude></Configuration></DataCollector></DataCollectors></DataCollectionRunSettings></RunSettings>' > opencover.runsettings }
+          if (-Not (Test-Path "ApiApplication/opencover.runsettings")) { echo '<?xml version="1.0" encoding="utf-8"?><RunSettings><DataCollectionRunSettings><DataCollectors><DataCollector friendlyName="XPlat Code Coverage"><Configuration><Format>opencover</Format><Exclude>[xunit.*]*</Exclude></Configuration></DataCollector></DataCollectors></DataCollectionRunSettings></RunSettings>' > opencover.runsettings }
           
       - name: Generate code coverage report
         shell: powershell
         run: |
           dotnet test ApiApplication/ApiApplication.csproj --collect:"XPlat Code Coverage" --settings opencover.runsettings
-          reportgenerator "-reports:**/coverage.opencover.xml" "-targetdir:coveragereport" "-reporttypes:HtmlInline_AzurePipelines"
+          reportgenerator "-reports:ApiApplication/coverage.opencover.xml" "-targetdir:coveragereport" "-reporttypes:HtmlInline_AzurePipelines"
           
       - name: Build and analyze
         env:
