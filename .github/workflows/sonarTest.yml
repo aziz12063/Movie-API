@@ -9,34 +9,29 @@ on:
       - CiBranche
 
 jobs:
+ 
   sonarcloud-check:
-    runs-on: windows-latest
-    
-    env:
-      MSBUILD_PATH: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin'
-    
+    runs-on: self-hosted
+    container: mcr.microsoft.com/windows/servercore:ltsc2019
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup SonarCloud
-      uses: sonarsource/sonarcloud-github-action@master
-      with:
-        entryPoint: 'MSBuild.SonarQube.Runner.exe'
-        args: >
-          begin
-          /k:"aziz12063_Movie-API"
-          /d:sonar.organization="aziz-rahimi"
-          /d:sonar.host.url="https://sonarcloud.io"
-          /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-          end
-
     - name: Setup MSBuild
       run: echo "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin" >> $GITHUB_PATH
-  
+
+    - name: Setup SonarCloud
+      uses: sonarsource/sonar-scanner-msbuild-action@1.0.0
+      with:
+        entryPoint: MSBuild.SonarQube.Runner.exe
+        args: begin /k:"aziz12063_Movie-API" /d:sonar.organization="aziz-rahimi" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" end
 
     - name: Build with MSBuild
       run: msbuild /t:Rebuild
 
     - name: Run SonarCloud Analysis
-      run: msbuild /t:SonarQubeAnalysis
+      uses: sonarsource/sonar-scanner-msbuild-action@1.0.0
+      with:
+        entryPoint: MSBuild.SonarQube.Runner.exe
+        args: end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
