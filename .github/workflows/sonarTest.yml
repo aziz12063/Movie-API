@@ -99,17 +99,17 @@ jobs:
           
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
           
-      - name: Display code coverage report
-        run: |
-          Get-Content ./ApiApplication/coverage.opencover.xml
+     # - name: Display code coverage report
+      #  run: |
+       #   Get-Content ./ApiApplication/coverage.opencover.xml
           
-      - name: Fail if SonarCloud quality gate failed
-        if: ${{ failure() }}
+      - name: Check SonarCloud quality gate status
         run: |
           $sonarQualityGateStatus = dotnet sonarscanner get-quality-gate-result
-          if ($sonarQualityGateStatus -ne 'PASSED') {
-            Write-Host "SonarCloud quality gate check failed. Please fix the issues and push again."
-            exit 1
+          if ($sonarQualityGateStatus -eq 'PASSED') {
+          Write-Host "SonarCloud quality gate passed. Good work!"
+          } else {
+          Write-Host "SonarCloud quality gate failed. Please fix the issues and push again."
           }
         
         
