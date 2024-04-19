@@ -95,4 +95,12 @@ jobs:
           
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
           
-     
+      - name: Check SonarCloud quality gate status
+        shell: pwsh
+        run: |
+          $sonarQualityGateStatus = (dotnet sonarscanner get-quality-gate-result) -replace '[\r\n]'
+          if ($sonarQualityGateStatus -eq 'PASSED') {
+          Write-Host "SonarCloud quality gate passed. Good work!"
+          } else {
+          Write-Host "SonarCloud quality gate failed. Please fix the issues and push again."
+          }
