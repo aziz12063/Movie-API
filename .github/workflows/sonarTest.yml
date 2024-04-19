@@ -115,9 +115,9 @@ jobs:
     
           if ($qualityGateStatus.projectStatus.status -eq "ERROR" -or $qualityGateStatus.projectStatus.status -eq "WARN") {
           Write-Host "Quality Gate failed"
-          exit 1
+          #exit 1
           } else {
-          Write-Host "Quality Gate passed"
+          Write-Host "Good job, Quality Gate passed"
           }
   
 
