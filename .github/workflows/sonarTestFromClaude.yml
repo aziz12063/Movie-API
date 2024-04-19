@@ -1,10 +1,6 @@
-name: SonarCloud
+name: SonarClaude
 on:
-  push:
-    branches:
-      - CiBranche  # Change this to your default branch
-  pull_request:
-    types: [opened, synchronize, reopened]
+  
   workflow_dispatch:
   
 jobs:
