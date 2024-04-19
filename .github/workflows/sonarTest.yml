@@ -102,4 +102,14 @@ jobs:
       - name: Display code coverage report
         run: |
           Get-Content ./ApiApplication/coverage.opencover.xml
+          
+      - name: Fail if SonarCloud quality gate failed
+        if: ${{ failure() }}
+        run: |
+          $sonarQualityGateStatus = dotnet sonarscanner get-quality-gate-result
+          if ($sonarQualityGateStatus -ne 'PASSED') {
+            Write-Host "SonarCloud quality gate check failed. Please fix the issues and push again."
+            exit 1
+          }
+        
         
