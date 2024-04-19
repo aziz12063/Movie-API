@@ -1,7 +1,20 @@
 name: SonarClaude
 on:
+  push:
+    branches:
+      - CiBranche
+    paths:
+      - '.github/workflows/sonarTestFromClaude.yml'
+    paths-ignore:
+      - '**'
+  pull_request:
+    branches:
+      - CiBranche
+    paths:
+      - '.github/workflows/sonarTestFromClaude.yml'
+    paths-ignore:
+      - '**'
   
-  workflow_dispatch:
   
 jobs:
   build:
