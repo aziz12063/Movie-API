@@ -101,16 +101,20 @@ jobs:
 
       - name: Check SonarCloud Quality Gate status
         id: check-quality-gate
-        run: |
-          $qualityGateStatus = Invoke-RestMethod -Uri "https://sonarcloud.io/api/qualitygates/project_status?projectKey=aziz12063_Movie-API" -Headers @{Authorization="Basic $(ConvertTo-SecureString $env:SONAR_TOKEN -AsPlainText -Force)"}
-          if ($qualityGateStatus.projectStatus.status -eq "Failed" -or $qualityGateStatus.projectStatus.status -eq "WARN") {
-            Write-Host "Quality Gate failed"
-            exit 1
-          } else {
-            Write-Host "Quality Gate passed"
-          }
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("${{ secrets.SONAR_TOKEN }}:")))
+          $qualityGateStatus = Invoke-RestMethod -Uri "https://sonarcloud.io/api/qualitygates/project_status?projectKey=aziz12063_Movie-API" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
+    
+          if ($qualityGateStatus.projectStatus.status -eq "ERROR" -or $qualityGateStatus.projectStatus.status -eq "WARN") {
+          Write-Host "Quality Gate failed"
+          exit 1
+          } else {
+          Write-Host "Quality Gate passed"
+          }
+  
+
       
         
         
