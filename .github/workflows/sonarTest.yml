@@ -102,14 +102,19 @@ jobs:
      # - name: Display code coverage report
       #  run: |
        #   Get-Content ./ApiApplication/coverage.opencover.xml
-          
-      - name: Check SonarCloud quality gate status
+
+      - name: Check SonarCloud Quality Gate status
+        id: check-quality-gate
         run: |
-          $sonarQualityGateStatus = dotnet sonarscanner get-quality-gate-result
-          if ($sonarQualityGateStatus -eq 'PASSED') {
-          Write-Host "SonarCloud quality gate passed. Good work!"
+          $qualityGateStatus = Invoke-RestMethod -Uri "https://sonarcloud.io/api/qualitygates/project_status?projectKey=aziz12063_Movie-API" -Headers @{Authorization="Basic $(ConvertTo-SecureString $env:SONAR_TOKEN -AsPlainText -Force)"}
+          if ($qualityGateStatus.projectStatus.status -eq "Failed" -or $qualityGateStatus.projectStatus.status -eq "WARN") {
+            Write-Host "Quality Gate failed"
+            exit 1
           } else {
-          Write-Host "SonarCloud quality gate failed. Please fix the issues and push again."
+            Write-Host "Quality Gate passed"
           }
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      
         
         
