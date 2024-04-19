@@ -1,7 +1,19 @@
 name: SonarTest
 on:
 
-  workflow_dispatch:
+  pull_request:
+    branches: [CiBranche]
+    paths:
+      - '.github/workflows/sonarTest.yml'
+    paths-ignore:
+      - '**'
+  push:
+    branches: [CiBranche]
+    paths:
+      - '.github/workflows/sonarTest.yml'
+    paths-ignore:
+      - '**'
+  
   
 jobs:
   build:
