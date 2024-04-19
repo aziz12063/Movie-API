@@ -103,9 +103,14 @@ jobs:
       - name: Check SonarCloud quality gate status
         shell: pwsh
         run: |
-          $sonarQualityGateStatus = (.\.sonar\scanner\dotnet-sonarscanner get-quality-gate-result) -replace '[\r\n]'
-          Write-Host "SonarCloud quality gate status: $sonarQualityGateStatus"
-          if ($sonarQualityGateStatus -eq 'PASSED') {
+         $sonarProjectKey = "aziz12063_Movie-API"
+         $sonarToken = "${{ secrets.SONAR_TOKEN }}"
+         $apiUrl = "https://sonarcloud.io/api/qualitygates/project_status?projectKey=$sonarProjectKey"
+         $headers = @{
+         "Authorization" = "Bearer $sonarToken"
+          }
+          $response = Invoke-RestMethod -Uri $apiUrl -Headers $headers
+          if ($response.projectStatus.status -eq "OK") {
           Write-Host "SonarCloud quality gate passed. Good work!"
           } else {
           Write-Host "SonarCloud quality gate failed. Please fix the issues and push again."
