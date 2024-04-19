@@ -3,16 +3,10 @@ on:
 
   pull_request:
     branches: [CiBranche]
-    paths:
-      - '.github/workflows/sonarTest.yml'
-    paths-ignore:
-      - '**'
+    
   push:
     branches: [CiBranche]
-    paths:
-      - '.github/workflows/sonarTest.yml'
-    paths-ignore:
-      - '**'
+   
   
   
 jobs:
