@@ -103,9 +103,10 @@ jobs:
       - name: Check SonarCloud quality gate status
         shell: pwsh
         run: |
-           $output = (.\.sonar\scanner\dotnet-sonarscanner get-quality-gate-result | Out-String)
-           if ($output.Contains('PASSED')) {
-            Write-Host "SonarCloud quality gate passed. Good work!"
-            } else {
-            Write-Host "SonarCloud quality gate failed. Please fix the issues and push again."
-            }
+          $sonarQualityGateStatus = (.\.sonar\scanner\dotnet-sonarscanner get-quality-gate-result) -replace '[\r\n]'
+          Write-Host "SonarCloud quality gate status: $sonarQualityGateStatus"
+          if ($sonarQualityGateStatus -eq 'PASSED') {
+          Write-Host "SonarCloud quality gate passed. Good work!"
+          } else {
+          Write-Host "SonarCloud quality gate failed. Please fix the issues and push again."
+          }
