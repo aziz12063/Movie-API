@@ -3,17 +3,10 @@ on:
   push:
     branches:
       - CiBranche
-    paths:
-      - '.github/workflows/sonarTestFromClaude.yml'
-      - '!**'
     
   pull_request:
     branches:
       - CiBranche
-    paths:
-      - '.github/workflows/sonarTestFromClaude.yml'
-      - '!**'
-    
 
 jobs:
   build:
