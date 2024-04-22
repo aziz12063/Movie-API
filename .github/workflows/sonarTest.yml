@@ -104,20 +104,26 @@ jobs:
       #  run: |
        #   Get-Content ./ApiApplication/coverage.opencover.xml
 
-      - name: Check SonarCloud Quality Gate status
-        id: check-quality-gate
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("${{ secrets.SONAR_TOKEN }}:")))
-          $qualityGateStatus = Invoke-RestMethod -Uri "https://sonarcloud.io/api/qualitygates/project_status?projectKey=aziz12063_Movie-API" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
+
+      # this step before using qualitygate.wait=true
+     # - name: Check SonarCloud Quality Gate status
+      #  id: check-quality-gate
+       # env:
+        #  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        #run: |
+         # $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("${{ secrets.SONAR_TOKEN }}:")))
+          #$qualityGateStatus = Invoke-RestMethod -Uri "https://sonarcloud.io/api/qualitygates/project_status?projectKey=aziz12063_Movie-API" -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)}
     
-          if ($qualityGateStatus.projectStatus.status -eq "ERROR" -or $qualityGateStatus.projectStatus.status -eq "WARN") {
-          Write-Host "Quality Gate failed"
-          #exit 1
-          } else {
-          Write-Host "Good job, Quality Gate passed"
-          }
+       #   if ($qualityGateStatus.projectStatus.status -eq "ERROR" -or $qualityGateStatus.projectStatus.status -eq "WARN") {
+        #  Write-Host "Quality Gate failed"
+         # #exit 1
+          #} else {
+       #   Write-Host "Good job, Quality Gate passed"
+        #  }
+
+      # delete this
+      - name: SonarCloud QG success
+          Write-Host "Quality gate success"
   
 
       
