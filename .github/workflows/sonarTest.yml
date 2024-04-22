@@ -1,12 +1,12 @@
 name: SonarTest
 on:
 
-  pull_request:
-    branches: [CiBranche]
+  #pull_request:
+  #  branches: [CiBranche]
     
-  push:
-    branches: [CiBranche]
-  
+ # push:
+  #  branches: [CiBranche]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -141,7 +141,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ApiApplication
-          path: ApiApplication.zip
+          path: ./publish
 
       - name: Login to Docker registry
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
