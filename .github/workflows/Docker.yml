@@ -28,7 +28,7 @@ jobs:
 
       - name: Publish ApiApplication
         run: |
-          dotnet publish Movie-API/ApiApplication/ApiApplication.csproj -c Release -o ./publish
+          dotnet publish ./ApiApplication/ApiApplication.csproj -c Release -o ./publish
         working-directory: ${{ github.workspace }}
 
       - name: Archive production artifacts
