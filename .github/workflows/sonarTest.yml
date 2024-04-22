@@ -93,7 +93,7 @@ jobs:
         shell: powershell
         run: |
          
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"aziz12063_Movie-API" /o:"aziz-rahimi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.qualitygate.wait=true
           
           # Build the main project
           dotnet build ApiApplication/ApiApplication.csproj
