@@ -123,6 +123,7 @@ jobs:
 
       # delete this
       - name: SonarCloud QG success
+        run:
           Write-Host "Quality gate success"
   
 
