@@ -1,12 +1,12 @@
 name: SonarTest
 on:
 
-  #pull_request:
-  #  branches: [CiBranche]
+  pull_request:
+    branches: [CiBranche]
     
- # push:
-  #  branches: [CiBranche]
-  workflow_dispatch:
+  push:
+    branches: [CiBranche]
+  #workflow_dispatch:
 
 jobs:
   build:
@@ -125,31 +125,38 @@ jobs:
     #  - name: List directory contents
      #   run: ls -R ApiApplication
 
-        # this not find the path so i need to pyblish the build
-   #   - name: Create artifact
-   #     run: |
-    #      # Create a zip artifact of the build output
-     #     Compress-Archive -Path Movie-API/ApiApplication/bin/Debug/net6.0/publish -DestinationPath ApiApplication.zip
-
-          # Publish the app
-      - name: Publish Application
-        run:
-          dotnet publish ./ApiApplication/ApiApplication.csproj -c Release -o ./publish
-
-        # Upload artifact
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ApiApplication
-          path: ./publish
-
-      - name: Login to Docker registry
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
-      - name: Build Docker image
+      - name: Publish ApiApplication
         run: |
-          docker build -t azizrahimi/movie-api:latest .
-          docker push azizrahimi/movie-api:latest
-      
+          dotnet publish ./ApiApplication/ApiApplication.csproj -c Release -o ./publish
+        working-directory: ${{ github.workspace }}
+
+      - name: Archive production artifacts
+        run: |
+          mkdir artifacts
+          cp -r publish/* artifacts/
+        working-directory: ${{ github.workspace }}
+
+      - name: Checkout code again to access artifacts
+        uses: actions/checkout@v3
+        with:
+          path: ./deploy
+          ref: ${{ github.sha }}
+
+      - name: Create Dockerfile
+        run: |
+          echo "FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base" >> deploy/Dockerfile
+          echo "WORKDIR /app" >> deploy/Dockerfile
+          echo "COPY ./ /app/" >> deploy/Dockerfile
+          echo "ENTRYPOINT [\"dotnet\", \"Movie-API/ApiApplication.dll\"]" >> deploy/Dockerfile
+        working-directory: ${{ github.workspace }}
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t docker.io/aziz12063/movie-api-challenge:${{ github.sha }} ./deploy
+          docker push docker.io/aziz12063/movie-api-challenge:${{ github.sha }}
+    
         
         
