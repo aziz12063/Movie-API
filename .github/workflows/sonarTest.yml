@@ -122,14 +122,19 @@ jobs:
         #  }
 
       # to delete
-      - name: List directory contents
-        run: ls -R ApiApplication
+    #  - name: List directory contents
+     #   run: ls -R ApiApplication
 
-        
-      - name: Create artifact
-        run: |
-          # Create a zip artifact of the build output
-          Compress-Archive -Path Movie-API/ApiApplication/bin/Debug/net6.0/publish -DestinationPath ApiApplication.zip
+        # this not find the path so i need to pyblish the build
+   #   - name: Create artifact
+   #     run: |
+    #      # Create a zip artifact of the build output
+     #     Compress-Archive -Path Movie-API/ApiApplication/bin/Debug/net6.0/publish -DestinationPath ApiApplication.zip
+
+          # Publish the app
+      - name: Publish Application
+        run:
+          dotnet publish ./ApiApplication/ApiApplication.csproj -c Release -o ./publish
 
         # Upload artifact
       - name: Upload artifact
