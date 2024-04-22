@@ -129,7 +129,7 @@ jobs:
       - name: Create artifact
         run: |
           # Create a zip artifact of the build output
-          Compress-Archive -Path ./ApiApplication/bin/Debug/net6.0/publish -DestinationPath ApiApplication.zip
+          Compress-Archive -Path Movie-API/ApiApplication/bin/Debug/net6.0/publish -DestinationPath ApiApplication.zip
 
         # Upload artifact
       - name: Upload artifact
