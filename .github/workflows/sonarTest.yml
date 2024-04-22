@@ -121,12 +121,26 @@ jobs:
        #   Write-Host "Good job, Quality Gate passed"
         #  }
 
-      # delete this
-      - name: SonarCloud QG success
-        run:
-          Write-Host "Quality gate success"
   
+      - name: Create artifact
+        run: |
+          # Create a zip artifact of the build output
+          Compress-Archive -Path ApiApplication/bin/Release/net5.0/publish -DestinationPath ApiApplication.zip
 
+        # Upload artifact
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ApiApplication
+          path: ApiApplication.zip
+
+      - name: Login to Docker registry
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Build Docker image
+        run: |
+          docker build -t azizrahimi/movie-api:latest .
+          docker push azizrahimi/movie-api:latest
       
         
         
