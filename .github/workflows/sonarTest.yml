@@ -121,7 +121,11 @@ jobs:
        #   Write-Host "Good job, Quality Gate passed"
         #  }
 
-  
+      # to delete
+      - name: List directory contents
+        run: ls -R ApiApplication
+
+        
       - name: Create artifact
         run: |
           # Create a zip artifact of the build output
