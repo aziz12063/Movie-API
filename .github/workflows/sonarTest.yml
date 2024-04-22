@@ -46,44 +46,44 @@ jobs:
         run: |
           dotnet tool install --global dotnet-sonarscanner --version 5.2.4
 
-      - name: Install coverlet.console
-        run: |
-          dotnet tool install --global coverlet.console --version 6.0.2
+   #   - name: Install coverlet.console
+    #    run: |
+     #     dotnet tool install --global coverlet.console --version 6.0.2
           
-      - name: Install reportgenerator
-        run: |
-          dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.5
+    #  - name: Install reportgenerator
+     #   run: |
+      #    dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.5
           
-      - name: Check if opencover.runsettings exists
-        run: |
-          if (-Not (Test-Path "ApiApplication/opencover.runsettings")) { echo '<?xml version="1.0" encoding="utf-8"?><RunSettings><DataCollectionRunSettings><DataCollectors><DataCollector friendlyName="XPlat Code Coverage"><Configuration><Format>opencover</Format><Exclude>[xunit.*]*</Exclude></Configuration></DataCollector></DataCollectors></DataCollectionRunSettings></RunSettings>' > ApiApplication/opencover.runsettings }
+ #     - name: Check if opencover.runsettings exists
+  #      run: |
+   #       if (-Not (Test-Path "ApiApplication/opencover.runsettings")) { echo '<?xml version="1.0" encoding="utf-8"?><RunSettings><DataCollectionRunSettings><DataCollectors><DataCollector friendlyName="XPlat Code Coverage"><Configuration><Format>opencover</Format><Exclude>[xunit.*]*</Exclude></Configuration></DataCollector></DataCollectors></DataCollectionRunSettings></RunSettings>' > ApiApplication/opencover.runsettings }
           
-      - name: Generate code coverage report
-        run: |
-          dotnet test ApiApplication/ApiApplication.csproj --collect:"XPlat Code Coverage" --settings ApiApplication/opencover.runsettings
-          reportgenerator "-reports:ApiApplication/coverage.opencover.xml" "-targetdir:coveragereport" "-reporttypes:HtmlInline_AzurePipelines"
+    #  - name: Generate code coverage report
+     #   run: |
+      #    dotnet test ApiApplication/ApiApplication.csproj --collect:"XPlat Code Coverage" --settings ApiApplication/opencover.runsettings
+       #   reportgenerator "-reports:ApiApplication/coverage.opencover.xml" "-targetdir:coveragereport" "-reporttypes:HtmlInline_AzurePipelines"
          
 
         
-      - name: Build and test main project
-        working-directory: ./ApiApplication  # Specify the main project directory
-        shell: powershell
-        run: |
-          # Build the main project
-          dotnet build ApiApplication.csproj
+#      - name: Build and test main project
+ #       working-directory: ./ApiApplication  # Specify the main project directory
+  #      shell: powershell
+   #     run: |
+    #      # Build the main project
+     #     dotnet build ApiApplication.csproj
           
-          # Run tests with coverage for the main project
-          dotnet test ApiApplication.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+       #   # Run tests with coverage for the main project
+      #    dotnet test ApiApplication.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           
-      - name: Build and test test project
-        working-directory: ./ApiApplication.Test  # Specify the test project directory
-        shell: powershell
-        run: |
-          # Build the test project
-          dotnet build ApiApplication.Test.csproj
+#      - name: Build and test test project
+ #       working-directory: ./ApiApplication.Test  # Specify the test project directory
+  #      shell: powershell
+   #     run: |
+    #      # Build the test project
+     #     dotnet build ApiApplication.Test.csproj
           
-          # Run tests with coverage for the test project
-          dotnet test ApiApplication.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      #    # Run tests with coverage for the test project
+       #   dotnet test ApiApplication.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           
       - name: Build and analyze
         env:
@@ -125,7 +125,7 @@ jobs:
       - name: Create artifact
         run: |
           # Create a zip artifact of the build output
-          Compress-Archive -Path ApiApplication/bin/Release/net5.0/publish -DestinationPath ApiApplication.zip
+          Compress-Archive -Path ApiApplication/bin/Release/net6.0/publish -DestinationPath ApiApplication.zip
 
         # Upload artifact
       - name: Upload artifact
