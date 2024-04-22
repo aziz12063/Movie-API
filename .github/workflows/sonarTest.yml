@@ -155,7 +155,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t docker.io/aziz12063/movie-api-challenge:${{ github.sha }} ./deploy
+          docker build -t docker.io/aziz12063/movie-api-challenge:1.0.0 -t docker.io/aziz12063/movie-api-challenge:${{ github.sha }} ./deploy
           docker push docker.io/aziz12063/movie-api-challenge:${{ github.sha }}
     
         
