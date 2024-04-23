@@ -158,8 +158,10 @@ jobs:
           docker build -t docker.io/aziz12063/movie-api-challenge:${{ github.sha }} ./deploy
         working-directory: ${{ github.workspace }}
 
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login docker.io -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Start Clair instance
+        run: |
+          docker run -d --name clair -p 6060:6060 -p 6061:6061 quay.io/coreos/clair:latest
+
 
       - name: Scan Docker image with Clair
         run: |
