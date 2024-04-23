@@ -60,7 +60,7 @@ jobs:
 
 
       - name: Set up Docker
-        uses: docker/setup-action@v2
+        uses: docker/setup-docker-action@v2
 
       - name: Generate Dockerfile
         run: |
