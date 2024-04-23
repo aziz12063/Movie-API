@@ -70,15 +70,15 @@ jobs:
 
       - name: Create Dockerfile
         run: |
-          echo "FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base" >> deploy/Dockerfile
-          echo "WORKDIR /app" >> deploy/Dockerfile
-          echo "COPY ./publish/ /app/" >> deploy/Dockerfile
-          echo "ENTRYPOINT [\"dotnet\", \"ApiApplication.dll\"]" >> deploy/Dockerfile
+          echo "FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base" >> Dockerfile
+          echo "WORKDIR /app" >> Dockerfile
+          echo "COPY ./publish/ /app/" >> Dockerfile
+          echo "ENTRYPOINT [\"dotnet\", \"ApiApplication.dll\"]" >> Dockerfile
         working-directory: ${{ github.workspace }}
 
       
       - name: Build Docker image
-        run: docker build -t docker.io/aziz12063/movie-api-challenge:${{ github.sha }} ./deploy
+        run: docker build -t docker.io/aziz12063/movie-api-challenge:${{ github.sha }} .
         working-directory: ${{ github.workspace }}
 
       - name: Start Clair instance
