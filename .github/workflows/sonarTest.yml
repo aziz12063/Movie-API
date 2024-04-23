@@ -1,12 +1,12 @@
 name: SonarTest
 on:
 
-  pull_request:
-    branches: [CiBranche]
+  #pull_request:
+  #  branches: [CiBranche]
     
-  push:
-    branches: [CiBranche]
-  #workflow_dispatch:
+  #push:
+   # branches: [CiBranche]
+  workflow_dispatch:
 
 jobs:
   build:
