@@ -161,8 +161,9 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login docker.io -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Scan Docker image with Trivy
-        run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock microsoft/oss-security-tools trivy --skip-update docker-image docker.io/aziz12063/movie-api-challenge:${{ github.sha }}
+      - name: Scan Docker image with Clair
+        run: |
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock quay.io/coreos/clair-scanner:latest --clair="http://clair:6060" --ip "$(hostname -i)" docker.io/aziz12063/movie-api-challenge:${{ github.sha }}
         working-directory: ${{ github.workspace }}
 
       - name:  push Docker image
