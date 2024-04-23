@@ -155,11 +155,11 @@ jobs:
 
       - name: Build  Docker image
         run:
-          docker build -t docker.io/aziz12063/movie-api-challenge:1.0.0 -t docker.io/aziz12063/movie-api-challenge:${{ github.sha }} ./deploy
+          docker build -t docker.io/aziz12063/movie-api-challenge:${{ github.sha }} ./deploy
         working-directory: ${{ github.workspace }}
 
       - name: Scan Docker image with Trivy
-        run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy docker.io/aziz12063/movie-api-challenge:${{ github.sha }}
+        run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock microsoft/oss-security-tools trivy --skip-update docker-image docker.io/aziz12063/movie-api-challenge:${{ github.sha }}
         working-directory: ${{ github.workspace }}
 
       - name:  push Docker image
