@@ -9,8 +9,8 @@ on:
   #workflow_dispatch:
 
 jobs:
-  build:
-    name: Build, test, and analyze
+  Build-and-analyze:
+    name: Build and analyze
     runs-on: windows-latest
  
     steps:
@@ -64,7 +64,17 @@ jobs:
           
  # *********************************************************************************************************************
              # *****************************DOCKER************************************
-             
+  build-and-scan:
+      name: Build, Scan, and Publish ApiApplication content
+      needs: Build-and-analyze
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
       - name: Publish ApiApplication
         run: dotnet publish ./ApiApplication/ApiApplication.csproj -c Release -o ./publish
 
