@@ -60,7 +60,7 @@ jobs:
 
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v1.3
 
       - name: Generate Dockerfile
         run: |
