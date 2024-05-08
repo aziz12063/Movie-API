@@ -4,7 +4,7 @@ namespace ApiApplication.Models
 {
     public class MovieDto
     {
-        // all those  properties will be after that readOnly, i make it pubpic set befor using the provided API
+        // all those  properties will be after that readOnly, i make it public set befor using the provided API
         public string Id { get; set; }
         public string Title { get; set; }
         public string ImdbId { get; set; }
