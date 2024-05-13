@@ -5,6 +5,7 @@ using ApiApplication.Services.Interfaces;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ApiApplication.Services
@@ -31,58 +32,12 @@ namespace ApiApplication.Services
             return true;
         }
 
-        //public async  Task<List<TicketDto>> GetTicketCollection(int auditoriumId, int showtimeId)
-        //{
-        //    if (!VerifyIfWeStillHaveTicket())
-        //    {
-        //        throw new Exception($"all the tickets are seals");
-        //    }
-        //    // i should verify the auditoriumId
-
-        //    // 
-
-        //    var ticketCollection = await GenerateTicketCollection(auditoriumId, showtimeId);
-
-           
-
-        //    return ticketCollection;
-        //}
-
-        //private async Task<List<TicketDto>> GenerateTicketCollection(int auditoriumId, int showtimeId)
-        //{
-        //    var ticketCollection = new List<TicketDto>();
-        //    int nbrOfTicketToGenerate = 0;
-        //    switch (auditoriumId)
-        //    {
-        //        case 1:
-        //            nbrOfTicketToGenerate = 616;
-        //            break;
-        //        case 2:
-        //            nbrOfTicketToGenerate = 378;
-        //            break;
-        //        case 3:
-        //            nbrOfTicketToGenerate = 315;
-        //            break;
-        //        default:
-        //            throw new ArgumentOutOfRangeException(nameof(auditoriumId));
-        //    }
-
-        //    var seat = await _seatService.GettSeats(auditoriumId);
-
-        //    for (int i = 0; i < nbrOfTicketToGenerate; i++)
-        //    {
-        //        ticketCollection.Add(new TicketDto
-        //        {
-        //            Id = new Guid(),
-        //            Seats = (ICollection<SeatDto>)seat, // must be SeatEntity or SeatDto ???
-        //            ShowtimeId = showtimeId,
-                    
-        //        });
-        //    }
-
-        //    return ticketCollection;
-        //}
-
+        public async Task ConfirmPayementAsync(TicketDto tocketDto, CancellationToken cancellation)
+        {
+            // check if the reservation is still alive
+            // call ConfirmPayementAsync from TicketRepo
+            return;
+        }
         
     }
 }

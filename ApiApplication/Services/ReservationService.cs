@@ -87,35 +87,38 @@ namespace ApiApplication.Services
         {
             var reservationDto = await CreateTicketDtoToReserveAsync(showtimeId, nbrOfSeatsToReserve, cancel);
 
+
+            if (reservationDto != null)
+            {
+                // the logic to make seats reserved.
+                // create a method to do that, because after i call this method to make it not reserved: isReserved != is reserved
+            }
+
             // Start the delay task with the provided CancellationToken
             var delayTask = Task.Delay(TimeSpan.FromMinutes(10), cancel);
 
             // ContinueWith the cancellation logic
             await delayTask.ContinueWith(t =>
             {
-                if (t.IsCanceled)
-                {
-                    _logger.LogInformation("Delay canceled before timeout");
-                }
-                else
-                {
-                    HandleCancellation(reservationDto);
-                }
+               HandleCancellation(reservationDto);
             });
 
 
             return;
         }
 
-        private void HandleCancellation(TicketDto reservation)
+        // To do: logic to cancel the ticket
+        private void HandleCancellation(TicketDto reservationDto)
         {
             // Check if seats are paid after 10 minutes
-            if (!reservation.Paid)
+            if (!reservationDto.Paid)
             {
+
+                // call the method to make the seat not reserved.
                 // If seats are not paid, cancel the reservation
                 // Perform cancellation logic here
                 // For example, set a reservation status flag to canceled
-                _logger.LogInformation("Reservation {ReservationId} canceled because seats were not paid.", reservation.Id);
+                _logger.LogInformation("Reservation {ReservationId} canceled because seats were not paid.", reservationDto.Id);
             }
         }
 
