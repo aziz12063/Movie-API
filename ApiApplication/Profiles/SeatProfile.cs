@@ -11,8 +11,8 @@ namespace ApiApplication.Profiles
         public SeatProfile()
         {
             // we create a map from Seat Entity to SeatDto
-            CreateMap<SeatEntity, SeatDto>().ForMember(dest => dest.Id, opt => opt.Ignore())
-                                            .ForMember(dest => dest.IsReserved, opt => opt.Ignore());
+            CreateMap<SeatEntity, SeatDto>().ForMember(dest => dest.Id, opt => opt.Ignore());
+                                            //.ForMember(dest => dest.IsReserved, opt => opt.Ignore());
             //CreateMap<List<SeatEntity>, List<SeatDto>>();
 
             CreateMap<SeatDto, SeatEntity>();

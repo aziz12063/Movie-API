@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq;
 using ApiApplication.CustomExceptions;
+using System.Collections.Generic;
 
 namespace ApiApplication.Services
 {
@@ -98,6 +99,9 @@ namespace ApiApplication.Services
             {
                 showtimeDto.Movie = movie;
 
+
+                showtimeDto.Seats = GenerateSeats(showtimeDto.AuditoriumId);
+
                 ShowtimeEntity showtimeEntity = _mapper.Map<ShowtimeEntity>(showtimeDto);
 
                 nbrOfMemberSaved = await _showtimesRepository.CreateShowtime(showtimeEntity, cancel);
@@ -116,6 +120,35 @@ namespace ApiApplication.Services
                 throw new Exception(ex.Message);
             }
             
+        }
+
+        private static List<SeatDto> GenerateSeats(int auditoriumId)
+        {
+            short rows;
+            short seatsPerRow;
+
+            switch (auditoriumId)
+            {
+                case 1:
+                    seatsPerRow = 22;
+                    rows = 28;
+                    break;
+                case 2:
+                    seatsPerRow = 18;
+                    rows = 21;
+                    break;
+                default:
+                    seatsPerRow = 21;
+                    rows = 15;
+                    break;
+            }
+
+            var seats = new List<SeatDto>();
+            for (short r = 1; r <= rows; r++)
+                for (short s = 1; s <= seatsPerRow; s++)
+                    seats.Add(new SeatDto { AuditoriumId = auditoriumId, Row = r, SeatNumber = s });
+
+            return seats;
         }
     }
 }

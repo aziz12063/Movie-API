@@ -26,6 +26,14 @@ namespace ApiApplication.Database.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id, cancel);
         }
 
+        public async Task<ShowtimeEntity> GetWithSeatsByIdAsync(int id, CancellationToken cancel)
+        {
+            return await _context.Showtimes
+                .Include(x => x.Seats)
+                .FirstOrDefaultAsync(x => x.Id == id, cancel);
+        }
+
+
         public async Task<ShowtimeEntity> GetWithTicketsByIdAsync(int id, CancellationToken cancel)
         {
             return await _context.Showtimes

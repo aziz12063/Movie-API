@@ -6,5 +6,6 @@
         public short SeatNumber { get; set; }
         public int AuditoriumId { get; set; }
         public AuditoriumEntity Auditorium { get; set; }
+        public bool IsReserved { get; set; }
     }
 }

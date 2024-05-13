@@ -1,13 +1,14 @@
 ﻿using ApiApplication.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ApiApplication
 {
     public interface IReservationService
     {
-        Task<ReservationDto> ReserveSeat(int showtimeId, int nbrOfSeatsToReserve);
-        Task<List<SeatDto>> CheckSeatsContiguous(int auditoriuomId, int nbrOfSeatsToReserve, List<SeatDto> seats, int index, int row);
+        Task<ReservationDto> ReserveSeatAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel);
+        Task<List<SeatDto>> FindSeatsContiguous(int auditoriumId, int nbrOfSeatsToReserve, ShowtimeDto showtimeDto);
     }
 }

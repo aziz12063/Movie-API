@@ -1,12 +1,17 @@
 ﻿using ApiApplication.Database;
+using ApiApplication.Database.Entities;
+using ApiApplication.Database.Repositories;
+using ApiApplication.Database.Repositories.Abstractions;
 using ApiApplication.Models;
 using ApiApplication.Services.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace ApiApplication.Services
@@ -16,17 +21,24 @@ namespace ApiApplication.Services
         private readonly ISeatService _seatService;
         //private readonly IShowtimeService _showtimeService;
         private readonly CinemaContext _dbContext;
+        private readonly IShowtimesRepository _showtimesRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<ReservationService> _logger;
         List<SeatDto>  listOfSeatsreserved = new List<SeatDto>();
 
 
-        public ReservationService(ISeatService seatService, CinemaContext dbContext, IMapper mapper)
+        public ReservationService(ISeatService seatService,
+                                  IShowtimesRepository showtimesRepository,
+                                  CinemaContext dbContext,
+                                  IMapper mapper,
+                                   ILogger<ReservationService> logger)
         {
             _seatService = seatService;
             //_showtimeService = showtimeService;
+            _showtimesRepository = showtimesRepository;
             _dbContext = dbContext;
             _mapper = mapper;
-            
+            _logger = logger;
         }
 
         private void UpdateIsReserved()
@@ -34,173 +46,188 @@ namespace ApiApplication.Services
             
         }
 
-        /*
-        public async Task<ReservationDto> ReserveSeat(int showtimeId, int nbrOfSeatsToReserve)
+        
+        private async Task<TicketDto> CreateTicketDtoToReserveAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel)
         {
-            
-            // i get the Sowtime object
-            var showtime = DataStore.ShowtimesDto.Find(c => c.Id == showtimeId);
-            if (showtime == null)
+            Guid guid = Guid.NewGuid();
+
+            // I grab the ShowTime:
+            var showtime = await _showtimesRepository.GetWithSeatsByIdAsync(showtimeId, cancel);
+            if(showtime == null)
             {
-                throw new ArgumentException("showtime not found");
+                _logger.LogError("no showtime found");
+
+                return null;
             }
+
+            ShowtimeDto showtimeDto = _mapper.Map<ShowtimeDto>(showtime);
+
+            // get the auditoriumId:
+            int auditoriumId = showtimeDto.AuditoriumId;
+
+            // Find Seats Contiguous:
+            var listSeatsToReserve = await FindSeatsContiguous(auditoriumId, nbrOfSeatsToReserve, showtimeDto);
+
+            TicketDto reservationDto = new()
+            {
+                Id = guid,
+                ShowtimeId = showtimeId,
+                Seats = listSeatsToReserve,
+                CreatedTime = DateTime.Now,
+                Paid = false,
+                Showtime = showtimeDto
+
+            };
+            return  reservationDto;
 
            
-
-            // grab the AuditoriumId
-            int auditoriuomId = showtime.AuditoriumId;
-
-            // fetch the Movie in this showtimeId:
-            var movie = showtime.Movie;
-
-            // get the list of SeatsDto in this auditorium:
-            var seats = await _seatService.GettSeats(auditoriuomId);
-
-            // generate the Guid:
-            Guid reservationGuid = Guid.NewGuid();
-            ReservationDto reservationDto = new();
-            reservationDto.Id = reservationGuid;
-            reservationDto.AuditoriumId = auditoriuomId;
-            reservationDto.MovieName = movie.Title;
-
-            // grab the first seat non-reserved
-            var seatToReserve = seats.FirstOrDefault(c => c.IsReserved == false);
-            int index = seats.IndexOf(seatToReserve);
-
-            if (nbrOfSeatsToReserve == 1)
-            {
-                seatToReserve.IsReserved = true;
-                reservationDto.listOfSeatsreserved.Add(seatToReserve);
-                
-                
-                
-            }
-            else
-            {
-                listOfSeatsreserved = await CheckSeatsContiguous(auditoriuomId, nbrOfSeatsToReserve, seats, index, seatToReserve.Row);
-
-                foreach (var seat in listOfSeatsreserved)
-                {
-                    seat.IsReserved = true;
-                    reservationDto.listOfSeatsreserved.Add(seat);
-                }
-            }
-            reservationDto.ReservationTime = DateTime.Now;
-            reservationDto.IsExpired = false;
-
-
-            return reservationDto;
         }
-        */
+        
+        public async Task CreateTicketAsync (int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel)
+        {
+            var reservationDto = await CreateTicketDtoToReserveAsync(showtimeId, nbrOfSeatsToReserve, cancel);
+
+            // Start the delay task with the provided CancellationToken
+            var delayTask = Task.Delay(TimeSpan.FromMinutes(10), cancel);
+
+            // ContinueWith the cancellation logic
+            await delayTask.ContinueWith(t =>
+            {
+                if (t.IsCanceled)
+                {
+                    _logger.LogInformation("Delay canceled before timeout");
+                }
+                else
+                {
+                    HandleCancellation(reservationDto);
+                }
+            });
+
+
+            return;
+        }
+
+        private void HandleCancellation(TicketDto reservation)
+        {
+            // Check if seats are paid after 10 minutes
+            if (!reservation.Paid)
+            {
+                // If seats are not paid, cancel the reservation
+                // Perform cancellation logic here
+                // For example, set a reservation status flag to canceled
+                _logger.LogInformation("Reservation {ReservationId} canceled because seats were not paid.", reservation.Id);
+            }
+        }
+
+       
+
 
         // recap this code, DRY
-        public async Task<List<SeatDto>> CheckSeatsContiguous(int auditoriuomId, int nbrOfSeatsToReserve, List<SeatDto> seats, int index, int row)
+        private async Task<List<SeatDto>> FindSeatsContiguous(int auditoriumId, int nbrOfSeatsToReserve, ShowtimeDto showtimeDto)
         {
             return await Task.Run(() =>
             {
-                int nbrOfSeatsPerRow;
-                int nbrOfSeatsAvailable;
-                int nbrOfRowThatHasThisIndex;
-                int nbrOfSeatsContiguous = 0;
-                int indexInTempList = 0;
-                int maxRow;
-                int initialRow = row;
-
-
                 List<SeatDto> listSeatReserved = new List<SeatDto>();
 
-                switch (auditoriuomId)
+                int nbrOfSeatsPerRow;
+                int nbrOfSeatsAvailable;
+                int rowNbr;
+                int seatNbr;
+                int nbrOfSeatsContiguous = 0;
+                int index = 0;
+                int nbrOfRow;
+
+                // get the list of seats :
+                var seats = showtimeDto.Seats.ToList();
+
+                var seat = seats.FirstOrDefault(s => s.IsReserved == false);
+                
+                if(seat == null)
+                {
+                    _logger.LogError("no more seats available");
+                    return null;
+                }
+
+                listOfSeatsreserved.Add(seat);
+
+                if (nbrOfSeatsToReserve == 1)
+                {
+                    seat.IsReserved = true;
+                    return listOfSeatsreserved;
+                }
+
+                switch (auditoriumId)
                 {
                     case 1:
                         nbrOfSeatsPerRow = 22;
-                        maxRow = 28;
+                        nbrOfRow = 28;
                         break;
                     case 2:
                         nbrOfSeatsPerRow = 18;
-                        maxRow = 21;
+                        nbrOfRow = 21;
                         break;
                     default:
                         nbrOfSeatsPerRow = 21;
-                        maxRow = 15;
+                        nbrOfRow = 15;
                         break;
                 }
 
-                nbrOfSeatsAvailable = nbrOfSeatsPerRow - ((index + 1) % nbrOfSeatsPerRow);
-
-                // check if the row that not contain other contiguous seats.
-                // are there some other contiguous.
-
-                // fetch the nbr of row that contain the seat with index:
-                nbrOfRowThatHasThisIndex = (index + 1) / nbrOfSeatsPerRow;
-
-                var tempList = seats.Skip(index).Take(nbrOfSeatsAvailable).ToList();
-
-                for (int i = 0; i < nbrOfSeatsAvailable; i++)
+                if(nbrOfSeatsToReserve > nbrOfSeatsPerRow)
                 {
-
-                    if (tempList[i].IsReserved == false)
-                    {
-                        nbrOfSeatsContiguous++;
-                        if (nbrOfSeatsContiguous == nbrOfSeatsToReserve)
-                        {
-                            indexInTempList = i - nbrOfSeatsToReserve + 1;
-                            for (int j = 0; j < nbrOfSeatsToReserve; j++)
-                            {
-                                listSeatReserved.Add(tempList[indexInTempList]);
-                                indexInTempList++;
-                            }
-                            return listSeatReserved; ;
-
-                        }
-                    }
-                    nbrOfSeatsToReserve = 0;
+                    _logger.LogInformation("there are no enough seats contiguous");
+                    return null;
                 }
 
-                do
+
+                rowNbr = seat.Row;
+                seatNbr = seat.SeatNumber;
+
+                nbrOfSeatsAvailable = nbrOfSeatsPerRow - seatNbr + 1;
+
+                // grab the index of seat:
+                index = seats.IndexOf(seat);
+ 
+
+                for(int r = rowNbr; r <= nbrOfRow; r++ )
                 {
-                    tempList.Clear();
-
-                    tempList = seats.Skip(row * nbrOfSeatsPerRow).Take(nbrOfSeatsPerRow).ToList();
-
-                    for (int i = 0; i < nbrOfSeatsPerRow; i++)
+                    
+                    for(int s = seatNbr+1; s <= nbrOfSeatsPerRow; s++)
                     {
+                        index++;
 
-                        if (tempList[i].IsReserved == false)
+                        if (seats[index].IsReserved == false)
                         {
                             nbrOfSeatsContiguous++;
-                            if (nbrOfSeatsContiguous == nbrOfSeatsToReserve)
-                            {
-                                indexInTempList = i - nbrOfSeatsToReserve + 1;
-                                for (int j = 0; j < nbrOfSeatsToReserve; j++)
-                                {
-                                    listSeatReserved.Add(tempList[indexInTempList]);
-                                    indexInTempList++;
-                                }
-                                return listSeatReserved;
+                            listOfSeatsreserved.Add(seats[index]);
 
+                            if(nbrOfSeatsContiguous == nbrOfSeatsToReserve )
+                            {
+                                // i should make them reserved, for that use for loop with index -- and nbrseatsToReserve
+                                return listOfSeatsreserved;
                             }
                         }
-                        nbrOfSeatsToReserve = 0;
+                        else
+                        {
+                            nbrOfSeatsContiguous = 0;
+                            listOfSeatsreserved.Clear( );
+                        }
+                        
                     }
+                    listOfSeatsreserved.Clear();
+                    nbrOfSeatsContiguous = 0;
+                    seatNbr = 0;
+                    
 
-                    row++;
+                }
 
-                    if (row == maxRow + 1)
-                    {
-                        throw new ArgumentOutOfRangeException("there's no seats contiguous for your reservation");
-
-                    }
-
-                } while (true);
+                return null;
+                
 
 
                 // check 10 min validation reservation
             });
         }
 
-        public Task<ReservationDto> ReserveSeat(int showtimeId, int nbrOfSeatsToReserve)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
