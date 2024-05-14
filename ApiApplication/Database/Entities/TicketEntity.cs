@@ -16,6 +16,7 @@ namespace ApiApplication.Database.Entities
         public ICollection<SeatEntity> Seats { get; set; }
         public DateTime CreatedTime { get; set; }
         public bool Paid { get; set; }
+
         public ShowtimeEntity Showtime { get; set; }
     }
 }

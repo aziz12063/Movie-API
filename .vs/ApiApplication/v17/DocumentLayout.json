@@ -1,10 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\WorkSpace\\Movie-API\\Movie-API\\",
+  "WorkspaceRootPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|c:\\workspace\\movie-api\\movie-api\\apiapplication\\services\\ticketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\ticketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\ticketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\database\\entities\\ticketentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\database\\entities\\ticketentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\seatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\seatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\interfaces\\iseatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\interfaces\\iseatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\interfaces\\ireservationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\interfaces\\ireservationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +30,130 @@
       "DocumentGroups": [
         {
           "DockedHeight": 293,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 10,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{873151d0-cf2e-48cc-b4bf-ad0394f6a3c3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:350743133:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1449176975:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{f37f5141-198e-4181-9582-7b026ee8f915}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TicketEntity.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Entities\\TicketEntity.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Database\\Entities\\TicketEntity.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Entities\\TicketEntity.cs",
+              "RelativeToolTip": "ApiApplication\\Database\\Entities\\TicketEntity.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-14T10:55:46.461Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ISeatService.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\Interfaces\\ISeatService.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Services\\Interfaces\\ISeatService.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\Interfaces\\ISeatService.cs",
+              "RelativeToolTip": "ApiApplication\\Services\\Interfaces\\ISeatService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-14T10:10:19.247Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IReservationService.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\Interfaces\\IReservationService.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Services\\Interfaces\\IReservationService.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\Interfaces\\IReservationService.cs",
+              "RelativeToolTip": "ApiApplication\\Services\\Interfaces\\IReservationService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-14T09:57:14.594Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "TicketService.cs",
-              "DocumentMoniker": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\Services\\TicketService.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\TicketService.cs",
               "RelativeDocumentMoniker": "ApiApplication\\Services\\TicketService.cs",
-              "ToolTip": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\Services\\TicketService.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\TicketService.cs",
               "RelativeToolTip": "ApiApplication\\Services\\TicketService.cs",
-              "ViewState": "AQIAAHEAAAAAAAAAAAAwwIIAAAANAAAA",
+              "ViewState": "AQIAAFoAAAAAAAAAAAAswIMAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-13T20:15:39.525Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedHeight": 107,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "f713a386-fe18-49fb-bb88-634040923cbb",
+        "Display": 0,
+        "X": 68,
+        "Y": 83,
+        "Width": 1586,
+        "Height": 989,
+        "WindowState": 2
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SeatService.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\SeatService.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Services\\SeatService.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\SeatService.cs",
+              "RelativeToolTip": "ApiApplication\\Services\\SeatService.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAAI0AAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-14T10:01:28.726Z",
               "EditorCaption": ""
             }
           ]

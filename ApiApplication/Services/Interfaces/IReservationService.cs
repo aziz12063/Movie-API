@@ -9,6 +9,6 @@ namespace ApiApplication
     public interface IReservationService
     {
         Task<ReservationDto> ReserveSeatAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel);
-        Task<List<SeatDto>> FindSeatsContiguous(int auditoriumId, int nbrOfSeatsToReserve, ShowtimeDto showtimeDto);
+        
     }
 }
