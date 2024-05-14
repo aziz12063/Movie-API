@@ -34,7 +34,7 @@ namespace ApiApplication
             services.AddTransient<IAuditoriumsRepository, AuditoriumsRepository>();
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IAuditoriumService, AuditoriumService>();
-            services.AddTransient<IReservationService, ReservationService>();
+            //services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IShowtimeService, ShowtimeService>(); //************
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<ISeatService, SeatService>();
