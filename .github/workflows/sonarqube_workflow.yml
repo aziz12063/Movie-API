@@ -1,11 +1,12 @@
 name: SonarCloud
 on:
-  #push:
-   # branches:
-    #  - CiBranche
-  #pull_request:
-    #types: [opened, synchronize, reopened]
-    workflow_dispatch:
+  push:
+    branches:
+      - CiBranche
+  pull_request:
+    branches:
+      - CiBranche
+    #workflow_dispatch:
 jobs:
   build:
     name: Build and analyze
