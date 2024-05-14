@@ -152,7 +152,7 @@ namespace ApiApplication.Services
 
             // check if the reservation is still alive
             // ***************************i will modify a property: Isexpired**********************************
-            if (ticketDto.Isexpired)
+            if (ticketDto.IsExpired)
             {
                 _logger.LogError("the reservation is expired");
             }

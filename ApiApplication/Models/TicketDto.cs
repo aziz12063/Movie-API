@@ -9,6 +9,7 @@ namespace ApiApplication.Models
         {
             CreatedTime = DateTime.Now;
             Paid = false;
+            IsExpired = false;
         }
 
         public Guid Id { get; set; }
@@ -17,5 +18,6 @@ namespace ApiApplication.Models
         public ICollection<SeatDto> Seats { get; set; }
         public bool Paid { get; set; } 
         public ShowtimeDto Showtime { get; set; }
+        public bool IsExpired { get; set; }
     }
 }

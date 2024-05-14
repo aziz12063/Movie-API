@@ -10,6 +10,7 @@ namespace ApiApplication.Models
         public MovieDto Movie { get; set; }
         public DateTime SessionDate { get; set; }
         public int AuditoriumId { get; set; }
+        public ICollection<TicketDto> Tickets { get; set; }
         public ICollection<SeatDto> Seats { get; set; }
 
 

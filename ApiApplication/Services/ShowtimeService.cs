@@ -77,7 +77,6 @@ namespace ApiApplication.Services
                 throw;
             }
             
-
             
             if (auditoriumEntity == null)
             {
@@ -92,15 +91,12 @@ namespace ApiApplication.Services
                 return false;
             }
             
-
             
             int nbrOfMemberSaved = 0;
             try
             {
-                showtimeDto.Movie = movie;
-
-
-                showtimeDto.Seats = GenerateSeats(showtimeDto.AuditoriumId);
+                showtimeDto.Movie = movie; 
+                showtimeDto.Tickets = new List<TicketDto>();
 
                 ShowtimeEntity showtimeEntity = _mapper.Map<ShowtimeEntity>(showtimeDto);
 
