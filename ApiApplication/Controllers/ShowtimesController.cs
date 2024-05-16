@@ -21,8 +21,10 @@ namespace ApiApplication.Controllers
             _logger = logger;
         }
 
+
+
         [HttpPost("{movieId}/{sessionDate}/{auditoriumId}")]
-        public async Task<ActionResult<ShowtimeDto>> CreateShowtime(string movieId,DateTime sessionDate, int auditoriumId, CancellationToken cancel)
+        public async Task<ActionResult<ShowtimeDto>> CreateShowtime(string movieId, int auditoriumId, DateTime sessionDate, CancellationToken cancel)
         {
             // session date is like mm-dd-yyy
 
@@ -37,53 +39,25 @@ namespace ApiApplication.Controllers
                 return BadRequest($"Invalid sessionDate {sessionDate}");
             }
 
-            ShowtimeDto showtime = new()
-            {
-                Movie = new MovieDto() { Id = movieId},
-                SessionDate = sessionDate,
-                AuditoriumId = auditoriumId,
+            //ActionResult<ShowtimeDto> showtimeDto = await _showtimeService.CreateShowTime(movieId, auditoriumId, sessionDate, cancel);
+            ActionResult<ShowtimeDto> showtime =  await _showtimeService.CreateShowTime(movieId, auditoriumId, sessionDate, cancel);
 
-            };
 
-            if(!await _showtimeService.CreateShowTime(showtime, cancel))
+            if (showtime == null)
             {
                 _logger.LogError("the showtime can not be created, some item are null");
+                // modify this return
                 return NotFound();
             }
 
-            return Ok(showtime);
+            // get the showtime just created:
+
+            ShowtimeDto createdShowtimeDto = await _showtimeService.GetShowtimeByAuditoriumIdAndSessionDate( auditoriumId, sessionDate, cancel );
+            
+
+            return Ok(createdShowtimeDto);
         }
-        /*
-        // i will modify this method, i need the id of the movie to grab
-        [HttpGet("movie-api/{id}")]
-        public async Task<ActionResult<MovieDto>> GetMovieFromProvidedApi(string id)
-        {
-            Console.WriteLine("beging of GetMovieFromProvidedApi");
-            MovieDto movie = await _movieService.ConvertTaskToObject(id);
-
-            if(movie == null)
-            {
-                Console.WriteLine("no movie found");
-                return null;
-            }
-            Console.WriteLine("befor write the movie in the end of GetMovieFromProvidedApi");
-            x = movie.Id;
-            Console.WriteLine(x);
-            Console.WriteLine(movie.Title);
-
-            return Ok(movie);
-        }
-
-        // to delete
-        //[HttpGet]
-        //public async Task<ActionResult<ICollection<Movie>>> CreateMovie(int id)
-        //{
-        //    MovieService movieService = new MovieService();
-        //    var movies =  movieService.GenerateMovies();
-        //    return movies;
-        //}
         
-        */
 
     }
 }

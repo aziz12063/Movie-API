@@ -4,6 +4,9 @@ namespace ApiApplication.Models
 {
     public class MovieDto
     {
+        // some Movie Ids: tt0111161
+        // tt0068646 tt0468569  tt04468569
+
         // all those  properties will be after that readOnly, i make it public set befor using the provided API
         public string Id { get; set; }
         public string Title { get; set; }

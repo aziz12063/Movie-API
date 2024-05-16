@@ -61,6 +61,14 @@ namespace ApiApplication.Database.Repositories
             return await _context.Showtimes.Where(showtime => showtime.AuditoriumId == auditoriumId).ToListAsync(cancellation);
         }
 
+        public async Task<ShowtimeEntity> GetByAuditoriumIdAndSessionDateAsync(int auditoriumId,DateTime sessionDate, CancellationToken cancellation)
+        {
+            return await _context.Showtimes.Where(showtime => showtime.AuditoriumId == auditoriumId || showtime.SessionDate == sessionDate)
+                                           .Include(x => x.Movie)
+                                           .FirstOrDefaultAsync();
+        }
+
+
         public async Task<int> CreateShowtime(ShowtimeEntity showtimeEntity, CancellationToken cancel)
         {
 

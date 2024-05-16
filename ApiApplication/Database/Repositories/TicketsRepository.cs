@@ -18,12 +18,12 @@ namespace ApiApplication.Database.Repositories
             _context = context;
         }
 
-        public Task<TicketEntity> GetAsync(Guid id, CancellationToken cancel)
+        public Task<TicketEntity> GetByIdAsync(Guid id, CancellationToken cancel)
         {
             return _context.Tickets.FirstOrDefaultAsync(x => x.Id == id, cancel);
         }
 
-        public async Task<IEnumerable<TicketEntity>> GetEnrichedAsync(int showtimeId, CancellationToken cancel)
+        public async Task<IEnumerable<TicketEntity>> GetByShowtimeIdAsync(int showtimeId, CancellationToken cancel)
         {
             return await _context.Tickets
                 .Include(x => x.Showtime)
@@ -44,6 +44,16 @@ namespace ApiApplication.Database.Repositories
 
             return ticket.Entity;
         }
+
+        public async Task<TicketEntity> CreateAsync(TicketEntity ticketEntity, CancellationToken cancel)
+        {
+            var ticket = _context.Tickets.Add(ticketEntity);
+
+            await _context.SaveChangesAsync(cancel);
+
+            return ticket.Entity;
+        }
+
 
         public async Task<TicketEntity> ConfirmPaymentAsync(TicketEntity ticket, CancellationToken cancel)
         {

@@ -45,48 +45,60 @@ namespace ApiApplication.Services
         {
             Guid guid = Guid.NewGuid();
 
-            // I grab the ShowTime:
-            var showtime = await _showtimesRepository.GetWithSeatsByIdAsync(showtimeId, cancel);
-            if (showtime == null)
+            try
             {
-                _logger.LogError("no showtime found");
+                // I grab the ShowTime:
+                ShowtimeEntity showtime = await _showtimesRepository.GetWithSeatsByIdAsync(showtimeId, cancel);
 
-                return null;
+                if (showtime == null)
+                {
+                    _logger.LogError("no showtime found");
+
+                    return null;
+                }
+
+                ShowtimeDto showtimeDto = _mapper.Map<ShowtimeDto>(showtime);
+
+                // get the auditoriumId:
+                int auditoriumId = showtimeDto.AuditoriumId;
+
+                // Find Seats Contiguous:
+                List<SeatDto> listSeatsToReserve = await _seatService.FindSeatsContiguous(auditoriumId, nbrOfSeatsToReserve, showtimeDto);
+
+                if (listSeatsToReserve == null || listSeatsToReserve.Count == 0)
+                {
+                    _logger.LogError("no seat to reserve");
+                    return null;
+                }
+
+                // here the seats are reserved
+                listSeatsToReserve = await _seatService.UpdateSeatsState(listSeatsToReserve);
+                TicketDto ticketDto = new()
+                {
+                    Id = guid,
+                    ShowtimeId = showtimeId,
+                    Seats = listSeatsToReserve,
+                    CreatedTime = DateTime.Now,
+                    Paid = false,
+                    Showtime = showtimeDto,
+                    IsExpired = false
+
+                };
+
+                return ticketDto;
+
             }
-
-            ShowtimeDto showtimeDto = _mapper.Map<ShowtimeDto>(showtime);
-
-            // get the auditoriumId:
-            int auditoriumId = showtimeDto.AuditoriumId;
-
-            // Find Seats Contiguous:
-            var listSeatsToReserve = await _seatService.FindSeatsContiguous(auditoriumId, nbrOfSeatsToReserve, showtimeDto);
-
-            if (listSeatsToReserve == null || listSeatsToReserve.Count == 0)
+            catch (Exception ex)
             {
-                _logger.LogError("no seat to reserve");
-                return null;
+                throw new Exception(ex.Message);
             }
-
-            // here the seats are reserved
-            listSeatsToReserve = await _seatService.UpdateSeatsState(listSeatsToReserve);
-            TicketDto ticketDto = new()
-            {
-                Id = guid,
-                ShowtimeId = showtimeId,
-                Seats = listSeatsToReserve,
-                CreatedTime = DateTime.Now,
-                Paid = false,
-                Showtime = showtimeDto
-
-            };
-            
-            return ticketDto;
+   
         }
 
+        // call this from the controller
         public async Task CreateTicketWithDelayAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel)
         {
-            var ticketDto = await CreateTicketDtoAsync(showtimeId, nbrOfSeatsToReserve, cancel);
+            TicketDto ticketDto = await CreateTicketDtoAsync(showtimeId, nbrOfSeatsToReserve, cancel);
 
 
             if (ticketDto == null)
@@ -95,6 +107,16 @@ namespace ApiApplication.Services
                 return;
 
             }
+
+            // after creating the ticket i add it to DB
+            // i add it to ShowtimeEntity
+            // i add the showtime to auditoriumEntity
+            // i add the shotimes to the movie entity
+
+            TicketEntity ticketEntity = _mapper.Map<TicketEntity>(ticketDto);
+
+            // save the ticket in the DB
+            await _ticketsRepository.CreateAsync(ticketEntity, cancel);
 
             // Start the delay task with the provided CancellationToken
             var delayTask = Task.Delay(TimeSpan.FromMinutes(10), cancel);
@@ -127,9 +149,9 @@ namespace ApiApplication.Services
 
         }
 
-        private void ChangeTicketState(TicketDto ticketDto)
+        private void ChangeBoolState(bool property)
         {
-            ticketDto.Paid = !ticketDto.Paid;
+            property = !property;
         }
 
         
@@ -139,7 +161,7 @@ namespace ApiApplication.Services
         {
 
 
-            TicketEntity ticketEntity = await _ticketsRepository.GetAsync(id, cancellation);
+            TicketEntity ticketEntity = await _ticketsRepository.GetByIdAsync(id, cancellation);
             TicketDto ticketDto = new TicketDto();
 
             if (ticketEntity == null)
@@ -155,9 +177,10 @@ namespace ApiApplication.Services
             if (ticketDto.IsExpired)
             {
                 _logger.LogError("the reservation is expired");
+                return;
             }
 
-            ChangeTicketState(ticketDto);
+            ChangeBoolState(ticketDto.Paid);
 
             // call ConfirmPayementAsync from TicketRepo
 

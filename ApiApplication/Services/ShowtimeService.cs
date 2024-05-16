@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq;
 using ApiApplication.CustomExceptions;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ApiApplication.Services
 {
@@ -21,8 +22,6 @@ namespace ApiApplication.Services
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
-
-        public int Id { get; private set; }
         public ShowtimeService(IAuditoriumsRepository auditoriumRepository,
                                 IMovieService movieService,
                                 IShowtimesRepository showtimesRepository,
@@ -39,8 +38,16 @@ namespace ApiApplication.Services
         }
 
 
-        public async Task<bool> CreateShowTime(ShowtimeDto showtimeDto, CancellationToken cancel)
+        public async Task<ActionResult<ShowtimeDto>> CreateShowTime(string movieId, int auditoriumId, DateTime sessionDate, CancellationToken cancel)
         {
+            ShowtimeDto showtimeDto = new()
+            {
+                Movie = new MovieDto() { Id = movieId },
+                SessionDate = sessionDate,
+                AuditoriumId = auditoriumId,
+
+            };
+
             if (showtimeDto == null)
             {
                 _logger.LogError("The showtime is null");
@@ -54,7 +61,7 @@ namespace ApiApplication.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("error occur while fetching MovieByIg", ex);
+                throw new Exception("error occur while fetching MovieById", ex);
             }
 
 
@@ -88,7 +95,7 @@ namespace ApiApplication.Services
             {
                 _logger.LogWarning("Showtime in the Auditorium: {showtimeDto.AuditoriumId} in this date: {showtimeDto.SessionDate} already exist"
                                     , showtimeDto.AuditoriumId, showtimeDto.SessionDate);
-                return false;
+                return null;
             }
             
             
@@ -107,7 +114,7 @@ namespace ApiApplication.Services
                 //    return true;
                 //}
 
-                return true;
+                return showtimeDto;
 
             }
 
@@ -145,6 +152,15 @@ namespace ApiApplication.Services
                     seats.Add(new SeatDto { AuditoriumId = auditoriumId, Row = r, SeatNumber = s });
 
             return seats;
+        }
+
+        public async Task<ShowtimeDto> GetShowtimeByAuditoriumIdAndSessionDate(int auditoriumId, DateTime sessionDate, CancellationToken cancellationToken)
+        {
+            ShowtimeEntity showtimeEntity = await _showtimesRepository.GetByAuditoriumIdAndSessionDateAsync(auditoriumId, sessionDate, cancellationToken);
+
+            ShowtimeDto showtimeDto = _mapper.Map<ShowtimeDto>(showtimeEntity);
+
+            return showtimeDto;
         }
     }
 }

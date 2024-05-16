@@ -128,6 +128,7 @@ namespace ApiApplication.Services
 
         }
 
+        // DRY in TicketService
         public async Task<List<SeatDto>> UpdateSeatsState(List<SeatDto> seats)
         {
             return await Task.Run(() =>

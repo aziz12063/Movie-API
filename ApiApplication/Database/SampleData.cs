@@ -24,7 +24,7 @@ namespace ApiApplication.Database
                     new ShowtimeEntity
                     {
                         //Id = 1,
-                        SessionDate = new DateTime(2023, 1, 1),
+                        SessionDate = new DateTime(2025, 1, 1),
                         Movie = new MovieEntity
                         {
                             //Id = 1,
@@ -33,7 +33,7 @@ namespace ApiApplication.Database
                             ReleaseDate = new DateTime(2010, 01, 14),
                             Stars = "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page, Ken Watanabe"                            
                         },
-                        AuditoriumId = 1,
+                        //AuditoriumId = 1,
                     } 
                 },
                 Seats = GenerateSeats(1, 28, 22)
