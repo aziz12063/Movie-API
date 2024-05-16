@@ -4,6 +4,7 @@ using ApiApplication.Database.Repositories.Abstractions;
 using ApiApplication.Models;
 using ApiApplication.Services.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -71,8 +72,9 @@ namespace ApiApplication.Services
                     return null;
                 }
 
-                // here the seats are reserved
+                // make the seats IsRreserved
                 listSeatsToReserve = await _seatService.UpdateSeatsState(listSeatsToReserve);
+
                 TicketDto ticketDto = new()
                 {
                     Id = guid,
@@ -96,7 +98,7 @@ namespace ApiApplication.Services
         }
 
         // call this from the controller
-        public async Task CreateTicketWithDelayAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel)
+        public async Task<ActionResult<TicketDto>> CreateTicketWithDelayAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel)
         {
             TicketDto ticketDto = await CreateTicketDtoAsync(showtimeId, nbrOfSeatsToReserve, cancel);
 
@@ -104,18 +106,14 @@ namespace ApiApplication.Services
             if (ticketDto == null)
             {
                 _logger.LogError("the ticket is null");
-                return;
+                return null;
 
             }
 
-            // after creating the ticket i add it to DB
-            // i add it to ShowtimeEntity
-            // i add the showtime to auditoriumEntity
-            // i add the shotimes to the movie entity
-
+ 
             TicketEntity ticketEntity = _mapper.Map<TicketEntity>(ticketDto);
 
-            // save the ticket in the DB
+            // save the ticket in the DB, this return ticketEntity
             await _ticketsRepository.CreateAsync(ticketEntity, cancel);
 
             // Start the delay task with the provided CancellationToken
@@ -128,7 +126,7 @@ namespace ApiApplication.Services
             });
 
 
-            return;
+            return ticketDto;
         }
 
         // To do: logic to cancel the ticket
@@ -141,8 +139,8 @@ namespace ApiApplication.Services
                 // i update seats to not reserved
                 _seatService.UpdateSeatsState(reservationDto.Seats.ToList());
 
-                //i delete the ticketDto
-                reservationDto = null;
+                reservationDto.IsExpired = true;
+                // modify other properties if needed
                               
                 _logger.LogInformation("Reservation {ReservationId} canceled because seats were not paid.", reservationDto.Id);
             }
@@ -159,7 +157,11 @@ namespace ApiApplication.Services
 
         public async Task ConfirmPayementAsync(Guid id, CancellationToken cancellation)
         {
+            // to do
 
+            // i add it to ShowtimeEntity
+            // i add the showtime to auditoriumEntity
+            // i add the shotimes to the movie entity
 
             TicketEntity ticketEntity = await _ticketsRepository.GetByIdAsync(id, cancellation);
             TicketDto ticketDto = new TicketDto();
@@ -182,8 +184,10 @@ namespace ApiApplication.Services
 
             ChangeBoolState(ticketDto.Paid);
 
-            // call ConfirmPayementAsync from TicketRepo
+            ticketEntity = _mapper.Map<TicketEntity>(ticketDto);
 
+            await _ticketsRepository.ConfirmPaymentAsync(ticketEntity, cancellation);
+            
             return;
             
         }
