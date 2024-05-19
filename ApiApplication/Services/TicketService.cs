@@ -154,7 +154,7 @@ namespace ApiApplication.Services
 
         
         
-
+        // change the return on this method
         public async Task ConfirmPayementAsync(Guid id, CancellationToken cancellation)
         {
             // to do
@@ -164,7 +164,6 @@ namespace ApiApplication.Services
             // i add the shotimes to the movie entity
 
             TicketEntity ticketEntity = await _ticketsRepository.GetByIdAsync(id, cancellation);
-            TicketDto ticketDto = new TicketDto();
 
             if (ticketEntity == null)
             {
@@ -172,7 +171,7 @@ namespace ApiApplication.Services
                 
             }
 
-            ticketDto = _mapper.Map<TicketDto>(ticketEntity);
+            TicketDto ticketDto = _mapper.Map<TicketDto>(ticketEntity);
 
             // check if the reservation is still alive
             // ***************************i will modify a property: Isexpired**********************************
@@ -183,6 +182,7 @@ namespace ApiApplication.Services
             }
 
             ChangeBoolState(ticketDto.Paid);
+
 
             ticketEntity = _mapper.Map<TicketEntity>(ticketDto);
 

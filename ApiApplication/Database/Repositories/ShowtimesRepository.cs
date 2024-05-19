@@ -21,16 +21,34 @@ namespace ApiApplication.Database.Repositories
 
         public async Task<ShowtimeEntity> GetWithMoviesByIdAsync(int id, CancellationToken cancel)
         {
-            return await _context.Showtimes
+            try
+            {
+                return await _context.Showtimes
                 .Include(x => x.Movie)
                 .FirstOrDefaultAsync(x => x.Id == id, cancel);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+            
         }
 
         public async Task<ShowtimeEntity> GetWithSeatsByIdAsync(int id, CancellationToken cancel)
         {
-            return await _context.Showtimes
+            try
+            {
+                return await _context.Showtimes
                 .Include(x => x.Seats)
                 .FirstOrDefaultAsync(x => x.Id == id, cancel);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+
         }
 
 
@@ -63,9 +81,18 @@ namespace ApiApplication.Database.Repositories
 
         public async Task<ShowtimeEntity> GetByAuditoriumIdAndSessionDateAsync(int auditoriumId,DateTime sessionDate, CancellationToken cancellation)
         {
-            return await _context.Showtimes.Where(showtime => showtime.AuditoriumId == auditoriumId || showtime.SessionDate == sessionDate)
+            try
+            {
+                return await _context.Showtimes.Where(showtime => showtime.AuditoriumId == auditoriumId || showtime.SessionDate == sessionDate)
                                            .Include(x => x.Movie)
                                            .FirstOrDefaultAsync();
+            }
+            
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
 

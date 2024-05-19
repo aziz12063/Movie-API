@@ -13,6 +13,10 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 using System.Net.Http;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using StackExchange.Redis;
+using Microsoft.Extensions.Caching.Distributed;
+
 
 namespace ApiApplication
 {
@@ -28,7 +32,7 @@ namespace ApiApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            // Register my services
             services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
             services.AddTransient<ITicketsRepository, TicketsRepository>();
             services.AddTransient<IAuditoriumsRepository, AuditoriumsRepository>();
@@ -40,17 +44,27 @@ namespace ApiApplication
             services.AddTransient<ISeatService, SeatService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            // Configure Redis distributed cache
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379"; // Redis connection string
+                options.InstanceName = "MovieCache"; // Cache instance name (optional)
+            });
 
+            // Configure DbContext
             services.AddDbContext<CinemaContext>(options =>
             {
                 options.UseInMemoryDatabase("CinemaDb")
                     .EnableSensitiveDataLogging()
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
-            services.AddControllers();
 
+            // Add controllers, API explorer, and Swagger
+            services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+
+            // Add HttpClient
             services.AddHttpClient();
 
             

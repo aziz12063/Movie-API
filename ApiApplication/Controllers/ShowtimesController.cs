@@ -53,7 +53,10 @@ namespace ApiApplication.Controllers
             // get the showtime just created:
 
             ShowtimeDto createdShowtimeDto = await _showtimeService.GetShowtimeByAuditoriumIdAndSessionDate( auditoriumId, sessionDate, cancel );
-            
+            if (createdShowtimeDto == null)
+            {
+                return NotFound();
+            }
 
             return Ok(createdShowtimeDto);
         }

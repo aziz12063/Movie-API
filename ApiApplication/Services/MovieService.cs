@@ -5,6 +5,7 @@ using ApiApplication.ProvidedApi.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,10 @@ namespace ApiApplication.Services
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
         private readonly ILogger<MovieService> _logger;
+        private readonly IDistributedCache _cache;
 
         
-        public MovieService(HttpClient httpClient, IMapper mapper, ILogger<MovieService> logger)
+        public MovieService(HttpClient httpClient, IMapper mapper, ILogger<MovieService> logger, IDistributedCache cache)
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri(apiUrl);
@@ -37,6 +39,7 @@ namespace ApiApplication.Services
             _httpClient.DefaultRequestHeaders.Add("x-apikey", apiKey);
             _mapper = mapper;
             _logger = logger;
+            _cache = cache;
         }
    
 

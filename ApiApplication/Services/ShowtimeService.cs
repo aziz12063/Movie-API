@@ -70,7 +70,6 @@ namespace ApiApplication.Services
                 _logger.LogWarning("The Movie with Id: {showtimeDto.Movie.Id} doesn't exist.", showtimeDto.Movie.Id);
                 throw new InvalidInPutException("the Movie is null");
             }
-
             
             AuditoriumEntity auditoriumEntity = new AuditoriumEntity();
             try
@@ -157,6 +156,11 @@ namespace ApiApplication.Services
         public async Task<ShowtimeDto> GetShowtimeByAuditoriumIdAndSessionDate(int auditoriumId, DateTime sessionDate, CancellationToken cancellationToken)
         {
             ShowtimeEntity showtimeEntity = await _showtimesRepository.GetByAuditoriumIdAndSessionDateAsync(auditoriumId, sessionDate, cancellationToken);
+            if (showtimeEntity == null)
+            {
+                _logger.LogError("the showtime is null");
+                return null;
+            }
 
             ShowtimeDto showtimeDto = _mapper.Map<ShowtimeDto>(showtimeEntity);
 
