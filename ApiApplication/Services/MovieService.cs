@@ -1,4 +1,5 @@
-﻿using ApiApplication.Database;
+﻿using ApiApplication.Cache;
+using ApiApplication.Database;
 using ApiApplication.Database.Entities;
 using ApiApplication.Models;
 using ApiApplication.ProvidedApi.Entities;
@@ -27,10 +28,13 @@ namespace ApiApplication.Services
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
         private readonly ILogger<MovieService> _logger;
-        private readonly IDistributedCache _cache;
+        private readonly IResponseCacheService _cacheService;
 
         
-        public MovieService(HttpClient httpClient, IMapper mapper, ILogger<MovieService> logger, IDistributedCache cache)
+        public MovieService(HttpClient httpClient, 
+                            IMapper mapper, 
+                            ILogger<MovieService> logger,
+                            IResponseCacheService cacheService)
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri(apiUrl);
@@ -39,7 +43,7 @@ namespace ApiApplication.Services
             _httpClient.DefaultRequestHeaders.Add("x-apikey", apiKey);
             _mapper = mapper;
             _logger = logger;
-            _cache = cache;
+            _cacheService = cacheService;
         }
    
 
@@ -50,6 +54,10 @@ namespace ApiApplication.Services
             try
             {
                 int attempt = 1;
+                MovieDto movie = null;
+
+                var cacheKey = $"movie-{id}";
+
                 // i want to fetch just one movie
                 while(attempt <= maxAttempt)
                 {
@@ -60,6 +68,7 @@ namespace ApiApplication.Services
 
                         var movieApi = new MoviesApiEntity();
                         var content = await response.Content.ReadAsStringAsync();
+
                         if (response.Content.Headers.ContentType.MediaType == "application/json")
                         {
                             movieApi = JsonSerializer.Deserialize<MoviesApiEntity>(content,
@@ -74,8 +83,12 @@ namespace ApiApplication.Services
                             movieApi = (MoviesApiEntity)serializer.Deserialize(new StringReader(content));
                         }
                         
-                        var movie =  _mapper.Map<MovieDto>(movieApi);
+                         movie =  _mapper.Map<MovieDto>(movieApi);
 
+                        // i cache the movie response
+                        await _cacheService.CacheResponseAsync(cacheKey, JsonSerializer.Serialize(movie));
+
+                        // log the info of the movie to the console, not needed i can delete it later
                         Console.WriteLine("the Id is: " + movie.Id);
                         Console.WriteLine("the Title is: " + movie.Title);
                         Console.WriteLine("the ImdbId is: " + movie.ImdbId);
@@ -85,8 +98,21 @@ namespace ApiApplication.Services
                     }
                     attempt++;
                 }
+
+                // get the movie from the cach if  the API call failed
+                var cacheContent = await _cacheService.GetCachedResponseAsync(cacheKey);
+                if(!string.IsNullOrEmpty(cacheContent))
+                {
+                    movie = JsonSerializer.Deserialize<MovieDto>(cacheContent);
+                }
+
+                // i should costumize this exception
+                if(movie == null)
+                {
+                    throw new Exception($"Movie with Id {id} could not be retrieved from the api or cache.");
+                }
                 
-                 return null;
+                 return movie;
             }
             catch (Exception ex)
             {

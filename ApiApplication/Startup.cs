@@ -16,6 +16,9 @@ using System.Net.Http;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using StackExchange.Redis;
 using Microsoft.Extensions.Caching.Distributed;
+using ApiApplication.Cache;
+using Microsoft.OpenApi.Models;
+using ApiApplication.TimeConstraint;
 
 
 namespace ApiApplication
@@ -43,12 +46,14 @@ namespace ApiApplication
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<ISeatService, SeatService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+            
 
             // Configure Redis distributed cache
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = "localhost:6379"; // Redis connection string
-                options.InstanceName = "MovieCache"; // Cache instance name (optional)
+                //options.InstanceName = "MovieCache"; // Cache instance name (optional), to search when i use it??
             });
 
             // Configure DbContext
@@ -59,10 +64,25 @@ namespace ApiApplication
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
 
+            services.AddRouting(option =>
+            {
+                option.ConstraintMap.Add("CustomDate", typeof(CustomDateTimeConstraint));
+            });
+
             // Add controllers, API explorer, and Swagger
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+            // i configure swagger to display the URL with endpoint
+            /*
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Cineme API",
+                    Version = "v1"
+                });
+            });*/
 
             // Add HttpClient
             services.AddHttpClient();
@@ -84,6 +104,8 @@ namespace ApiApplication
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                // i configure swagger to display the URL with endpoint
+                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cinema API v1"));
                 app.UseDeveloperExceptionPage();
                 
             }

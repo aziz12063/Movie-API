@@ -69,3 +69,7 @@ D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\bin\Debug\net6.0\Sy
 D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\bin\Debug\net6.0\System.Text.Encodings.Web.dll
 D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\bin\Debug\net6.0\System.Text.Json.dll
 D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\bin\Debug\net6.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\bin\Debug\net6.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\bin\Debug\net6.0\Pipelines.Sockets.Unofficial.dll
+D:\DotNETClassLibrariesC#\ProjectImadToModify\ApiApplication\bin\Debug\net6.0\StackExchange.Redis.dll

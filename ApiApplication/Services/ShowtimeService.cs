@@ -166,5 +166,11 @@ namespace ApiApplication.Services
 
             return showtimeDto;
         }
+
+        public async Task<ShowtimeDto> GetShowtimeWithMovieById(int Id, CancellationToken cancellation)
+        {
+            ShowtimeEntity showtimeEntity = await _showtimesRepository.GetWithMoviesByIdAsync(Id, cancellation);
+            return(_mapper.Map<ShowtimeDto>(showtimeEntity));
+        }
     }
 }

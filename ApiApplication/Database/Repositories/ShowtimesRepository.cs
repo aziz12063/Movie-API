@@ -95,6 +95,7 @@ namespace ApiApplication.Database.Repositories
             }
         }
 
+       
 
         public async Task<int> CreateShowtime(ShowtimeEntity showtimeEntity, CancellationToken cancel)
         {
