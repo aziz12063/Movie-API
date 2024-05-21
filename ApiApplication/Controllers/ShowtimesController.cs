@@ -6,6 +6,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
+using System.IO;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace ApiApplication.Controllers
 {
@@ -60,7 +62,12 @@ namespace ApiApplication.Controllers
                 return NotFound();
             }
 
-            int x = createdShowtimeDto.Id;
+            // Generate and write the cURL command to the cUrls.txt file
+            string curlCommand = Request.GetDisplayUrl();
+            _logger.LogInformation("the curlCommand {curlCommand}", curlCommand);
+            await WriteCurlCommandToFile(curlCommand);
+
+            //int x = createdShowtimeDto.Id;
             return Ok(createdShowtimeDto);
 
             // not work try again
@@ -78,7 +85,21 @@ namespace ApiApplication.Controllers
                     );*/
         }
 
-           
+        // this private method for test to write the curl to file
+       
+        private async Task WriteCurlCommandToFile(string curlCommand)
+        {
+            string solutionDirectory = Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName;
+            string filePath = Path.Combine(solutionDirectory, "cUrls.txt");
+            await System.IO.File.AppendAllTextAsync(filePath, curlCommand + Environment.NewLine);
+        }
+
+
+
+
+
+
+
         [HttpGet("{id}", Name = "GetShowtimeWithMovie")]
         public async Task<ActionResult<ShowtimeDto>> GetShowtimeWithMovie(int id, CancellationToken cancellation)
         {

@@ -19,6 +19,9 @@ using Microsoft.Extensions.Caching.Distributed;
 using ApiApplication.Cache;
 using Microsoft.OpenApi.Models;
 using ApiApplication.TimeConstraint;
+using ApiApplication.Middleware;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 
 namespace ApiApplication
@@ -94,11 +97,13 @@ namespace ApiApplication
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // configure logging
+            // the logging appeare twice, maybe i should this delete configuration
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Error()
                 .ReadFrom.Configuration(Configuration)
                 .WriteTo.Console()
                 .CreateLogger();
+            
 
             if (env.IsDevelopment())
             {
@@ -116,12 +121,20 @@ namespace ApiApplication
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseMiddleware<RequestTimeMiddleware>();
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
             SampleData.Initialize(app);
-        }      
+            // Generate cURL commands for the specified controller
+            var curlCommandsWriter = new CurlCommandsWriter("cUrls.txt");
+            curlCommandsWriter.GenerateCurlCommandsFromAllControllers();
+
+        }
+        
     }
 }

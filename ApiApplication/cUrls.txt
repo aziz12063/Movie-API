@@ -1,0 +1,36 @@
+# Endpoint: http://localhost:7629/{movieId}/{sessionDate:CustomDate}/{auditoriumId:int}
+# Method: POST
+curl -X POST "http://localhost:7629/{movieId}/{sessionDate:CustomDate}/{auditoriumId:int}"
+
+# Endpoint: http://localhost:7629/{id}
+# Method: GET
+curl -X GET "http://localhost:7629/{id}"
+
+# Endpoint: http://localhost:7629/{movieId}/{sessionDate}/{auditoriumId}
+# Method: GET
+curl -X GET "http://localhost:7629/{movieId}/{sessionDate}/{auditoriumId}"
+
+# Endpoint: http://localhost:7629/{movieId}/{sessionDate:CustomDate}/{auditoriumId:int}
+# Method: POST
+curl -X POST "http://localhost:7629/{movieId}/{sessionDate:CustomDate}/{auditoriumId:int}"
+
+# Endpoint: http://localhost:7629/{id}
+# Method: GET
+curl -X GET "http://localhost:7629/{id}"
+
+# Endpoint: http://localhost:7629/{movieId}/{sessionDate}/{auditoriumId}
+# Method: GET
+curl -X GET "http://localhost:7629/{movieId}/{sessionDate}/{auditoriumId}"
+
+# Endpoint: http://localhost:7629/{movieId}/{sessionDate:CustomDate}/{auditoriumId:int}
+# Method: POST
+curl -X POST "http://localhost:7629/{movieId}/{sessionDate:CustomDate}/{auditoriumId:int}"
+
+# Endpoint: http://localhost:7629/{id}
+# Method: GET
+curl -X GET "http://localhost:7629/{id}"
+
+# Endpoint: http://localhost:7629/{movieId}/{sessionDate}/{auditoriumId}
+# Method: GET
+curl -X GET "http://localhost:7629/{movieId}/{sessionDate}/{auditoriumId}"
+

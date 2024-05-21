@@ -23,7 +23,8 @@ namespace ApiApplication
                 {
                     webBuilder.ConfigureLogging(options =>
                     {
-                        options.AddConsole();
+                        //options.AddConsole();
+                        //options.SetMinimumLevel(LogLevel.Information);
                         
                     });
                     webBuilder.UseStartup<Startup>();                    
