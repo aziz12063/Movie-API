@@ -130,9 +130,8 @@ namespace ApiApplication
             });
 
             SampleData.Initialize(app);
-            // Generate cURL commands for the specified controller
-            var curlCommandsWriter = new CurlCommandsWriter("cUrls.txt");
-            curlCommandsWriter.GenerateCurlCommandsFromAllControllers();
+            
+           
 
         }
         

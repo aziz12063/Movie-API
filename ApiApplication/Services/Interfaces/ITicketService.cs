@@ -1,6 +1,8 @@
 ﻿using ApiApplication.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ApiApplication
@@ -9,5 +11,7 @@ namespace ApiApplication
     {
         //bool VerifyIfWeStillHaveTicket();
         //Task<List<TicketDto>> GetTicketCollection(int auditoriumId, int showtimeId);
+        Task<ActionResult<TicketDto>> CreateTicketWithDelayAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel);
+        Task ConfirmPayementAsync(Guid id, CancellationToken cancellation);
     }
 }

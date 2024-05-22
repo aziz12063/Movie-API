@@ -100,6 +100,10 @@ namespace ApiApplication.Services
         // call this from the controller
         public async Task<ActionResult<TicketDto>> CreateTicketWithDelayAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel)
         {
+            // i should first check if the showtime exist
+            // logic
+
+
             TicketDto ticketDto = await CreateTicketDtoAsync(showtimeId, nbrOfSeatsToReserve, cancel);
 
 
