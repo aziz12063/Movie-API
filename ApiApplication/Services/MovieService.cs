@@ -1,12 +1,7 @@
 ﻿using ApiApplication.Cache;
-using ApiApplication.Database;
-using ApiApplication.Database.Entities;
 using ApiApplication.Models;
 using ApiApplication.ProvidedApi.Entities;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

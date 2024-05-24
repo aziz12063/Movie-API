@@ -5,7 +5,6 @@ using ApiApplication.Models;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using System.Threading.Channels;
 using System.IO;
 using Microsoft.AspNetCore.Http.Extensions;
 
@@ -39,8 +38,7 @@ namespace ApiApplication.Controllers
             if(sessionDate <= DateTime.Now)
             {
                 _logger.LogError($"Invalid sessionDate {sessionDate}");
-                sessionDate = DateTime.Now.AddDays(5);
-                // i do this just for dev
+               
                 return BadRequest($"Invalid sessionDate {sessionDate}");
             }
 

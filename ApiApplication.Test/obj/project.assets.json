@@ -8901,23 +8901,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\SM\\.nuget\\packages\\": {},
+    "C:\\Users\\Aziz\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.Test\\ApiApplication.Test.csproj",
+      "projectUniqueName": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication.Test\\ApiApplication.Test.csproj",
       "projectName": "ApiApplication.Test",
-      "projectPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.Test\\ApiApplication.Test.csproj",
-      "packagesPath": "C:\\Users\\SM\\.nuget\\packages\\",
-      "outputPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.Test\\obj\\",
+      "projectPath": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication.Test\\ApiApplication.Test.csproj",
+      "packagesPath": "C:\\Users\\Aziz\\.nuget\\packages\\",
+      "outputPath": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication.Test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\SM\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Aziz\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -8926,14 +8926,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\ApiApplication.csproj": {
-              "projectPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\ApiApplication.csproj"
+            "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\ApiApplication.csproj": {
+              "projectPath": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\ApiApplication.csproj"
             }
           }
         }
@@ -8985,26 +8986,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[6.0.11, 6.0.11]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[6.0.11, 6.0.11]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[6.0.11, 6.0.11]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\SM\\AppData\\Roaming\\.dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

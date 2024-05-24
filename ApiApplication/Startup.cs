@@ -12,16 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
-using System.Net.Http;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
-using StackExchange.Redis;
-using Microsoft.Extensions.Caching.Distributed;
 using ApiApplication.Cache;
-using Microsoft.OpenApi.Models;
 using ApiApplication.TimeConstraint;
 using ApiApplication.Middleware;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
 
 
 namespace ApiApplication

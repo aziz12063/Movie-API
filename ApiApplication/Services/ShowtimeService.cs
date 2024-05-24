@@ -9,8 +9,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq;
 using ApiApplication.CustomExceptions;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 namespace ApiApplication.Services

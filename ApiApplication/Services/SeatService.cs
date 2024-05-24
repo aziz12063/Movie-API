@@ -1,9 +1,7 @@
 ﻿using ApiApplication.Database;
-using ApiApplication.Database.Entities;
 using ApiApplication.Models;
 using ApiApplication.Services.Interfaces;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
