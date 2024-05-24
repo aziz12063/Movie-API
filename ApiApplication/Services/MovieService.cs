@@ -89,7 +89,7 @@ namespace ApiApplication.Services
                         await _cacheService.CacheResponseAsync(cacheKey, JsonSerializer.Serialize(movie));
 
                         // log the info of the movie to the console, not needed i can delete it later
-                        Console.WriteLine("the Id is: " + movie.Id);
+                        Console.WriteLine("the Id is: " + movie.movieId);
                         Console.WriteLine("the Title is: " + movie.Title);
                         Console.WriteLine("the ImdbId is: " + movie.ImdbId);
                         Console.WriteLine("the ReleaseDate is: " + movie.ReleaseDate);

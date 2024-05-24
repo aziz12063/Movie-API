@@ -51,9 +51,17 @@ namespace ApiApplication.Controllers
             return Ok(ticketDto);
         }
 
-        
+        [HttpPost("{guid:Guid}", Name = "BayTicket")]
+        public async Task<ActionResult<TicketDto>> BayTicket(string guid, CancellationToken cancel)
+        {
+            if (!Guid.TryParse(guid, out Guid result ))
+            {
+                throw new FormatException($"invalid forrmat of the guid {guid}");
+            }
+            await _ticketService.ConfirmPayementAsync(result, cancel);
 
-        
+            return Ok();
+        }
 
     }
 }

@@ -11,6 +11,7 @@ using System.Linq;
 using ApiApplication.CustomExceptions;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace ApiApplication.Services
 {
@@ -38,15 +39,9 @@ namespace ApiApplication.Services
         }
 
 
-        public async Task<ActionResult<ShowtimeDto>> CreateShowTime(string movieId, int auditoriumId, DateTime sessionDate, CancellationToken cancel)
+        public async Task<ShowtimeDto> CreateShowTime(ShowtimeDto showtimeDto, CancellationToken cancel)
         {
-            ShowtimeDto showtimeDto = new()
-            {
-                Movie = new MovieDto() { Id = movieId },
-                SessionDate = sessionDate,
-                AuditoriumId = auditoriumId,
-
-            };
+            
 
             if (showtimeDto == null)
             {
@@ -54,10 +49,11 @@ namespace ApiApplication.Services
                 throw new ArgumentNullException(nameof(showtimeDto));
             }
 
-            MovieDto movie = new MovieDto();
+            // review this piece of code
+            MovieDto movie;
             try
             {
-                movie = await _movieService.GetMovieById(showtimeDto.Movie.Id);
+                 movie = await _movieService.GetMovieById(showtimeDto.Movie.movieId);
             }
             catch (Exception ex)
             {
@@ -67,11 +63,11 @@ namespace ApiApplication.Services
 
             if (movie == null)
             {
-                _logger.LogWarning("The Movie with Id: {showtimeDto.Movie.Id} doesn't exist.", showtimeDto.Movie.Id);
+                _logger.LogWarning("The Movie with Id: {showtimeDto.Movie.Id} doesn't exist.", showtimeDto.Movie.movieId);
                 throw new InvalidInPutException("the Movie is null");
             }
             
-            AuditoriumEntity auditoriumEntity = new AuditoriumEntity();
+            AuditoriumEntity auditoriumEntity;
             try
             {
                 // i get the auditorium using auditoriumId including showtimes
@@ -87,7 +83,7 @@ namespace ApiApplication.Services
             if (auditoriumEntity == null)
             {
                 _logger.LogWarning("Auditorium with Id: {showtimeDto.AuditoriumId} doesn't exist.", showtimeDto.AuditoriumId);
-                throw new InvalidInPutException(); // or i can : ObjectNotFoundException
+                throw new InvalidInPutException("Invalid auditoriumId from ShowtimeService class, " +  base.ToString()); // or i can : ObjectNotFoundException
             }
 
             if ((bool)auditoriumEntity.Showtimes?.Any(showtime => showtime.SessionDate == showtimeDto.SessionDate))
@@ -97,23 +93,26 @@ namespace ApiApplication.Services
                 return null;
             }
             
-            
-            int nbrOfMemberSaved = 0;
+    
             try
             {
-                showtimeDto.Movie = movie; 
-                showtimeDto.Tickets = new List<TicketDto>();
+                showtimeDto.Movie = movie;
+              
+                // log all the properties of the movie fetched
+                // i will delete it later
+                var properties = showtimeDto.Movie.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                foreach (var property in properties)
+                {
+                    var value = property.GetValue(showtimeDto.Movie);
+                    _logger.LogInformation($"{property.Name}: {value}");
+                }
 
                 ShowtimeEntity showtimeEntity = _mapper.Map<ShowtimeEntity>(showtimeDto);
 
-                nbrOfMemberSaved = await _showtimesRepository.CreateShowtime(showtimeEntity, cancel);
+                ShowtimeDto showtimeDtoCreated = await _showtimesRepository.CreateShowtime(showtimeEntity, cancel);
 
-                //if (nbrOfMemberSaved == showtimeEntity.GetType().GetProperties().Length)
-                //{
-                //    return true;
-                //}
-
-                return showtimeDto;
+               
+                return showtimeDtoCreated;
 
             }
 
@@ -124,34 +123,7 @@ namespace ApiApplication.Services
             
         }
 
-        private static List<SeatDto> GenerateSeats(int auditoriumId)
-        {
-            short rows;
-            short seatsPerRow;
-
-            switch (auditoriumId)
-            {
-                case 1:
-                    seatsPerRow = 22;
-                    rows = 28;
-                    break;
-                case 2:
-                    seatsPerRow = 18;
-                    rows = 21;
-                    break;
-                default:
-                    seatsPerRow = 21;
-                    rows = 15;
-                    break;
-            }
-
-            var seats = new List<SeatDto>();
-            for (short r = 1; r <= rows; r++)
-                for (short s = 1; s <= seatsPerRow; s++)
-                    seats.Add(new SeatDto { AuditoriumId = auditoriumId, Row = r, SeatNumber = s });
-
-            return seats;
-        }
+        
 
         public async Task<ShowtimeDto> GetShowtimeByAuditoriumIdAndSessionDate(int auditoriumId, DateTime sessionDate, CancellationToken cancellationToken)
         {

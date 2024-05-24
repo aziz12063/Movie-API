@@ -7,16 +7,24 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using ApiApplication.Database.Repositories.Abstractions;
+using ApiApplication.Models;
+using AutoMapper;
+using System.Reflection;
+using Microsoft.Extensions.Logging;
 
 namespace ApiApplication.Database.Repositories
 {
     public class ShowtimesRepository : IShowtimesRepository
     {
         private readonly CinemaContext _context;
+        private readonly IMapper _mapper;
+        private readonly ILogger<ShowtimesRepository> _logger;
 
-        public ShowtimesRepository(CinemaContext context)
+        public ShowtimesRepository(CinemaContext context, IMapper mapper, ILogger<ShowtimesRepository> logger)
         {
             _context = context;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<ShowtimeEntity> GetWithMoviesByIdAsync(int id, CancellationToken cancel)
@@ -25,7 +33,7 @@ namespace ApiApplication.Database.Repositories
             {
                 return await _context.Showtimes
                 .Include(x => x.Movie)
-                .FirstOrDefaultAsync(x => x.Id == id, cancel);
+                .FirstOrDefaultAsync(x => x.showtimeId == id, cancel);
             }
             catch (Exception ex)
             {
@@ -41,7 +49,7 @@ namespace ApiApplication.Database.Repositories
             {
                 return await _context.Showtimes
                 .Include(x => x.Seats)
-                .FirstOrDefaultAsync(x => x.Id == id, cancel);
+                .FirstOrDefaultAsync(x => x.showtimeId == id, cancel);
             }
             catch (Exception ex)
             {
@@ -56,7 +64,7 @@ namespace ApiApplication.Database.Repositories
         {
             return await _context.Showtimes
                 .Include(x => x.Tickets)
-                .FirstOrDefaultAsync(x => x.Id == id, cancel);
+                .FirstOrDefaultAsync(x => x.showtimeId == id, cancel);
         }
 
         public async Task<IEnumerable<ShowtimeEntity>> GetAllAsync(Expression<Func<ShowtimeEntity, bool>> filter, CancellationToken cancel)
@@ -97,13 +105,23 @@ namespace ApiApplication.Database.Repositories
 
        
 
-        public async Task<int> CreateShowtime(ShowtimeEntity showtimeEntity, CancellationToken cancel)
+        public async Task<ShowtimeDto> CreateShowtime(ShowtimeEntity showtimeEntity, CancellationToken cancel)
         {
 
             var showtime = await _context.Showtimes.AddAsync(showtimeEntity, cancel);
-            var nbrOfMemberSaved = await _context.SaveChangesAsync(cancel);
+            await _context.SaveChangesAsync(cancel);
+            ShowtimeDto showtimeDto = _mapper.Map<ShowtimeDto>(showtime);
 
-            return nbrOfMemberSaved;
+            // log the showtimeDto
+            // delete it after
+            var properties = showtimeDto.Movie.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var property in properties)
+            {
+                var value = property.GetValue(showtimeDto.Movie);
+                _logger.LogInformation($"{property.Name}: {value}");
+            }
+
+            return showtimeDto;
         }
     }
 }

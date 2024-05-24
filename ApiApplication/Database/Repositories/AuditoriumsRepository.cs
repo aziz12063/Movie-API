@@ -22,14 +22,14 @@ namespace ApiApplication.Database.Repositories
         {
             return await _context.Auditoriums
                 .Include(x => x.Seats)
-                .FirstOrDefaultAsync(x => x.Id == auditoriumId, cancel);
+                .FirstOrDefaultAsync(x => x.auditoriumId == auditoriumId, cancel);
         }
 
         public async Task<AuditoriumEntity> GetByIdIncludShowtimeAsync(int auditoriumId, CancellationToken cancel)
         {
             return await _context.Auditoriums
                 .Include(x => x.Showtimes)
-                .FirstOrDefaultAsync(x => x.Id == auditoriumId, cancel);
+                .FirstOrDefaultAsync(x => x.auditoriumId == auditoriumId, cancel);
         }
 
 
@@ -37,10 +37,10 @@ namespace ApiApplication.Database.Repositories
         public bool IsTheAuditoriumAvailable(int auditoriumId, DateTime sessionDate)
         {
             // here i check only if the auditorium exist
-            _context.Auditoriums.Any(x => x.Id == auditoriumId);
+            _context.Auditoriums.Any(x => x.auditoriumId == auditoriumId);
 
             // here i check the availability of the auditorium
-            return _context.Auditoriums.Where(auditorium => auditorium.Id == auditoriumId &&
+            return _context.Auditoriums.Where(auditorium => auditorium.auditoriumId == auditoriumId &&
                                               auditorium.Showtimes.Any(showtime => showtime.SessionDate == sessionDate))
                                        .Any();
 

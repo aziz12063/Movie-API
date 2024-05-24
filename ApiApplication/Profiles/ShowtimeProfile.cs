@@ -18,7 +18,8 @@ namespace ApiApplication.Profiles
 
 
             // we create a map from ShowtimeDto to ShitimeEntity
-            CreateMap<ShowtimeDto, ShowtimeEntity>().ForMember(dest => dest.Tickets, opt => opt.Ignore());
+            CreateMap<ShowtimeDto, ShowtimeEntity>().ForMember(dest => dest.Tickets, opt => opt.Ignore())
+                                                    .ForMember(dest => dest.Seats, opt => opt.Ignore()); 
                                                     
             //CreateMap<List<ShowtimeDto>, List<ShowtimeEntity>>();
 

@@ -20,7 +20,7 @@ namespace ApiApplication.Database.Repositories
 
         public Task<TicketEntity> GetByIdAsync(Guid id, CancellationToken cancel)
         {
-            return _context.Tickets.FirstOrDefaultAsync(x => x.Id == id, cancel);
+            return _context.Tickets.FirstOrDefaultAsync(x => x.ticketId == id, cancel);
         }
 
         public async Task<IEnumerable<TicketEntity>> GetByShowtimeIdAsync(int showtimeId, CancellationToken cancel)

@@ -13,6 +13,7 @@ namespace ApiApplication.Database
         {
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             var context = serviceScope.ServiceProvider.GetService<CinemaContext>();
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             
 
@@ -31,7 +32,7 @@ namespace ApiApplication.Database
                             Title = "Inception",
                             ImdbId = "tt1375666",
                             ReleaseDate = new DateTime(2010, 01, 14),
-                            Stars = "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page, Ken Watanabe"                            
+                            Stars = "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page, Ken Watanabe, aziz"                            
                         },
                         //AuditoriumId = 1,
                     } 

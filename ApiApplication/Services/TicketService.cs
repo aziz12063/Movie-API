@@ -77,7 +77,7 @@ namespace ApiApplication.Services
 
                 TicketDto ticketDto = new()
                 {
-                    Id = guid,
+                    ticketId = guid,
                     ShowtimeId = showtimeId,
                     Seats = listSeatsToReserve,
                     CreatedTime = DateTime.Now,
@@ -101,7 +101,7 @@ namespace ApiApplication.Services
         public async Task<ActionResult<TicketDto>> CreateTicketWithDelayAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel)
         {
             // i should first check if the showtime exist
-            // logic
+            // 
 
 
             TicketDto ticketDto = await CreateTicketDtoAsync(showtimeId, nbrOfSeatsToReserve, cancel);
@@ -120,14 +120,14 @@ namespace ApiApplication.Services
             // save the ticket in the DB, this return ticketEntity
             await _ticketsRepository.CreateAsync(ticketEntity, cancel);
 
-            // Start the delay task with the provided CancellationToken
-            var delayTask = Task.Delay(TimeSpan.FromMinutes(10), cancel);
+            //// Start the delay task with the provided CancellationToken
+            //var delayTask = Task.Delay(TimeSpan.FromMinutes(10), cancel);
 
-            // ContinueWith the cancellation logic
-            await delayTask.ContinueWith(t =>
-            {
-                HandleCancellation(ticketDto);
-            });
+            //// ContinueWith the cancellation logic
+            //await delayTask.ContinueWith(t =>
+            //{
+                //HandleCancellation(ticketDto);
+            //});
 
 
             return ticketDto;
@@ -146,7 +146,7 @@ namespace ApiApplication.Services
                 reservationDto.IsExpired = true;
                 // modify other properties if needed
                               
-                _logger.LogInformation("Reservation {ReservationId} canceled because seats were not paid.", reservationDto.Id);
+                _logger.LogInformation("Reservation {ReservationId} canceled because seats were not paid.", reservationDto.ticketId);
             }
 
         }
@@ -172,11 +172,13 @@ namespace ApiApplication.Services
             if (ticketEntity == null)
             {
                 _logger.LogError("no ticket found");
+                throw new ArgumentNullException(nameof(ticketEntity));
                 
             }
 
             TicketDto ticketDto = _mapper.Map<TicketDto>(ticketEntity);
 
+            HandleCancellation(ticketDto);
             // check if the reservation is still alive
             // ***************************i will modify a property: Isexpired**********************************
             if (ticketDto.IsExpired)

@@ -12,7 +12,7 @@ namespace ApiApplication.Models
             IsExpired = false;
         }
 
-        public Guid Id { get; set; }
+        public Guid ticketId { get; set; }
         public int ShowtimeId { get; set; }
         public DateTime CreatedTime { get; set; }
         public ICollection<SeatDto> Seats { get; set; }

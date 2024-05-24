@@ -37,7 +37,7 @@ namespace ApiApplication.Services
 
         public async Task<AuditoriumDto> GetAuditorium(int auditoriumId)
         {
-            var auditorium = await _dbContext.Auditoriums.FirstOrDefaultAsync(c => c.Id == auditoriumId);
+            var auditorium = await _dbContext.Auditoriums.FirstOrDefaultAsync(c => c.auditoriumId == auditoriumId);
 
             return (_mapper.Map<AuditoriumDto>(auditorium));
         }
