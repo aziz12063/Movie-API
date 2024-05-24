@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "C:\\WorkSpace\\Movie-API\\Movie-API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|c:\\workspace\\movie-api\\movie-api\\apiapplication\\services\\seatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\seatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|c:\\workspace\\movie-api\\movie-api\\apiapplication\\services\\showtimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\showtimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|c:\\workspace\\movie-api\\movie-api\\apiapplication\\controllers\\showtimescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\controllers\\showtimescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|c:\\workspace\\movie-api\\movie-api\\apiapplication\\services\\ticketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,38 +23,25 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SeatService.cs",
-              "DocumentMoniker": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\Services\\SeatService.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Services\\SeatService.cs",
-              "ToolTip": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\Services\\SeatService.cs",
-              "RelativeToolTip": "ApiApplication\\Services\\SeatService.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAeAAAA",
+              "Title": "ShowtimesController.cs",
+              "DocumentMoniker": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\Controllers\\ShowtimesController.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Controllers\\ShowtimesController.cs",
+              "ToolTip": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\Controllers\\ShowtimesController.cs",
+              "RelativeToolTip": "ApiApplication\\Controllers\\ShowtimesController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAGAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-24T22:28:35.073Z",
+              "WhenOpened": "2024-05-24T22:46:07.002Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ShowtimeService.cs",
-              "DocumentMoniker": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\Services\\ShowtimeService.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Services\\ShowtimeService.cs",
-              "ToolTip": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\Services\\ShowtimeService.cs",
-              "RelativeToolTip": "ApiApplication\\Services\\ShowtimeService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-24T22:28:33.866Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "TicketService.cs",
               "DocumentMoniker": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\Services\\TicketService.cs",
               "RelativeDocumentMoniker": "ApiApplication\\Services\\TicketService.cs",
               "ToolTip": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\Services\\TicketService.cs",
               "RelativeToolTip": "ApiApplication\\Services\\TicketService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-24T22:28:32.556Z",
               "EditorCaption": ""
