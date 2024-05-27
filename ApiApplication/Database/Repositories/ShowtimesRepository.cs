@@ -81,7 +81,7 @@ namespace ApiApplication.Database.Repositories
                 .ToListAsync(cancel);
         }
 
-        // maube i will delete this method
+        // maybe i will delete this method
         public async Task<IEnumerable<ShowtimeEntity>> GetAllByAuditoriumIdAsync(int auditoriumId, CancellationToken cancellation)
         {
             return await _context.Showtimes.Where(showtime => showtime.AuditoriumId == auditoriumId).ToListAsync(cancellation);
@@ -110,7 +110,7 @@ namespace ApiApplication.Database.Repositories
 
             var showtime = await _context.Showtimes.AddAsync(showtimeEntity, cancel);
             await _context.SaveChangesAsync(cancel);
-            ShowtimeDto showtimeDto = _mapper.Map<ShowtimeDto>(showtime);
+            ShowtimeDto showtimeDto = _mapper.Map<ShowtimeDto>(showtime.Entity);
 
             // log the showtimeDto
             // delete it after
@@ -123,5 +123,14 @@ namespace ApiApplication.Database.Repositories
 
             return showtimeDto;
         }
+
+        public async Task<bool> ShowtimeExistAsync(int auditoriumId, DateTime sessionDate)
+        {
+            // Use IQueryable with Any to check for existence
+            return await _context.Showtimes
+                .AnyAsync(s => s.AuditoriumId == auditoriumId && s.SessionDate.Date == sessionDate.Date);
+        }
+
+
     }
 }

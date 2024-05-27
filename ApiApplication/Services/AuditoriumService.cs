@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Database;
+using ApiApplication.Database.Repositories.Abstractions;
 using ApiApplication.Models;
 using ApiApplication.Services.Interfaces;
 using AutoMapper;
@@ -12,16 +13,18 @@ namespace ApiApplication.Services
     {
         private readonly CinemaContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly IAuditoriumsRepository _auditoriumsRepository;
         public List<AuditoriumDto> auditoriumDtos = new List<AuditoriumDto>();
 
-        public AuditoriumService(CinemaContext dbContext, IMapper mapper) 
+        public AuditoriumService(CinemaContext dbContext, IMapper mapper, IAuditoriumsRepository auditoriumsRepository) 
         {
             _dbContext = dbContext;
+            _auditoriumsRepository = auditoriumsRepository;
             _mapper = mapper;
         }
 
 
-
+        // put this method in the repo and call it
         public async Task<List<AuditoriumDto>> GetAuditoriums()
         {
 
@@ -35,6 +38,7 @@ namespace ApiApplication.Services
             return auditoriumDtos;
         }
 
+        // put this method in the repo and call it
         public async Task<AuditoriumDto> GetAuditorium(int auditoriumId)
         {
             var auditorium = await _dbContext.Auditoriums.FirstOrDefaultAsync(c => c.auditoriumId == auditoriumId);
@@ -42,10 +46,9 @@ namespace ApiApplication.Services
             return (_mapper.Map<AuditoriumDto>(auditorium));
         }
 
-        public bool IsTheAuditoriumAvailable(int auditoriumId)
+        public async Task<bool> AuditoriumExistAsync(int auditoriumId)
         {
-            // implement the logic and modify the return
-            return false;
+            return await _auditoriumsRepository.AuditoriumExestAsync(auditoriumId);
         }
     }
 }

@@ -12,6 +12,5 @@ namespace ApiApplication.Models
         public ICollection<TicketDto> Tickets { get; set; }
         public ICollection<SeatDto> Seats { get; set; }
 
-
     }
 }

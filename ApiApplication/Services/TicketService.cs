@@ -83,7 +83,7 @@ namespace ApiApplication.Services
                     CreatedTime = DateTime.Now,
                     Paid = false,
                     Showtime = showtimeDto,
-                    IsExpired = false
+                    //IsExpired = false
 
                 };
 
@@ -143,7 +143,7 @@ namespace ApiApplication.Services
                 // i update seats to not reserved
                 _seatService.UpdateSeatsState(reservationDto.Seats.ToList());
 
-                reservationDto.IsExpired = true;
+                //reservationDto.IsExpired = true;
                 // modify other properties if needed
                               
                 _logger.LogInformation("Reservation {ReservationId} canceled because seats were not paid.", reservationDto.ticketId);
@@ -181,11 +181,11 @@ namespace ApiApplication.Services
             HandleCancellation(ticketDto);
             // check if the reservation is still alive
             // ***************************i will modify a property: Isexpired**********************************
-            if (ticketDto.IsExpired)
-            {
-                _logger.LogError("the reservation is expired");
-                return;
-            }
+            //if (ticketDto.IsExpired)
+            //{
+            //    _logger.LogError("the reservation is expired");
+            //    return;
+            //}
 
             ChangeBoolState(ticketDto.Paid);
 

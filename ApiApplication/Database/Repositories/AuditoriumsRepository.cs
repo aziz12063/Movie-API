@@ -45,5 +45,11 @@ namespace ApiApplication.Database.Repositories
                                        .Any();
 
         }
+
+        public async Task<bool> AuditoriumExestAsync(int auditoriumId)
+        {
+            return await _context.Auditoriums
+                    .AnyAsync(a => a.auditoriumId == auditoriumId);
+        }
     }
 }

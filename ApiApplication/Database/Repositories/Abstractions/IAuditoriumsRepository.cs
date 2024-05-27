@@ -10,5 +10,6 @@ namespace ApiApplication.Database.Repositories.Abstractions
         Task<AuditoriumEntity> GetAsync(int auditoriumId, CancellationToken cancel);
         bool IsTheAuditoriumAvailable(int auditoriumId, DateTime sessionDate);
         Task<AuditoriumEntity> GetByIdIncludShowtimeAsync(int auditoriumId, CancellationToken cancel);
+        Task<bool> AuditoriumExestAsync(int auditoriumId);
     }
 }

@@ -39,63 +39,16 @@ namespace ApiApplication.Services
 
         public async Task<ShowtimeDto> CreateShowTime(ShowtimeDto showtimeDto, CancellationToken cancel)
         {
-            
-
+        
             if (showtimeDto == null)
             {
                 _logger.LogError("The showtime is null");
                 throw new ArgumentNullException(nameof(showtimeDto));
             }
-
-            // review this piece of code
-            MovieDto movie;
-            try
-            {
-                 movie = await _movieService.GetMovieById(showtimeDto.Movie.movieId);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("error occur while fetching MovieById", ex);
-            }
-
-
-            if (movie == null)
-            {
-                _logger.LogWarning("The Movie with Id: {showtimeDto.Movie.Id} doesn't exist.", showtimeDto.Movie.movieId);
-                throw new InvalidInPutException("the Movie is null");
-            }
-            
-            AuditoriumEntity auditoriumEntity;
-            try
-            {
-                // i get the auditorium using auditoriumId including showtimes
-                auditoriumEntity = await _auditoriumRepository.GetByIdIncludShowtimeAsync(showtimeDto.AuditoriumId, cancel);
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            
-            
-            if (auditoriumEntity == null)
-            {
-                _logger.LogWarning("Auditorium with Id: {showtimeDto.AuditoriumId} doesn't exist.", showtimeDto.AuditoriumId);
-                throw new InvalidInPutException("Invalid auditoriumId from ShowtimeService class, " +  base.ToString()); // or i can : ObjectNotFoundException
-            }
-
-            if ((bool)auditoriumEntity.Showtimes?.Any(showtime => showtime.SessionDate == showtimeDto.SessionDate))
-            {
-                _logger.LogWarning("Showtime in the Auditorium: {showtimeDto.AuditoriumId} in this date: {showtimeDto.SessionDate} already exist"
-                                    , showtimeDto.AuditoriumId, showtimeDto.SessionDate);
-                return null;
-            }
-            
     
             try
             {
-                showtimeDto.Movie = movie;
-              
+                            
                 // log all the properties of the movie fetched
                 // i will delete it later
                 var properties = showtimeDto.Movie.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -105,11 +58,55 @@ namespace ApiApplication.Services
                     _logger.LogInformation($"{property.Name}: {value}");
                 }
 
-                ShowtimeEntity showtimeEntity = _mapper.Map<ShowtimeEntity>(showtimeDto);
+                ShowtimeEntity showtimeEntity;
+                try
+                {
+                    _logger.LogInformation("i try to map ShowtimeDto to ShowtimeEntity");
+                    showtimeEntity = _mapper.Map<ShowtimeEntity>(showtimeDto);
+
+                    if(showtimeEntity == null)
+                    {
+                        _logger.LogInformation("showtimeEntity not mapped");
+                    }
+                    else
+                    {
+                        // don
+                        _logger.LogInformation("showtimeEntity  mapped");
+                    }
+                }
+                
+                catch (Exception ex) 
+                {
+                    _logger.LogError("canot map to showtimeEntity");
+                    throw new Exception(ex.ToString());
+                }
+
+                // delete this try block
+                ShowtimeDto showtimeDtoTest;
+                try
+                {
+                    _logger.LogInformation("i try to map ShowtimeEntity to ShowtimeDto");
+                    showtimeDtoTest = _mapper.Map<ShowtimeDto>(showtimeEntity);
+
+                    if (showtimeDtoTest == null)
+                    {
+                        _logger.LogInformation("showtimeDto not mapped");
+                    }
+                    else
+                    {
+                        
+                        _logger.LogInformation("showtimeDto  mapped");
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    _logger.LogError("canot map to showtimeEntity");
+                    throw new Exception(ex.ToString());
+                }
 
                 ShowtimeDto showtimeDtoCreated = await _showtimesRepository.CreateShowtime(showtimeEntity, cancel);
 
-               
                 return showtimeDtoCreated;
 
             }
@@ -120,7 +117,6 @@ namespace ApiApplication.Services
             }
             
         }
-
         
 
         public async Task<ShowtimeDto> GetShowtimeByAuditoriumIdAndSessionDate(int auditoriumId, DateTime sessionDate, CancellationToken cancellationToken)
@@ -141,6 +137,11 @@ namespace ApiApplication.Services
         {
             ShowtimeEntity showtimeEntity = await _showtimesRepository.GetWithMoviesByIdAsync(Id, cancellation);
             return(_mapper.Map<ShowtimeDto>(showtimeEntity));
+        }
+
+        public async Task<bool> ShowtimeExistAsync(int auditoriumId, DateTime sessionDate)
+        {
+            return await _showtimesRepository.ShowtimeExistAsync(auditoriumId, sessionDate);
         }
     }
 }

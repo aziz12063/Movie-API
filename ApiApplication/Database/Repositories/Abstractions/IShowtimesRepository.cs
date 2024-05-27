@@ -17,5 +17,6 @@ namespace ApiApplication.Database.Repositories.Abstractions
         Task<IEnumerable<ShowtimeEntity>> GetAllByAuditoriumIdAsync(int auditoriumId, CancellationToken cancellation);
         Task<ShowtimeEntity> GetWithSeatsByIdAsync(int id, CancellationToken cancel);
         Task<ShowtimeEntity> GetByAuditoriumIdAndSessionDateAsync(int auditoriumId, DateTime sessionDate, CancellationToken cancellation);
+        Task<bool> ShowtimeExistAsync(int auditoriumId, DateTime sessionDate);
     }
 }

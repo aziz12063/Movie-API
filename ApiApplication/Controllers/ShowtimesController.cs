@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Microsoft.AspNetCore.Http.Extensions;
+using ApiApplication.CustomExceptions;
+using ApiApplication.Services;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http;
+using System.Text.Json;
+using ApiApplication.Services.Interfaces;
 
 namespace ApiApplication.Controllers
 {
@@ -15,11 +21,17 @@ namespace ApiApplication.Controllers
     public class ShowtimesController : ControllerBase
     {
         private readonly IShowtimeService _showtimeService;
+        private readonly IMovieService _movieService;
+        private readonly IAuditoriumService _auditoriumService;
+
         private readonly ILogger<ShowtimesController> _logger;
 
-        public ShowtimesController(IShowtimeService showtimeService ,ILogger<ShowtimesController> logger) 
+        public ShowtimesController(IShowtimeService showtimeService, IAuditoriumService auditoriumService, IMovieService movieService, ILogger<ShowtimesController> logger) 
         {
             _showtimeService = showtimeService;
+            _movieService = movieService;
+            _auditoriumService = auditoriumService;
+
             _logger = logger;
         }
 
@@ -28,13 +40,14 @@ namespace ApiApplication.Controllers
         [HttpPost("{movieId}/{sessionDate:CustomDate}/{auditoriumId:int}", Name = "CreateShowtime")]
         public async Task<ActionResult<ShowtimeDto>> CreateShowtime(string movieId, int auditoriumId, DateTime sessionDate, CancellationToken cancel)
         {
-            // session date is like mm-dd-yyy
-
+            
+            // validate the input values:
             if( auditoriumId <= 0)
             {
                 _logger.LogError("Invalid auditoriumId {auditoriumId}", auditoriumId);// NB
                 return BadRequest($"Invalid auditoriumId {auditoriumId}");
             }
+
             if(sessionDate <= DateTime.Now)
             {
                 _logger.LogError($"Invalid sessionDate {sessionDate}");
@@ -42,30 +55,69 @@ namespace ApiApplication.Controllers
                 return BadRequest($"Invalid sessionDate {sessionDate}");
             }
 
-            //ActionResult<ShowtimeDto> showtimeDto = await _showtimeService.CreateShowTime(movieId, auditoriumId, sessionDate, cancel);
+            // validation of fetching obj with input values
+
+            bool exist = await _auditoriumService.AuditoriumExistAsync(auditoriumId);
+            if (!exist)
+            {
+                _logger.LogError("Invalid auditoriumId {auditoriumId}", auditoriumId);// NB
+                return BadRequest($"AuditoriumId with Id: {auditoriumId} could not be found");
+            }
+            
+            if(await _showtimeService.ShowtimeExistAsync(auditoriumId, sessionDate)) 
+            {
+                _logger.LogError("Canot create the showtime because it's already exist");
+                return Conflict("showtimetime already exist");
+            }
+
+            MovieDto movie;
+            try
+            {
+                movie = await _movieService.GetMovieById(movieId);
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError(ex, "Network error while retrieving the movie.");
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, "Service is unavailable. Please try again later.");
+            }
+            catch (TaskCanceledException ex)
+            {
+                _logger.LogError(ex, "The request timed out while retrieving the movie.");
+                return StatusCode(StatusCodes.Status408RequestTimeout, "The request timed out. Please try again.");
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "Error processing the movie data.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error processing the movie data.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while retrieving the movie.");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+            if (movie == null)
+            {
+                _logger.LogWarning("The Movie with Id: {movieId} doesn't exist.", movieId);
+                throw new InvalidInPutException("the Movie is null");
+            }
+
             ShowtimeDto showtimeDto = new()
             {
-                Movie = new MovieDto() { movieId = movieId },
+                Movie = movie,
                 SessionDate = sessionDate,
                 AuditoriumId = auditoriumId,
-
             };
-             showtimeDto =  await _showtimeService.CreateShowTime(showtimeDto, cancel);
 
+            ShowtimeDto createdShowtimeDto =  await _showtimeService.CreateShowTime(showtimeDto, cancel);
 
-            if (showtimeDto == null)
-            {
-                _logger.LogError("the showtime can not be created, some item are null");
-                // modify this return
-                return NotFound();
-            }
-
-            // get the showtime just created:
-            ShowtimeDto createdShowtimeDto = await _showtimeService.GetShowtimeByAuditoriumIdAndSessionDate(auditoriumId, sessionDate, cancel);
             if (createdShowtimeDto == null)
             {
-                return NotFound();
+                _logger.LogError("Cannot save the showtime just created");
+                // modify this return
+                return StatusCode(500, " Cannot save the showtime just created");
             }
+           
 
             // Generate and write the cURL command to the cUrls.txt file
             string curlCommand = Request.GetDisplayUrl();

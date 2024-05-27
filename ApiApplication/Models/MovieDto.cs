@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ApiApplication.Database.Entities;
+using System;
+using System.Collections.Generic;
 
 namespace ApiApplication.Models
 {
@@ -9,10 +11,12 @@ namespace ApiApplication.Models
 
         // all those  properties will be after that readOnly, i make it public set befor using the provided API
         public string movieId { get; set; }
+        public int movieIntId { get; set; }
         public string Title { get; set; }
         public string ImdbId { get; set; }
         public string Stars { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public List<ShowtimeEntity> Showtimes { get; set; }
 
         public MovieDto(string id, string title, string imdbId, string stars, DateTime releaseDate)
         {

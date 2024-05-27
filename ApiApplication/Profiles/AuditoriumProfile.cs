@@ -8,8 +8,10 @@ namespace ApiApplication.Profiles
     {
         public AuditoriumProfile()
         {
-            CreateMap<AuditoriumEntity, AuditoriumDto>();
-            CreateMap<AuditoriumDto, AuditoriumEntity>();
+            CreateMap<AuditoriumEntity, AuditoriumDto>().ForMember(dest => dest.Showtimes, opt => opt.MapFrom(src => src.Showtimes))
+                                                        .ForMember(dest => dest.Seats, opt => opt.MapFrom(src => src.Seats));
+            CreateMap<AuditoriumDto, AuditoriumEntity>().ForMember(dest => dest.Showtimes, opt => opt.MapFrom(src => src.Showtimes))
+                                                        .ForMember(dest => dest.Seats, opt => opt.MapFrom(src => src.Seats));
         }
     }
 }

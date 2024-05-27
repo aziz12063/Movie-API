@@ -47,8 +47,8 @@ namespace ApiApplication.Database
 
             modelBuilder.Entity<MovieEntity>(build =>
             {
-                build.HasKey(entry => entry.movieId);
-                build.Property(entry => entry.movieId).ValueGeneratedOnAdd();
+                build.HasKey(entry => entry.movieIntId);
+                build.Property(entry => entry.movieIntId).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<TicketEntity>(build =>

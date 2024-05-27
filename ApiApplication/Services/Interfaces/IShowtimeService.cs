@@ -15,6 +15,7 @@ namespace ApiApplication
         Task<ShowtimeDto> GetShowtimeByAuditoriumIdAndSessionDate(int auditoriumId, DateTime sessionDate, CancellationToken cancellationToken);
 
         Task<ShowtimeDto> GetShowtimeWithMovieById(int Id, CancellationToken cancellation);
+        Task<bool> ShowtimeExistAsync(int auditoriumId, DateTime sessionDate);
 
 
     }

@@ -19,7 +19,7 @@ namespace ApiApplication.Database
 
             context.Auditoriums.Add(new AuditoriumEntity
             {
-                //Id = 1,
+                //auditoriumId = 1,
                 Showtimes = new List<ShowtimeEntity> 
                 { 
                     new ShowtimeEntity
@@ -42,13 +42,13 @@ namespace ApiApplication.Database
 
             context.Auditoriums.Add(new AuditoriumEntity
             {
-                //Id = 2,
+                //auditoriumId = 2,
                 Seats = GenerateSeats(2, 21, 18)
             });
 
             context.Auditoriums.Add(new AuditoriumEntity
             {
-                //Id = 3,
+                //auditoriumId = 3,
                 Seats = GenerateSeats(3, 15, 21)
             });
 

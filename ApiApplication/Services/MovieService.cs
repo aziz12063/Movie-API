@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Cache;
+using ApiApplication.Database.Entities;
 using ApiApplication.Models;
 using ApiApplication.ProvidedApi.Entities;
 using AutoMapper;
@@ -61,8 +62,8 @@ namespace ApiApplication.Services
                     if (response.IsSuccessStatusCode)
                     {
 
-                        var movieApi = new MoviesApiEntity();
-                        var content = await response.Content.ReadAsStringAsync();
+                        MoviesApiEntity movieApi = null; // = new MoviesApiEntity();
+                        string content = await response.Content.ReadAsStringAsync();
 
                         if (response.Content.Headers.ContentType.MediaType == "application/json")
                         {
@@ -75,11 +76,28 @@ namespace ApiApplication.Services
                         else if (response.Content.Headers.ContentType.MediaType == "application/xml")
                         {
                             var serializer = new XmlSerializer(typeof(MoviesApiEntity));
-                            movieApi = (MoviesApiEntity)serializer.Deserialize(new StringReader(content));
+                            // i use this:
+                            //movieApi = (MoviesApiEntity)serializer.Deserialize(new StringReader(content));
+
+                            // or this to destroy the StringReader object after geting the movieApi
+                            using(var reader = new StreamReader(content))
+                            {
+                                movieApi = (MoviesApiEntity)serializer.Deserialize(reader);
+                            }
                         }
                         
+                        if(movieApi == null)
+                        {
+                            throw new Exception("Unsupported media type or deserialization error");
+                        }
+
+
                          movie =  _mapper.Map<MovieDto>(movieApi);
 
+
+                       
+                        
+                        
                         // i cache the movie response
                         await _cacheService.CacheResponseAsync(cacheKey, JsonSerializer.Serialize(movie));
 
@@ -109,6 +127,7 @@ namespace ApiApplication.Services
                 
                  return movie;
             }
+
             catch (Exception ex)
             {
                 throw new Exception("canot fetch data" + ex);
@@ -116,7 +135,7 @@ namespace ApiApplication.Services
         }
 
 
-        
+        // i can delete this
 
         public async Task<IEnumerable<MovieDto>> GetMovies()
         {

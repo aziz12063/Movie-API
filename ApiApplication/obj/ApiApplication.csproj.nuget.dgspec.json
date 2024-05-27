@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\ApiApplication.csproj": {}
+    "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\ApiApplication.csproj": {}
   },
   "projects": {
-    "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\ApiApplication.csproj": {
+    "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\ApiApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\ApiApplication.csproj",
+        "projectUniqueName": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\ApiApplication.csproj",
         "projectName": "ApiApplication",
-        "projectPath": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\ApiApplication.csproj",
-        "packagesPath": "C:\\Users\\Aziz\\.nuget\\packages\\",
-        "outputPath": "C:\\WorkSpace\\Movie-API\\Movie-API\\ApiApplication\\obj\\",
+        "projectPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\ApiApplication.csproj",
+        "packagesPath": "C:\\Users\\SM\\.nuget\\packages\\",
+        "outputPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Aziz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SM\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -118,6 +117,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.11, 6.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.11, 6.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.11, 6.0.11]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.11, 6.0.11]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -126,7 +143,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\SM\\AppData\\Roaming\\.dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

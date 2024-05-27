@@ -44,7 +44,6 @@ namespace ApiApplication
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSingleton<IResponseCacheService, ResponseCacheService>();
             
-
             // Configure Redis distributed cache
             services.AddStackExchangeRedisCache(options =>
             {
