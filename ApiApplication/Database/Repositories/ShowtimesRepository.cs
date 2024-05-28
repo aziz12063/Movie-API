@@ -43,12 +43,11 @@ namespace ApiApplication.Database.Repositories
             
         }
 
-        public async Task<ShowtimeEntity> GetWithSeatsByIdAsync(int id, CancellationToken cancel)
+        public async Task<ShowtimeEntity> GetByIdAsync(int id, CancellationToken cancel)
         {
             try
             {
                 return await _context.Showtimes
-                .Include(x => x.Seats)
                 .FirstOrDefaultAsync(x => x.showtimeId == id, cancel);
             }
             catch (Exception ex)
@@ -64,6 +63,7 @@ namespace ApiApplication.Database.Repositories
         {
             return await _context.Showtimes
                 .Include(x => x.Tickets)
+                .ThenInclude(t => t.Seats)
                 .FirstOrDefaultAsync(x => x.showtimeId == id, cancel);
         }
 

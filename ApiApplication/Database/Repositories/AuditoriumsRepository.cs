@@ -18,7 +18,7 @@ namespace ApiApplication.Database.Repositories
             _context = context;
         }
 
-        public async Task<AuditoriumEntity> GetAsync(int auditoriumId, CancellationToken cancel)
+        public async Task<AuditoriumEntity> GetByIdWithSeatsAsync(int auditoriumId, CancellationToken cancel)
         {
             return await _context.Auditoriums
                 .Include(x => x.Seats)

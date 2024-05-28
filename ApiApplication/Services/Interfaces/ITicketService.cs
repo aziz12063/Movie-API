@@ -11,7 +11,7 @@ namespace ApiApplication
     {
         //bool VerifyIfWeStillHaveTicket();
         //Task<List<TicketDto>> GetTicketCollection(int auditoriumId, int showtimeId);
-        Task<ActionResult<TicketDto>> CreateTicketWithDelayAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel);
+        Task<TicketDto> CreateTicketWithDelayAsync(IEnumerable<SeatDto> availableSeatsDto, int nbrOfSeatsToReserve, ShowtimeDto showtimeDto, CancellationToken cancel);
         Task ConfirmPayementAsync(Guid id, CancellationToken cancellation);
     }
 }

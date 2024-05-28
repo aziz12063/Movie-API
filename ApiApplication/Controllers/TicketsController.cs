@@ -6,6 +6,10 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using ApiApplication.Database.Repositories.Abstractions;
+using AutoMapper;
+using ApiApplication.Database.Repositories;
+using System.Linq;
 
 namespace ApiApplication.Controllers
 {
@@ -15,11 +19,21 @@ namespace ApiApplication.Controllers
     {
         private readonly ITicketService _ticketService;
         private readonly ILogger<TicketsController> _logger;
+        private readonly IShowtimesRepository _showtimesRepository;
+        private readonly IMapper _mapper;
+        private readonly IAuditoriumsRepository _auditoriumsRepository;
 
-        public TicketsController(ITicketService ticketService, ILogger<TicketsController> logger)
+        public TicketsController(ITicketService ticketService,
+                                ILogger<TicketsController> logger,
+                                IShowtimesRepository showtimesRepository,
+                                IMapper mapper,
+                                IAuditoriumsRepository auditoriumsRepository)
         {
             _ticketService = ticketService;
             _logger = logger;
+            _showtimesRepository = showtimesRepository;
+            _mapper = mapper;
+            _auditoriumsRepository = auditoriumsRepository;
         }
 
 
@@ -40,7 +54,28 @@ namespace ApiApplication.Controllers
                 return BadRequest();
             }
 
-            var ticketDto = await _ticketService.CreateTicketWithDelayAsync(showtimeId, nbrOfSeats, cancel);
+            var showtimeEntityWithTickets = await _showtimesRepository.GetWithTicketsByIdAsync(showtimeId, cancel);
+
+            var showtimeDtoWithTickets = _mapper.Map<ShowtimeDto>(showtimeEntityWithTickets);
+
+
+            var auditoriumEntityWithSeats = await _auditoriumsRepository.GetByIdWithSeatsAsync(showtimeId, cancel);
+
+
+            var auditoriumDtoWithSeats = _mapper.Map<AuditoriumDto>(auditoriumEntityWithSeats);
+
+            var allSeatsDto = auditoriumDtoWithSeats.Seats.ToList();
+
+            var reservedSeatsDto = showtimeDtoWithTickets.Tickets.SelectMany(t => t.Seats).ToList();
+
+            var availableSeatsDto = allSeatsDto.Except(reservedSeatsDto);
+
+            var showtimeDto = _mapper.Map<ShowtimeDto>(await _showtimesRepository.GetByIdAsync(showtimeId, cancel));
+
+            var ticketDto = await _ticketService.CreateTicketWithDelayAsync(availableSeatsDto, nbrOfSeats, showtimeDto, cancel);
+
+
+
 
             if (ticketDto == null)
             {

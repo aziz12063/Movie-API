@@ -11,7 +11,7 @@ namespace ApiApplication.Database.Entities
         public DateTime SessionDate { get; set; }
         public int AuditoriumId { get; set; }
         public ICollection<TicketEntity> Tickets { get; set; }
-        public ICollection<SeatEntity > Seats { get; set; }
+        
 
     }
 }

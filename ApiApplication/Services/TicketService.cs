@@ -24,7 +24,8 @@ namespace ApiApplication.Services
         private readonly ILogger<TicketService> _logger;
         private readonly ITicketsRepository _ticketsRepository;
 
-        //List<SeatDto> listOfSeatsreserved = new List<SeatDto>();
+        private Dictionary<Guid, TicketDto> _tickets = new();
+        private Dictionary<Guid, Timer> _timers = new();
 
         public TicketService(CinemaContext dbContext,
                              IMapper mapper,
@@ -42,50 +43,33 @@ namespace ApiApplication.Services
         }
            
 
-        private async Task<TicketDto> CreateTicketDtoAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel)
+        private async Task<TicketDto> CreateTicketDtoAsync(IEnumerable<SeatDto> availableSeatsDto, int nbrOfSeatsToReserve, ShowtimeDto showtimeDto, CancellationToken cancel)
         {
             Guid guid = Guid.NewGuid();
 
+            var seatsToReserve = await _seatService.FindSeatsContiguous(availableSeatsDto, nbrOfSeatsToReserve, showtimeDto, cancel);
+
+
             try
             {
-                // I grab the ShowTime:
-                ShowtimeEntity showtime = await _showtimesRepository.GetWithSeatsByIdAsync(showtimeId, cancel);
-
-                if (showtime == null)
-                {
-                    _logger.LogError("no showtime found");
-
-                    return null;
-                }
-
-                ShowtimeDto showtimeDto = _mapper.Map<ShowtimeDto>(showtime);
-
-                // get the auditoriumId:
-                int auditoriumId = showtimeDto.AuditoriumId;
-
-                // Find Seats Contiguous:
-                List<SeatDto> listSeatsToReserve = await _seatService.FindSeatsContiguous(auditoriumId, nbrOfSeatsToReserve, showtimeDto);
-
-                if (listSeatsToReserve == null || listSeatsToReserve.Count == 0)
-                {
-                    _logger.LogError("no seat to reserve");
-                    return null;
-                }
 
                 // make the seats IsRreserved
-                listSeatsToReserve = await _seatService.UpdateSeatsState(listSeatsToReserve);
+                seatsToReserve = await _seatService.UpdateSeatsState(seatsToReserve);
 
                 TicketDto ticketDto = new()
                 {
                     ticketId = guid,
-                    ShowtimeId = showtimeId,
-                    Seats = listSeatsToReserve,
+                    ShowtimeId = showtimeDto.showtimeId,
+                    Seats = seatsToReserve,
                     CreatedTime = DateTime.Now,
                     Paid = false,
                     Showtime = showtimeDto,
-                    //IsExpired = false
 
                 };
+
+                _tickets.Add(guid, ticketDto);
+
+                Timer timer = new Timer(HandleCancellation, guid, TimeSpan.FromMinutes(10), Timeout.InfiniteTimeSpan);
 
                 return ticketDto;
 
@@ -97,58 +81,59 @@ namespace ApiApplication.Services
    
         }
 
+
         // call this from the controller
-        public async Task<ActionResult<TicketDto>> CreateTicketWithDelayAsync(int showtimeId, int nbrOfSeatsToReserve, CancellationToken cancel)
+        public async Task<TicketDto> CreateTicketWithDelayAsync(IEnumerable<SeatDto> availableSeatsDto, int nbrOfSeatsToReserve, ShowtimeDto showtimeDto, CancellationToken cancel)
         {
             // i should first check if the showtime exist
             // 
 
+            TicketDto ticketDto = await CreateTicketDtoAsync(availableSeatsDto, nbrOfSeatsToReserve, showtimeDto, cancel);
 
-            TicketDto ticketDto = await CreateTicketDtoAsync(showtimeId, nbrOfSeatsToReserve, cancel);
 
 
             if (ticketDto == null)
             {
                 _logger.LogError("the ticket is null");
                 return null;
-
             }
 
- 
             TicketEntity ticketEntity = _mapper.Map<TicketEntity>(ticketDto);
 
             // save the ticket in the DB, this return ticketEntity
             await _ticketsRepository.CreateAsync(ticketEntity, cancel);
-
-            //// Start the delay task with the provided CancellationToken
-            //var delayTask = Task.Delay(TimeSpan.FromMinutes(10), cancel);
-
-            //// ContinueWith the cancellation logic
-            //await delayTask.ContinueWith(t =>
-            //{
-                //HandleCancellation(ticketDto);
-            //});
 
 
             return ticketDto;
         }
 
         // To do: logic to cancel the ticket
-        private  void HandleCancellation(TicketDto reservationDto)
+        private  void HandleCancellation(object state)
         {
-          
-            // Check if seats are paid after 10 minutes
-            if (!reservationDto.Paid)
+            Guid guid = (Guid)state;
+            if((_tickets.TryGetValue(guid, out TicketDto ticketDto)))
             {
-                // i update seats to not reserved
-                _seatService.UpdateSeatsState(reservationDto.Seats.ToList());
+                // Check if seats are paid after 10 minutes
+                if (!ticketDto.Paid)
+                {
+                    // i update seats to not reserved
+                    _seatService.UpdateSeatsState(ticketDto.Seats.ToList());
 
-                //reservationDto.IsExpired = true;
-                // modify other properties if needed
-                              
-                _logger.LogInformation("Reservation {ReservationId} canceled because seats were not paid.", reservationDto.ticketId);
+                    // this remove ticket from dic, handle other remove scenario
+                    RemoveTicket(guid);
+
+                    // modify other properties if needed
+
+                    _logger.LogInformation("Reservation {ReservationId} canceled because seats were not paid.", ticketDto.ticketId);
+                }
             }
+        }
 
+        private void RemoveTicket(Guid guid)
+        {
+            _tickets.Remove(guid);
+            _timers[guid].Dispose();
+            _timers.Remove(guid);
         }
 
         private void ChangeBoolState(bool property)
@@ -173,12 +158,11 @@ namespace ApiApplication.Services
             {
                 _logger.LogError("no ticket found");
                 throw new ArgumentNullException(nameof(ticketEntity));
-                
             }
 
             TicketDto ticketDto = _mapper.Map<TicketDto>(ticketEntity);
 
-            HandleCancellation(ticketDto);
+           
             // check if the reservation is still alive
             // ***************************i will modify a property: Isexpired**********************************
             //if (ticketDto.IsExpired)
@@ -195,8 +179,6 @@ namespace ApiApplication.Services
             await _ticketsRepository.ConfirmPaymentAsync(ticketEntity, cancellation);
             
             return;
-            
         }
-        
     }
 }

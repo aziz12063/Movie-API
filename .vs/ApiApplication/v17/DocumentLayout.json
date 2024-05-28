@@ -3,44 +3,52 @@
   "WorkspaceRootPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\models\\moviedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\models\\moviedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\ticketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\ticketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\profiles\\movieprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\profiles\\movieprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\controllers\\ticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\controllers\\ticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\database\\entities\\movieentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\database\\entities\\movieentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\database\\entities\\showtimeentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\database\\entities\\showtimeentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\models\\showtimedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\models\\showtimedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\interfaces\\iticketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\interfaces\\iticketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\database\\repositories\\showtimesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\database\\repositories\\showtimesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\showtimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\showtimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\database\\repositories\\abstractions\\ishowtimesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\database\\repositories\\abstractions\\ishowtimesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\profiles\\showtimeprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\profiles\\showtimeprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\seatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\seatservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\controllers\\showtimescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\controllers\\showtimescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\database\\repositories\\auditoriumsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\database\\repositories\\auditoriumsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\database\\repositories\\ticketsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\database\\repositories\\ticketsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\profiles\\ticketprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\profiles\\ticketprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\models\\ticketdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\models\\ticketdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\database\\entities\\ticketentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\database\\entities\\ticketentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\models\\moviedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\models\\moviedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 293,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,132 +82,132 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ShowtimeEntity.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Entities\\ShowtimeEntity.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Database\\Entities\\ShowtimeEntity.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Entities\\ShowtimeEntity.cs",
-              "RelativeToolTip": "ApiApplication\\Database\\Entities\\ShowtimeEntity.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T16:07:27.602Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MovieEntity.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Entities\\MovieEntity.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Database\\Entities\\MovieEntity.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Entities\\MovieEntity.cs",
-              "RelativeToolTip": "ApiApplication\\Database\\Entities\\MovieEntity.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T16:07:26.738Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "ShowtimeDto.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Models\\ShowtimeDto.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Models\\ShowtimeDto.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Models\\ShowtimeDto.cs",
-              "RelativeToolTip": "ApiApplication\\Models\\ShowtimeDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAFAAAA",
+              "Title": "IShowtimesRepository.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Repositories\\Abstractions\\IShowtimesRepository.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Database\\Repositories\\Abstractions\\IShowtimesRepository.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Repositories\\Abstractions\\IShowtimesRepository.cs",
+              "RelativeToolTip": "ApiApplication\\Database\\Repositories\\Abstractions\\IShowtimesRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T16:07:00.379Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Startup.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Startup.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Startup.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Startup.cs",
-              "RelativeToolTip": "ApiApplication\\Startup.cs",
-              "ViewState": "AQIAAC8AAAAAAAAAAAAwwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T16:03:05.929Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MovieProfile.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Profiles\\MovieProfile.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Profiles\\MovieProfile.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Profiles\\MovieProfile.cs",
-              "RelativeToolTip": "ApiApplication\\Profiles\\MovieProfile.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAA4AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T15:48:58.79Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ShowtimesRepository.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Repositories\\ShowtimesRepository.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Database\\Repositories\\ShowtimesRepository.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Repositories\\ShowtimesRepository.cs",
-              "RelativeToolTip": "ApiApplication\\Database\\Repositories\\ShowtimesRepository.cs",
-              "ViewState": "AQIAAEUAAAAAAAAAAAA0wHEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T15:54:37.228Z",
+              "WhenOpened": "2024-05-28T11:06:21.463Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MovieDto.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Models\\MovieDto.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Models\\MovieDto.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Models\\MovieDto.cs",
-              "RelativeToolTip": "ApiApplication\\Models\\MovieDto.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAkAAAAUAAAA",
+              "Title": "TicketService.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\TicketService.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Services\\TicketService.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\TicketService.cs",
+              "RelativeToolTip": "ApiApplication\\Services\\TicketService.cs",
+              "ViewState": "AQIAAEsAAAAAAAAAAAAqwD4AAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T11:05:38.095Z",
+              "WhenOpened": "2024-05-27T16:18:43.876Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ShowtimeService.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\ShowtimeService.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Services\\ShowtimeService.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\ShowtimeService.cs",
-              "RelativeToolTip": "ApiApplication\\Services\\ShowtimeService.cs",
-              "ViewState": "AQIAAFcAAAAAAAAAAAAAAGQAAAAAAAAA",
+              "DocumentIndex": 1,
+              "Title": "TicketsController.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Controllers\\TicketsController.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Controllers\\TicketsController.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Controllers\\TicketsController.cs",
+              "RelativeToolTip": "ApiApplication\\Controllers\\TicketsController.cs",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAUwEIAAABEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T15:40:39.682Z",
+              "WhenOpened": "2024-05-27T16:18:34.715Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ShowtimesController.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Controllers\\ShowtimesController.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Controllers\\ShowtimesController.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Controllers\\ShowtimesController.cs",
-              "RelativeToolTip": "ApiApplication\\Controllers\\ShowtimesController.cs",
-              "ViewState": "AQIAAEgAAAAAAAAAAAAowAAAAAAAAAAA",
+              "DocumentIndex": 3,
+              "Title": "ShowtimesRepository.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Repositories\\ShowtimesRepository.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Database\\Repositories\\ShowtimesRepository.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Repositories\\ShowtimesRepository.cs",
+              "RelativeToolTip": "ApiApplication\\Database\\Repositories\\ShowtimesRepository.cs",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAQwC0AAABYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T15:13:01.085Z",
+              "WhenOpened": "2024-05-28T09:04:36.809Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AuditoriumsRepository.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Repositories\\AuditoriumsRepository.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Database\\Repositories\\AuditoriumsRepository.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Repositories\\AuditoriumsRepository.cs",
+              "RelativeToolTip": "ApiApplication\\Database\\Repositories\\AuditoriumsRepository.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABYAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-28T09:06:18.993Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "ShowtimeProfile.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Profiles\\ShowtimeProfile.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Profiles\\ShowtimeProfile.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Profiles\\ShowtimeProfile.cs",
-              "RelativeToolTip": "ApiApplication\\Profiles\\ShowtimeProfile.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABMAAAAAAAAA",
+              "Title": "TicketProfile.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Profiles\\TicketProfile.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Profiles\\TicketProfile.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Profiles\\TicketProfile.cs",
+              "RelativeToolTip": "ApiApplication\\Profiles\\TicketProfile.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-27T12:51:12.828Z",
+              "WhenOpened": "2024-05-27T16:18:40.499Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TicketDto.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Models\\TicketDto.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Models\\TicketDto.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Models\\TicketDto.cs",
+              "RelativeToolTip": "ApiApplication\\Models\\TicketDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T16:18:37.202Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TicketsRepository.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Repositories\\TicketsRepository.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Database\\Repositories\\TicketsRepository.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Repositories\\TicketsRepository.cs",
+              "RelativeToolTip": "ApiApplication\\Database\\Repositories\\TicketsRepository.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAxwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T16:18:32.146Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "TicketEntity.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Entities\\TicketEntity.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Database\\Entities\\TicketEntity.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Database\\Entities\\TicketEntity.cs",
+              "RelativeToolTip": "ApiApplication\\Database\\Entities\\TicketEntity.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T16:18:26.833Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MovieDto.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Models\\MovieDto.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Models\\MovieDto.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Models\\MovieDto.cs",
+              "RelativeToolTip": "ApiApplication\\Models\\MovieDto.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAYAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T11:05:38.095Z",
               "EditorCaption": ""
             }
           ]
@@ -219,6 +227,74 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "11f8cd6b-3863-4785-910f-595d1611f131",
+        "Display": 0,
+        "X": 41,
+        "Y": 96,
+        "Width": 1563,
+        "Height": 756,
+        "WindowState": 2
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SeatService.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\SeatService.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Services\\SeatService.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\SeatService.cs",
+              "RelativeToolTip": "ApiApplication\\Services\\SeatService.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAFQAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-27T16:18:47.9Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "982c1e07-0fa6-4d7d-855e-09cc7142a3a6",
+        "Display": 0,
+        "X": 17,
+        "Y": 100,
+        "Width": 1563,
+        "Height": 989,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ITicketService.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\Interfaces\\ITicketService.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Services\\Interfaces\\ITicketService.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\Interfaces\\ITicketService.cs",
+              "RelativeToolTip": "ApiApplication\\Services\\Interfaces\\ITicketService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-28T10:47:18.25Z",
+              "EditorCaption": ""
             }
           ]
         }
