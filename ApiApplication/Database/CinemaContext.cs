@@ -15,6 +15,7 @@ namespace ApiApplication.Database
         public DbSet<ShowtimeEntity> Showtimes { get; set; }
         public DbSet<MovieEntity> Movies { get; set; }
         public DbSet<TicketEntity> Tickets { get; set; }
+        public DbSet<SeatEntity> Seats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -6,16 +6,25 @@ using System.Threading;
 using System;
 using System.Linq;
 using ApiApplication.Database.Repositories.Abstractions;
+using ApiApplication.Services;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Channels;
 
 namespace ApiApplication.Database.Repositories
 {
     public class TicketsRepository : ITicketsRepository
     {
         private readonly CinemaContext _context;
+        private readonly ILogger<TicketsRepository> _logger;
+        private readonly IShowtimesRepository _showtimesRepository;
 
-        public TicketsRepository(CinemaContext context)
+        public TicketsRepository(CinemaContext context, IShowtimesRepository showtimesRepository, ILogger<TicketsRepository> logger)
         {
             _context = context;
+            _logger = logger;
+            _showtimesRepository = showtimesRepository;
         }
 
         public Task<TicketEntity> GetByIdAsync(Guid id, CancellationToken cancel)
@@ -47,10 +56,39 @@ namespace ApiApplication.Database.Repositories
 
         public async Task<TicketEntity> CreateAsync(TicketEntity ticketEntity, CancellationToken cancel)
         {
+
+            //foreach (var seat in ticketEntity.Seats)
+            //{
+
+            //    _context.Entry(seat).State = EntityState.Detached;
+
+            //}
+            //_context.ChangeTracker.Entries().ToList().ForEach(entry => entry.State = EntityState.Detached);
+
+
+            // the error is here when trying to add ticket
+
+            //using (var context = new CinemaContext(new DbContextOptionsBuilder<CinemaContext>()
+            //                                            .UseInMemoryDatabase("CinemaDb")
+            //                                            .Options)) 
+            //{
+            //    var ticket = _context.Tickets.Add(ticketEntity);
+
+            //    // delete the log
+            //    _logger.LogInformation("in TicketsRepository line 69 ");
+            //    await _context.SaveChangesAsync(cancel);
+            //    // delete the log
+            //    _logger.LogInformation("in TicketsRepository line 72 ");
+            //    return ticket.Entity;
+
+            //}
             var ticket = _context.Tickets.Add(ticketEntity);
 
+            // delete the log
+            _logger.LogInformation("in TicketsRepository line 69 ");
             await _context.SaveChangesAsync(cancel);
-
+            // delete the log
+            _logger.LogInformation("in TicketsRepository line 72 ");
             return ticket.Entity;
         }
 
@@ -60,6 +98,21 @@ namespace ApiApplication.Database.Repositories
             ticket.Paid = true;
             _context.Update(ticket);
             await _context.SaveChangesAsync(cancel);
+            return ticket;
+        }
+
+        public async Task <TicketEntity> UpdateTicketEntity(Guid guid, int showtimeId, CancellationToken cancel)
+        {
+            var ticket = await _context.Tickets.Include(t => t.Seats)
+                                                
+                                                .FirstOrDefaultAsync(t => t.ticketId == guid);
+
+            
+
+            ticket.Seats = 
+           
+            await _context.SaveChangesAsync(cancel);
+
             return ticket;
         }
     }

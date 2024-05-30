@@ -19,7 +19,7 @@ namespace ApiApplication.Database
 
             context.Auditoriums.Add(new AuditoriumEntity
             {
-                //auditoriumId = 1,
+                auditoriumId = 1,
                 Showtimes = new List<ShowtimeEntity> 
                 { 
                     new ShowtimeEntity
@@ -34,7 +34,7 @@ namespace ApiApplication.Database
                             ReleaseDate = new DateTime(2010, 01, 14),
                             Stars = "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page, Ken Watanabe, aziz"                            
                         },
-                        //AuditoriumId = 1,
+                        AuditoriumId = 1,
                     } 
                 },
                 Seats = GenerateSeats(1, 28, 22)
@@ -42,13 +42,13 @@ namespace ApiApplication.Database
 
             context.Auditoriums.Add(new AuditoriumEntity
             {
-                //auditoriumId = 2,
+                auditoriumId = 2,
                 Seats = GenerateSeats(2, 21, 18)
             });
 
             context.Auditoriums.Add(new AuditoriumEntity
             {
-                //auditoriumId = 3,
+                auditoriumId = 3,
                 Seats = GenerateSeats(3, 15, 21)
             });
 

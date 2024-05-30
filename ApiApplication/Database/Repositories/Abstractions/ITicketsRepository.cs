@@ -13,5 +13,6 @@ namespace ApiApplication.Database.Repositories.Abstractions
         Task<TicketEntity> GetByIdAsync(Guid id, CancellationToken cancel);
         Task<IEnumerable<TicketEntity>> GetByShowtimeIdAsync(int showtimeId, CancellationToken cancel);
         Task<TicketEntity> CreateAsync(TicketEntity ticketEntity, CancellationToken cancel);
+        Task<TicketEntity> UpdateTicketEntity(Guid guid, int showtimeId, CancellationToken cancel);
     }
 }

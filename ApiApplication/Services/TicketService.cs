@@ -60,12 +60,13 @@ namespace ApiApplication.Services
                 {
                     ticketId = guid,
                     ShowtimeId = showtimeDto.showtimeId,
-                    Seats = seatsToReserve,
+                    //Seats = seatsToReserve,
                     CreatedTime = DateTime.Now,
                     Paid = false,
-                    Showtime = showtimeDto,
-
+                    //Showtime = showtimeDto,
                 };
+
+                showtimeDto.Tickets.Add(ticketDto);
 
                 _tickets.Add(guid, ticketDto);
 
@@ -81,28 +82,34 @@ namespace ApiApplication.Services
    
         }
 
-
         // call this from the controller
         public async Task<TicketDto> CreateTicketWithDelayAsync(IEnumerable<SeatDto> availableSeatsDto, int nbrOfSeatsToReserve, ShowtimeDto showtimeDto, CancellationToken cancel)
         {
             // i should first check if the showtime exist
             // 
 
+            
             TicketDto ticketDto = await CreateTicketDtoAsync(availableSeatsDto, nbrOfSeatsToReserve, showtimeDto, cancel);
 
-
-
+            
             if (ticketDto == null)
             {
                 _logger.LogError("the ticket is null");
                 return null;
             }
 
+
+            // i should not mapp here, in the controller
+          
             TicketEntity ticketEntity = _mapper.Map<TicketEntity>(ticketDto);
+
+
+            
 
             // save the ticket in the DB, this return ticketEntity
             await _ticketsRepository.CreateAsync(ticketEntity, cancel);
-
+            // delete the log
+            _logger.LogInformation("in CreateTicketWithDelayAsync line 111 ");
 
             return ticketDto;
         }
@@ -111,14 +118,26 @@ namespace ApiApplication.Services
         private  void HandleCancellation(object state)
         {
             Guid guid = (Guid)state;
-            if((_tickets.TryGetValue(guid, out TicketDto ticketDto)))
+
+            // delete the log
+            _logger.LogInformation("in HandleCancellation line 123 ");
+            if ((_tickets.TryGetValue(guid, out TicketDto ticketDto)))
             {
+                // delete the log
+                _logger.LogInformation("in HandleCancellation line 127 ");
                 // Check if seats are paid after 10 minutes
                 if (!ticketDto.Paid)
                 {
+                    // delete the log
+                    _logger.LogInformation("in HandleCancellation line 132 ");
+
+                    // delete the log
+                    _logger.LogInformation("in HandleCancellation line 135 ");
                     // i update seats to not reserved
                     _seatService.UpdateSeatsState(ticketDto.Seats.ToList());
 
+                    // delete the log
+                    _logger.LogInformation("in HandleCancellation line 140 ");
                     // this remove ticket from dic, handle other remove scenario
                     RemoveTicket(guid);
 
@@ -131,6 +150,8 @@ namespace ApiApplication.Services
 
         private void RemoveTicket(Guid guid)
         {
+            // delete the log
+            _logger.LogInformation("in RemoveTicket line 154 ");
             _tickets.Remove(guid);
             _timers[guid].Dispose();
             _timers.Remove(guid);
@@ -138,6 +159,8 @@ namespace ApiApplication.Services
 
         private void ChangeBoolState(bool property)
         {
+            // delete the log
+            _logger.LogInformation("in ChangeBoolState line 163 ");
             property = !property;
         }
 

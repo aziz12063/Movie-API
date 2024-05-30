@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Database;
+using ApiApplication.Database.Entities;
 using ApiApplication.Database.Repositories.Abstractions;
 using ApiApplication.Models;
 using ApiApplication.Services.Interfaces;
@@ -83,7 +84,60 @@ namespace ApiApplication.Services
             });
         }
 
-       
+       public List<SeatDto> GenerateSeats(int auditoriumId)
+        {
+            short rows;
+            short seatsPerRow;
+
+            switch (auditoriumId)
+            {
+                case 1:
+                    rows = 28;
+                    seatsPerRow = 22;
+                    break;
+                case 2: 
+                    rows = 21;
+                    seatsPerRow = 18; 
+                    break;
+                default:
+                    rows = 15;
+                    seatsPerRow = 21;
+                    break;
+
+            }
+
+            var seats = new List<SeatDto>();
+            for (short r = 1; r <= rows; r++)
+                for (short s = 1; s <= seatsPerRow; s++)
+                    seats.Add(new SeatDto { AuditoriumId = auditoriumId, Row = r, SeatNumber = s });
+
+
+            return seats;
+        }
+
+        public List<SeatDto> GrabSeatsAvailable(List<SeatDto> globalSeats, List<SeatDto> reservedSeats) 
+        {
+            //List<SeatDto> availablSeatsDto;
+            foreach(var seat in globalSeats)
+            {
+                foreach(var s in reservedSeats)
+                {
+                    if(seat.Row == s.Row && seat.SeatNumber == s.SeatNumber)
+                    {
+                        globalSeats.Remove(seat);
+                    }
+                }
+            }
+            //availablSeatsDto = globalSeats.Except(reservedSeats, new SeatDtoEqualityComparer()).ToList();
+            return globalSeats;
+
+        }
+
+        // this method should be in SeatRepo:
+        public Task<SeatDto> GetSeatsIncludAuditoriumAndShowtimes()
+        {
+            return null;
+        }
           
     }
 

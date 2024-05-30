@@ -32,15 +32,15 @@ namespace ApiApplication
         public void ConfigureServices(IServiceCollection services)
         {
             // Register my services
-            services.AddTransient<IShowtimesRepository, ShowtimesRepository>();
-            services.AddTransient<ITicketsRepository, TicketsRepository>();
-            services.AddTransient<IAuditoriumsRepository, AuditoriumsRepository>();
-            services.AddTransient<IMovieService, MovieService>();
-            services.AddTransient<IAuditoriumService, AuditoriumService>();
+            services.AddScoped<IShowtimesRepository, ShowtimesRepository>();
+            services.AddScoped<ITicketsRepository, TicketsRepository>();
+            services.AddScoped<IAuditoriumsRepository, AuditoriumsRepository>();
+            services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<IAuditoriumService, AuditoriumService>();
             //services.AddTransient<IReservationService, ReservationService>();
-            services.AddTransient<IShowtimeService, ShowtimeService>(); //************
-            services.AddTransient<ITicketService, TicketService>();
-            services.AddTransient<ISeatService, SeatService>();
+            services.AddScoped<IShowtimeService, ShowtimeService>(); //************
+            services.AddScoped<ITicketService, TicketService>();
+            services.AddScoped<ISeatService, SeatService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSingleton<IResponseCacheService, ResponseCacheService>();
             
@@ -57,7 +57,7 @@ namespace ApiApplication
                 options.UseInMemoryDatabase("CinemaDb")
                     .EnableSensitiveDataLogging()
                     .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning));
-            });
+            }, ServiceLifetime.Scoped);
 
             services.AddRouting(option =>
             {

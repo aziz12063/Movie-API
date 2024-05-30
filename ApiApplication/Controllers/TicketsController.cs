@@ -10,6 +10,7 @@ using ApiApplication.Database.Repositories.Abstractions;
 using AutoMapper;
 using ApiApplication.Database.Repositories;
 using System.Linq;
+using ApiApplication.Services.Interfaces;
 
 namespace ApiApplication.Controllers
 {
@@ -22,18 +23,24 @@ namespace ApiApplication.Controllers
         private readonly IShowtimesRepository _showtimesRepository;
         private readonly IMapper _mapper;
         private readonly IAuditoriumsRepository _auditoriumsRepository;
+        private readonly ISeatService _seatService;
+        private readonly ITicketsRepository _ticketsRepository;
 
         public TicketsController(ITicketService ticketService,
                                 ILogger<TicketsController> logger,
                                 IShowtimesRepository showtimesRepository,
                                 IMapper mapper,
-                                IAuditoriumsRepository auditoriumsRepository)
+                                IAuditoriumsRepository auditoriumsRepository,
+                                ISeatService seatService,
+                                ITicketsRepository ticketsRepository)
         {
             _ticketService = ticketService;
             _logger = logger;
             _showtimesRepository = showtimesRepository;
             _mapper = mapper;
             _auditoriumsRepository = auditoriumsRepository;
+            _seatService = seatService;
+            _ticketsRepository = ticketsRepository;
         }
 
 
@@ -54,21 +61,26 @@ namespace ApiApplication.Controllers
                 return BadRequest();
             }
 
+
             var showtimeEntityWithTickets = await _showtimesRepository.GetWithTicketsByIdAsync(showtimeId, cancel);
 
             var showtimeDtoWithTickets = _mapper.Map<ShowtimeDto>(showtimeEntityWithTickets);
 
+            // remove this to a service
+            // var auditoriumEntityWithSeats = await _auditoriumsRepository.GetByIdWithSeatsAsync(showtimeEntityWithTickets.AuditoriumId, cancel);
 
-            var auditoriumEntityWithSeats = await _auditoriumsRepository.GetByIdWithSeatsAsync(showtimeId, cancel);
 
+            //var auditoriumDtoWithSeats = _mapper.Map<AuditoriumDto>(auditoriumEntityWithSeats);
 
-            var auditoriumDtoWithSeats = _mapper.Map<AuditoriumDto>(auditoriumEntityWithSeats);
+            //var allSeatsDto = auditoriumDtoWithSeats.Seats.ToList();
 
-            var allSeatsDto = auditoriumDtoWithSeats.Seats.ToList();
+            var allSeatsDto = _seatService.GenerateSeats(showtimeDtoWithTickets.AuditoriumId);
 
             var reservedSeatsDto = showtimeDtoWithTickets.Tickets.SelectMany(t => t.Seats).ToList();
 
-            var availableSeatsDto = allSeatsDto.Except(reservedSeatsDto);
+            //var availableSeatsDto = allSeatsDto.Except(reservedSeatsDto);
+
+            var availableSeatsDto = _seatService.GrabSeatsAvailable(allSeatsDto, reservedSeatsDto);
 
             var showtimeDto = _mapper.Map<ShowtimeDto>(await _showtimesRepository.GetByIdAsync(showtimeId, cancel));
 
@@ -96,6 +108,16 @@ namespace ApiApplication.Controllers
             await _ticketService.ConfirmPayementAsync(result, cancel);
 
             return Ok();
+        }
+
+        [HttpPut("{guid:Guid}/{showtimeId:int}")]
+        public async Task<ActionResult<TicketDto>> AddShowtimeToTicket(Guid guid, int showtimeId, CancellationToken cancellation)
+        {
+            var ticket = await _ticketsRepository.UpdateTicketEntity(guid, showtimeId, cancellation);
+
+            var ticketDto = _mapper.Map<TicketDto>(ticket);
+
+            return Ok(ticketDto);
         }
 
     }
