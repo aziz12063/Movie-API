@@ -16,7 +16,7 @@ namespace ApiApplication.Profiles
             //CreateMap<List<SeatEntity>, List<SeatDto>>();
 
             CreateMap<SeatDto, SeatEntity>().ForMember(dest => dest.Auditorium, opt => opt.MapFrom(src => src.Auditorium));//.ForMember(dest => dest.Auditorium, opt => opt.Ignore());
-           // CreateMap<List<SeatDto>, List<SeatEntity>>();
+            //CreateMap<List<SeatDto>, List<SeatEntity>>();
         }
     }
 }

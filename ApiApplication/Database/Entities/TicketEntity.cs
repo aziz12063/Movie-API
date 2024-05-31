@@ -11,7 +11,7 @@ namespace ApiApplication.Database.Entities
             Paid = false;
         }
 
-        public Guid ticketId { get; set; }
+        public Guid TicketId { get; set; }
         public int ShowtimeId { get; set; }
         public ICollection<SeatEntity> Seats { get; set; }
         public DateTime CreatedTime { get; set; }

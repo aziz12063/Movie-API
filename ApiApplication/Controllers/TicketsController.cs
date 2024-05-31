@@ -11,6 +11,9 @@ using AutoMapper;
 using ApiApplication.Database.Repositories;
 using System.Linq;
 using ApiApplication.Services.Interfaces;
+using System.Threading.Channels;
+using ApiApplication.Database.Entities;
+using System.Collections.Generic;
 
 namespace ApiApplication.Controllers
 {
@@ -43,7 +46,7 @@ namespace ApiApplication.Controllers
             _ticketsRepository = ticketsRepository;
         }
 
-
+        
         //[Route("./{movieId}/{sessionDate}/{auditoriumId")]
         [HttpPost("{showtimeId:int}/{nbrOfSeats:int}", Name = "CreateTicket")]
         public async Task<ActionResult<TicketDto>> CreateTicket(int showtimeId, int nbrOfSeats, CancellationToken cancel)
@@ -61,32 +64,14 @@ namespace ApiApplication.Controllers
                 return BadRequest();
             }
 
-
-            var showtimeEntityWithTickets = await _showtimesRepository.GetWithTicketsByIdAsync(showtimeId, cancel);
-
-            var showtimeDtoWithTickets = _mapper.Map<ShowtimeDto>(showtimeEntityWithTickets);
-
-            // remove this to a service
-            // var auditoriumEntityWithSeats = await _auditoriumsRepository.GetByIdWithSeatsAsync(showtimeEntityWithTickets.AuditoriumId, cancel);
+            TicketDto ticketDto1 = new TicketDto()
+            {
+                ShowtimeId = showtimeId,
+            };
+            
 
 
-            //var auditoriumDtoWithSeats = _mapper.Map<AuditoriumDto>(auditoriumEntityWithSeats);
-
-            //var allSeatsDto = auditoriumDtoWithSeats.Seats.ToList();
-
-            var allSeatsDto = _seatService.GenerateSeats(showtimeDtoWithTickets.AuditoriumId);
-
-            var reservedSeatsDto = showtimeDtoWithTickets.Tickets.SelectMany(t => t.Seats).ToList();
-
-            //var availableSeatsDto = allSeatsDto.Except(reservedSeatsDto);
-
-            var availableSeatsDto = _seatService.GrabSeatsAvailable(allSeatsDto, reservedSeatsDto);
-
-            var showtimeDto = _mapper.Map<ShowtimeDto>(await _showtimesRepository.GetByIdAsync(showtimeId, cancel));
-
-            var ticketDto = await _ticketService.CreateTicketWithDelayAsync(availableSeatsDto, nbrOfSeats, showtimeDto, cancel);
-
-
+            var ticketDto = await _ticketService.CreateTicketWithDelayAsync(ticketDto1, nbrOfSeats, cancel);
 
 
             if (ticketDto == null)
@@ -110,15 +95,14 @@ namespace ApiApplication.Controllers
             return Ok();
         }
 
-        [HttpPut("{guid:Guid}/{showtimeId:int}")]
-        public async Task<ActionResult<TicketDto>> AddShowtimeToTicket(Guid guid, int showtimeId, CancellationToken cancellation)
-        {
-            var ticket = await _ticketsRepository.UpdateTicketEntity(guid, showtimeId, cancellation);
 
-            var ticketDto = _mapper.Map<TicketDto>(ticket);
 
-            return Ok(ticketDto);
-        }
+
+
+
+  
+
+
 
     }
 }

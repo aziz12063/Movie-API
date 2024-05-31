@@ -32,7 +32,7 @@ namespace ApiApplication.Services
             _auditoriumsRepository = auditoriumsRepository;
         }
 
-        public async Task<List<SeatDto>> FindSeatsContiguous(IEnumerable<SeatDto> availableSeatsDto, int nbrOfSeatsToReserve, ShowtimeDto showtimeDto, CancellationToken cancel)
+        public async Task<List<SeatEntity>> FindSeatsContiguous(IEnumerable<SeatEntity> availableSeatsDto, int nbrOfSeatsToReserve, CancellationToken cancel)
         {
             return await Task.Run(() => {
                 // group seats by row
@@ -58,7 +58,7 @@ namespace ApiApplication.Services
             
         }
 
-        private bool IsContiguous(List<SeatDto> seats)
+        private bool IsContiguous(List<SeatEntity> seats)
         {
 
             for (int i = 0; i < seats.Count-1; i++)
@@ -72,7 +72,7 @@ namespace ApiApplication.Services
         }
 
         // DRY in TicketService
-        public async Task<List<SeatDto>> UpdateSeatsState(List<SeatDto> seats)
+        public async Task<List<SeatEntity>> UpdateSeatsState(List<SeatEntity> seats)
         {
             return await Task.Run(() =>
             {
@@ -133,11 +133,7 @@ namespace ApiApplication.Services
 
         }
 
-        // this method should be in SeatRepo:
-        public Task<SeatDto> GetSeatsIncludAuditoriumAndShowtimes()
-        {
-            return null;
-        }
+        
           
     }
 

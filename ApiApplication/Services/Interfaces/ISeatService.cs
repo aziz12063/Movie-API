@@ -1,4 +1,5 @@
-﻿using ApiApplication.Models;
+﻿using ApiApplication.Database.Entities;
+using ApiApplication.Models;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -9,8 +10,8 @@ namespace ApiApplication.Services.Interfaces
     public interface ISeatService
     {
         //Task<List<SeatDto>> GettSeats(int auditoriumId);
-        Task<List<SeatDto>> FindSeatsContiguous(IEnumerable<SeatDto> availableSeatsDto, int nbrOfSeatsToReserve, ShowtimeDto showtimeDto, CancellationToken cancel);
-        Task<List<SeatDto>> UpdateSeatsState(List<SeatDto> seats);
+        Task<List<SeatEntity>> FindSeatsContiguous(IEnumerable<SeatEntity> availableSeatsDto, int nbrOfSeatsToReserve, CancellationToken cancel);
+        Task<List<SeatEntity>> UpdateSeatsState(List<SeatEntity> seats);
         List<SeatDto> GrabSeatsAvailable(List<SeatDto> globalSeats, List<SeatDto> reservedSeats);
 
         List<SeatDto> GenerateSeats(int auditoriumId);

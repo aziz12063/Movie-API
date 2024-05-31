@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Text.Json;
 using ApiApplication.Services.Interfaces;
+using ApiApplication.Database.Repositories.Abstractions;
+using System.Reflection;
+using AutoMapper;
 
 namespace ApiApplication.Controllers
 {
@@ -23,16 +26,20 @@ namespace ApiApplication.Controllers
         private readonly IShowtimeService _showtimeService;
         private readonly IMovieService _movieService;
         private readonly IAuditoriumService _auditoriumService;
+        private readonly IAuditoriumsRepository _auditoriumsRepository;
+        private readonly IMapper _mapper;
 
         private readonly ILogger<ShowtimesController> _logger;
 
-        public ShowtimesController(IShowtimeService showtimeService, IAuditoriumService auditoriumService, IMovieService movieService, ILogger<ShowtimesController> logger) 
+        public ShowtimesController(IShowtimeService showtimeService, IAuditoriumService auditoriumService, IMovieService movieService, ILogger<ShowtimesController> logger, IAuditoriumsRepository auditoriumsRepository, IMapper mapper)
         {
             _showtimeService = showtimeService;
             _movieService = movieService;
             _auditoriumService = auditoriumService;
 
             _logger = logger;
+            _auditoriumsRepository = auditoriumsRepository;
+            _mapper = mapper;
         }
 
 
@@ -102,11 +109,14 @@ namespace ApiApplication.Controllers
                 throw new InvalidInPutException("the Movie is null");
             }
 
+           
+
             ShowtimeDto showtimeDto = new()
             {
                 Movie = movie,
                 SessionDate = sessionDate,
                 AuditoriumId = auditoriumId,
+                
             };
 
             ShowtimeDto createdShowtimeDto =  await _showtimeService.CreateShowTime(showtimeDto, cancel);

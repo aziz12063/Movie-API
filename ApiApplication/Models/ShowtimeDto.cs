@@ -10,7 +10,6 @@ namespace ApiApplication.Models
         public DateTime SessionDate { get; set; }
         public int AuditoriumId { get; set; }
         public ICollection<TicketDto> Tickets { get; set; }
-       
-
+        public AuditoriumDto Auditorium { get; set; }
     }
 }

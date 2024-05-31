@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq;
 using ApiApplication.CustomExceptions;
 using System.Reflection;
+using ApiApplication.Database.Repositories;
 
 namespace ApiApplication.Services
 {
@@ -48,21 +49,15 @@ namespace ApiApplication.Services
     
             try
             {
-                            
-                // log all the properties of the movie fetched
-                // i will delete it later
-                var properties = showtimeDto.Movie.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                foreach (var property in properties)
-                {
-                    var value = property.GetValue(showtimeDto.Movie);
-                    _logger.LogInformation($"{property.Name}: {value}");
-                }
 
                 ShowtimeEntity showtimeEntity;
                 try
                 {
-                    _logger.LogInformation("i try to map ShowtimeDto to ShowtimeEntity");
+                    var audi = await _auditoriumRepository.GetByIdWithSeatsAndShowtimesAsync(showtimeDto.AuditoriumId, cancel);
+
                     showtimeEntity = _mapper.Map<ShowtimeEntity>(showtimeDto);
+                    showtimeEntity.Auditorium = audi;
+                    audi.Showtimes.Add(showtimeEntity);
 
                     if(showtimeEntity == null)
                     {
@@ -76,30 +71,6 @@ namespace ApiApplication.Services
                 }
                 
                 catch (Exception ex) 
-                {
-                    _logger.LogError("canot map to showtimeEntity");
-                    throw new Exception(ex.ToString());
-                }
-
-                // delete this try block
-                ShowtimeDto showtimeDtoTest;
-                try
-                {
-                    _logger.LogInformation("i try to map ShowtimeEntity to ShowtimeDto");
-                    showtimeDtoTest = _mapper.Map<ShowtimeDto>(showtimeEntity);
-
-                    if (showtimeDtoTest == null)
-                    {
-                        _logger.LogInformation("showtimeDto not mapped");
-                    }
-                    else
-                    {
-                        
-                        _logger.LogInformation("showtimeDto  mapped");
-                    }
-                }
-
-                catch (Exception ex)
                 {
                     _logger.LogError("canot map to showtimeEntity");
                     throw new Exception(ex.ToString());

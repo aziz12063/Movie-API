@@ -18,10 +18,11 @@ namespace ApiApplication.Database.Repositories
             _context = context;
         }
 
-        public async Task<AuditoriumEntity> GetByIdWithSeatsAsync(int auditoriumId, CancellationToken cancel)
+        public async Task<AuditoriumEntity> GetByIdWithSeatsAndShowtimesAsync(int auditoriumId, CancellationToken cancel)
         {
             return await _context.Auditoriums
                 .Include(x => x.Seats)
+                .Include(x => x.Showtimes)
                 .FirstOrDefaultAsync(x => x.auditoriumId == auditoriumId, cancel);
         }
 

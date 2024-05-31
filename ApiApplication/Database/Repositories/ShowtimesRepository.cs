@@ -27,6 +27,7 @@ namespace ApiApplication.Database.Repositories
             _logger = logger;
         }
 
+
         public async Task<ShowtimeEntity> GetWithMoviesByIdAsync(int id, CancellationToken cancel)
         {
             try
@@ -41,6 +42,16 @@ namespace ApiApplication.Database.Repositories
                 throw new Exception(ex.Message);
             }
             
+        }
+
+        public async Task<ShowtimeEntity> GetWithAuditAndTicketsAndSeats(int showtimeId, CancellationToken cancel)
+        {
+            return await _context.Showtimes
+                                        .Include(x => x.Tickets)
+                                        .ThenInclude(x => x.Seats)
+                                        .Include(x => x.Auditorium)
+                                        .ThenInclude(a => a.Seats)
+                                        .FirstOrDefaultAsync(s => s.showtimeId == showtimeId);
         }
 
         public async Task<ShowtimeEntity> GetByIdAsync(int id, CancellationToken cancel)

@@ -1,5 +1,6 @@
 ﻿using ApiApplication.Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace ApiApplication.Database
 {
@@ -34,6 +35,17 @@ namespace ApiApplication.Database
             {
                 build.HasKey(entry => new { entry.AuditoriumId, entry.Row, entry.SeatNumber });
 
+
+                // build.HasMany(entry => entry.Tickets).WithMany
+                
+                //(entry => entry.Seats).UsingEntity(j =>
+                // {
+                //     j.ToTable("TicketSeat"); // Name of the join table
+                //     j.HasOne<SeatEntity>().WithMany().HasForeignKey("SeatId");
+                //     j.HasOne<TicketEntity>().WithMany().HasForeignKey("TicketId");
+                //     j.HasKey("PostsId", "TagsId");
+                // });
+
                 // one to many relationship
                 build.HasOne(entry => entry.Auditorium).WithMany(entry => entry.Seats).HasForeignKey(entry => entry.AuditoriumId);
             });
@@ -54,8 +66,8 @@ namespace ApiApplication.Database
 
             modelBuilder.Entity<TicketEntity>(build =>
             {
-                build.HasKey(entry => entry.ticketId);
-                build.Property(entry => entry.ticketId).ValueGeneratedOnAdd();
+                build.HasKey(entry => entry.TicketId);
+                build.Property(entry => entry.TicketId).ValueGeneratedOnAdd();
             });
         }
     }

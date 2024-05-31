@@ -15,6 +15,7 @@ using System;
 using ApiApplication.Cache;
 using ApiApplication.TimeConstraint;
 using ApiApplication.Middleware;
+using System.Text.Json.Serialization;
 
 
 namespace ApiApplication
@@ -65,7 +66,10 @@ namespace ApiApplication
             });
 
             // Add controllers, API explorer, and Swagger
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             // i configure swagger to display the URL with endpoint
