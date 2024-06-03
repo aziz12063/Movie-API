@@ -33,7 +33,7 @@ namespace ApiApplication.Database.Repositories
 
         public Task<TicketEntity> GetByIdAsync(Guid id, CancellationToken cancel)
         {
-            return _context.Tickets.FirstOrDefaultAsync(x => x.TicketId == id, cancel);
+            return _context.Tickets.Include(t => t.Seats).FirstOrDefaultAsync(x => x.TicketId == id, cancel);
         }
 
         public async Task<IEnumerable<TicketEntity>> GetByShowtimeIdAsync(int showtimeId, CancellationToken cancel)
@@ -87,20 +87,16 @@ namespace ApiApplication.Database.Repositories
             ticketEntity.Seats.Clear();
             ticketEntity.Seats=seats;
 
-
             var ticket = _context.Tickets.Add(ticketEntity);
 
-            // delete the log
-            _logger.LogInformation("in TicketsRepository line 69 ");
             await _context.SaveChangesAsync(cancel);
-            // delete the log
-            _logger.LogInformation("in TicketsRepository line 72 ");
             return ticket.Entity;
         }
 
 
         public async Task<TicketEntity> ConfirmPaymentAsync(TicketEntity ticket, CancellationToken cancel)
         {
+            _logger.LogInformation("in ticketRepo, ConfirmationPayment");
             ticket.Paid = true;
             _context.Update(ticket);
             await _context.SaveChangesAsync(cancel);

@@ -16,6 +16,7 @@ using ApiApplication.Cache;
 using ApiApplication.TimeConstraint;
 using ApiApplication.Middleware;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Caching.Memory;
 
 
 namespace ApiApplication
@@ -44,6 +45,7 @@ namespace ApiApplication
             services.AddScoped<ISeatService, SeatService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+            services.AddSingleton<IMemoryCache, MemoryCache>();
             
             // Configure Redis distributed cache
             services.AddStackExchangeRedisCache(options =>

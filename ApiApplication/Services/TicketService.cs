@@ -4,7 +4,10 @@ using ApiApplication.Database.Repositories.Abstractions;
 using ApiApplication.Models;
 using ApiApplication.Services.Interfaces;
 using AutoMapper;
+using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,16 +26,21 @@ namespace ApiApplication.Services
         private readonly IShowtimesRepository _showtimesRepository;
         private readonly ILogger<TicketService> _logger;
         private readonly ITicketsRepository _ticketsRepository;
+        private readonly IMemoryCache _cache;
 
-        private Dictionary<Guid, TicketDto> _tickets = new();
+
+        //private Dictionary<Guid, TicketDto> _tickets = new();
         private Dictionary<Guid, Timer> _timers = new();
+
+        private const string TicketsCachKey = "Tickets";
 
         public TicketService(CinemaContext dbContext,
                              IMapper mapper,
                              IShowtimesRepository showtimesRepository,
                              ISeatService seatService,
                              ILogger<TicketService> logger,
-                             ITicketsRepository ticketsRepository)
+                             ITicketsRepository ticketsRepository,
+                             IMemoryCache cache)
         {
             _dbContext = dbContext;
             _mapper = mapper;
@@ -40,86 +48,13 @@ namespace ApiApplication.Services
             _showtimesRepository = showtimesRepository;
             _logger = logger;
             _ticketsRepository = ticketsRepository;
-        }
-           
-
-        //private async Task<TicketDto> CreateTicketDtoAsync(IEnumerable<SeatDto> availableSeatsDto, int nbrOfSeatsToReserve, ShowtimeDto showtimeDto, CancellationToken cancel)
-        //{
-        //    Guid guid = Guid.NewGuid();
-
-           
-
-        //    var seatsToReserve = await _seatService.FindSeatsContiguous(availableSeatsDto, nbrOfSeatsToReserve, showtimeDto, cancel);
-
-
-            //try
-            //{
-
-            //    // make the seats IsRreserved
-            //    seatsToReserve = await _seatService.UpdateSeatsState(seatsToReserve);
-
-            //    TicketDto ticketDto = new()
-            //    {
-            //        TicketId = guid,
-            //        ShowtimeId = showtimeDto.showtimeId,
-            //        Seats = seatsToReserve,
-            //        CreatedTime = DateTime.Now,
-            //        Paid = false,
-            //        //Showtime = showtimeDto,
-        //        };
-
-        //        showtimeDto.Tickets.Add(ticketDto);
-
-        //        _tickets.Add(guid, ticketDto);
-
-        //        Timer timer = new Timer(HandleCancellation, guid, TimeSpan.FromMinutes(10), Timeout.InfiniteTimeSpan);
-
-        //        return ticketDto;
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-   
-        //}
-
-
-        private async Task<TicketDto> CreateTicketDtoAsync(ShowtimeDto showtimeDto, CancellationToken cancel)
-        {
-            Guid guid = Guid.NewGuid();
-
-            try
-            {
-
-                TicketDto ticketDto = new()
-                {
-                    TicketId = guid,
-                    ShowtimeId = showtimeDto.showtimeId,
-                 
-                    CreatedTime = DateTime.Now,
-                    Paid = false,
-                    
-                };
-
-                showtimeDto.Tickets.Add(ticketDto);
-                // i should update the showtimeentity including this ticket to tickets
-
-                _tickets.Add(guid, ticketDto);
-
-                Timer timer = new Timer(HandleCancellation, guid, TimeSpan.FromMinutes(10), Timeout.InfiniteTimeSpan);
-
-                return ticketDto;
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
+            _cache = cache;
         }
 
-     
+
+      
+
+
         public async Task<TicketDto> CreateTicketWithDelayAsync(TicketDto ticketDto, int nbrOfSeatsToReserve, CancellationToken cancel)
         {
             // i should first check if the showtime exist
@@ -150,11 +85,18 @@ namespace ApiApplication.Services
                 showtimeEntityWithTickets.Tickets.Add(ticketEntity);
                 ticketDto.CreatedTime = DateTime.Now;
 
+
+                Dictionary<Guid, TicketDto> _tickets = GetTicketsFromCache();
+
                 _tickets.Add(guid, ticketDto);
+
+                SetTicketInCache(_tickets);
 
                 Timer timer = new Timer(HandleCancellation, guid, TimeSpan.FromMinutes(10), Timeout.InfiniteTimeSpan);
 
                 var createdTicket = await _ticketsRepository.CreateAsync(ticketEntity, cancel);
+           
+               
 
                 return _mapper.Map<TicketDto>(createdTicket);
 
@@ -173,70 +115,81 @@ namespace ApiApplication.Services
         {
             Guid guid = (Guid)state;
 
-            
+            _logger.LogInformation("in ticketService, HandleCancellation 1");
+
+            Dictionary<Guid, TicketDto> _tickets = GetTicketsFromCache();
+
             if ((_tickets.TryGetValue(guid, out TicketDto ticketDto)))
             {
-                
                 // Check if seats are paid after 10 minutes
                 if (!ticketDto.Paid)
                 {
                     TicketEntity ticket = _mapper.Map<TicketEntity>(ticketDto);
+
                     // i update seats to not reserved
                     _seatService.UpdateSeatsState(ticket.Seats.ToList());
 
                     
                     // this remove ticket from dic, handle other remove scenario
-                    RemoveTicket(guid);
-
-                    // modify other properties if needed
+                    RemoveTicket(guid, _tickets);
+                    SetTicketInCache(_tickets);
 
                     _logger.LogInformation("Reservation {ReservationId} canceled because seats were not paid.", ticketDto.TicketId);
                 }
             }
         }
 
-        private void RemoveTicket(Guid guid)
+        private void RemoveTicket(Guid guid, Dictionary<Guid, TicketDto> _tickets)
         {
             _tickets.Remove(guid);
             _timers[guid].Dispose();
             _timers.Remove(guid);
         }
 
-        private void ChangeBoolState(bool property)
-        {
-            // delete the log
-            _logger.LogInformation("in ChangeBoolState line 163 ");
-            property = !property;
-        }
-
-        
         
         // change the return on this method
-        public async Task ConfirmPayementAsync(Guid id, CancellationToken cancellation)
+        public async Task<bool> ConfirmPayementAsync(Guid id, CancellationToken cancellation)
         {
-            // to do
+            Dictionary<Guid, TicketDto> _tickets = GetTicketsFromCache();
 
-            // i add it to ShowtimeEntity
-            // i add the showtime to auditoriumEntity
-            // i add the shotimes to the movie entity
 
-            TicketEntity ticketEntity = await _ticketsRepository.GetByIdAsync(id, cancellation);
-
-            if (ticketEntity == null)
-            {
-                _logger.LogError("no ticket found");
-                throw new ArgumentNullException(nameof(ticketEntity));
-            }
-
-            TicketDto ticketDto = _mapper.Map<TicketDto>(ticketEntity);
-
-           
-
-            ChangeBoolState(ticketEntity.Paid);
-
-            await _ticketsRepository.ConfirmPaymentAsync(ticketEntity, cancellation);
+            TicketEntity ticketEntity;
+            // icheck if ticket is still alive
             
-            return;
+           
+            bool exist = _tickets.ContainsKey(id);
+            if (exist)
+            {
+                _logger.LogInformation(" the guid exist from ConfirmationPayment");
+            }
+            else
+            {
+                _logger.LogInformation(" the guid does not exist from ConfirmationPayment");
+                return false;
+            }
+            _logger.LogInformation("i checked that the seats are reserved");
+            ticketEntity = await _ticketsRepository.GetByIdAsync(id, cancellation);
+            if (ticketEntity != null)
+            {
+                _logger.LogInformation("The ticket is found in the dic");
+                if(ticketEntity.Seats.All(seat => seat.IsReserved))
+                {
+                    await _ticketsRepository.ConfirmPaymentAsync(ticketEntity, cancellation);
+                    _logger.LogInformation("Payed");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private Dictionary<Guid, TicketDto> GetTicketsFromCache()
+        {
+            return _cache.Get<Dictionary<Guid, TicketDto>>(TicketsCachKey) ?? new Dictionary<Guid, TicketDto>();
+        }
+
+        private void SetTicketInCache(Dictionary<Guid, TicketDto> tickets)
+        {
+            _cache.Set(TicketsCachKey, tickets);
         }
     }
 }

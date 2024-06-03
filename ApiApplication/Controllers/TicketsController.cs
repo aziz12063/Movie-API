@@ -90,9 +90,14 @@ namespace ApiApplication.Controllers
             {
                 throw new FormatException($"invalid forrmat of the guid {guid}");
             }
-            await _ticketService.ConfirmPayementAsync(result, cancel);
+            _logger.LogInformation("in ticketController, BayTicket 1");
+            if (await _ticketService.ConfirmPayementAsync(result, cancel))
+            {
+                _logger.LogInformation("in ticketController, BayTicket 2");
+                return Ok();
+            }
 
-            return Ok();
+            return BadRequest();
         }
 
 
