@@ -4,24 +4,24 @@ namespace ApiApplication.Test.Services.Models;
 
 public class MovieTests
 {
-    //[Fact]
-    //public void Movie_InitializedWithValidData_ShouldSetPropertiesCorrectly()
-    //{
-    //    int id = 1;
-    //    string title = "Inception";
+    [Fact]
+    public void Movie_InitializedWithValidData_ShouldSetPropertiesCorrectly()
+    {
+        string id = "1";
+        string title = "Inception";
 
-    //    var movie = new MovieDto(id, title);
+        var movie = new MovieDto(id, title);
 
-    //    Assert.Equal(id, movie.Id);
-    //    Assert.Equal(title, movie.Title);
-    //}
+        Assert.Equal(id, movie.movieId);
+        Assert.Equal(title, movie.Title);
+    }
 
-    //// Immutability Test
-    //[Fact]
-    //public void Movie_Properties_ShouldBeReadOnly()
-    //{
-    //    // Only testing for Id and Title
-    //    Assert.False(typeof(MovieDto).GetProperty(nameof(MovieDto.Id))?.CanWrite);
-    //    Assert.False(typeof(MovieDto).GetProperty(nameof(MovieDto.Title))?.CanWrite);
-    //}
+    // Immutability Test
+    [Fact]
+    public void Movie_Properties_ShouldBeReadOnly()
+    {
+        // Only testing for Id and Title
+        Assert.True(typeof(MovieDto).GetProperty(nameof(MovieDto.movieId))?.CanWrite);
+        Assert.True(typeof(MovieDto).GetProperty(nameof(MovieDto.Title))?.CanWrite);
+    }
 }

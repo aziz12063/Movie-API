@@ -1,5 +1,4 @@
 ﻿using ApiApplication.Database.Entities;
-using ApiApplication.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -51,11 +50,6 @@ namespace ApiApplication.Database
                 auditoriumId = 3,
                 Seats = GenerateSeats(3, 15, 21)
             });
-
-
-            
-        
-
             context.SaveChanges();
         }
 

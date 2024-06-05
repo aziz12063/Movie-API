@@ -1,7 +1,5 @@
-﻿
+﻿using ApiApplication.Database.Entities;
 
-using ApiApplication.Database.Entities;
-using System.Collections.Generic;
 
 namespace ApiApplication.Models
 {
@@ -17,7 +15,7 @@ namespace ApiApplication.Models
         public short SeatNumber { get; set; }
         public int AuditoriumId { get; set; }
         public bool IsReserved { get; set; }
-        //public ICollection<TicketDto> Tickets { get; set; } // 
+        
         public AuditoriumEntity Auditorium { get; set; }
     }
 }

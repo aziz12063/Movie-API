@@ -135,9 +135,6 @@ namespace ApiApplication.Controllers
             await WriteCurlCommandToFile(curlCommand);/////////////////////////////////////
 
             int x = createdShowtimeDto.showtimeId;
-            //return Ok(createdShowtimeDto);
-
-            // not work try again
 
             return CreatedAtRoute("GetShowtimeWithMovie",
                     new
@@ -179,8 +176,5 @@ namespace ApiApplication.Controllers
             }
             return Ok(createdShowtimeDto);
         }
-
-
-
     }
 }

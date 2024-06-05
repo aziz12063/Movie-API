@@ -7,7 +7,5 @@ namespace ApiApplication.Services.Interfaces
     public interface IAuditoriumService
     {
        Task<bool> AuditoriumExistAsync(int auditoriumId);
-        Task<AuditoriumDto> GetAuditorium(int auditoriumId);
-        Task<List<AuditoriumDto>> GetAuditoriums();
     }
 }

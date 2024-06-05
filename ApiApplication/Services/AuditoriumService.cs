@@ -4,6 +4,7 @@ using ApiApplication.Models;
 using ApiApplication.Services.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,31 +25,18 @@ namespace ApiApplication.Services
         }
 
 
-        // put this method in the repo and call it
-        public async Task<List<AuditoriumDto>> GetAuditoriums()
-        {
-
-            var auditoriums = await  _dbContext.Auditoriums.ToListAsync();
-            
-            foreach (var auditorium in auditoriums)
-            {
-                 auditoriumDtos.Add(_mapper.Map<AuditoriumDto>(auditorium));
-            }
-
-            return auditoriumDtos;
-        }
-
-        // put this method in the repo and call it
-        public async Task<AuditoriumDto> GetAuditorium(int auditoriumId)
-        {
-            var auditorium = await _dbContext.Auditoriums.FirstOrDefaultAsync(c => c.auditoriumId == auditoriumId);
-
-            return (_mapper.Map<AuditoriumDto>(auditorium));
-        }
 
         public async Task<bool> AuditoriumExistAsync(int auditoriumId)
         {
-            return await _auditoriumsRepository.AuditoriumExestAsync(auditoriumId);
+            try
+            {
+                return await _auditoriumsRepository.AuditoriumExistAsync(auditoriumId);
+            }
+            catch(Exception  ex) 
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
     }
 }

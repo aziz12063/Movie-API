@@ -1,7 +1,6 @@
 ﻿using ApiApplication.Database.Entities;
 using ApiApplication.Models;
 using AutoMapper;
-using System.Collections.Generic;
 
 namespace ApiApplication.Profiles
 {

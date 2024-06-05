@@ -14,6 +14,6 @@ namespace ApiApplication.Services.Interfaces
         Task<List<SeatEntity>> UpdateSeatsState(List<SeatEntity> seats);
         List<SeatDto> GrabSeatsAvailable(List<SeatDto> globalSeats, List<SeatDto> reservedSeats);
 
-        List<SeatDto> GenerateSeats(int auditoriumId);
+        
     }
 }

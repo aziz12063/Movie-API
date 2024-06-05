@@ -21,7 +21,7 @@ namespace ApiApplication.Services
         private readonly IShowtimesRepository _showtimesRepository;
         private readonly IAuditoriumsRepository _auditoriumsRepository;
 
-        //public List<SeatDto> seats = new List<SeatDto>();
+        
         public SeatService(CinemaContext dbContext, IShowtimesRepository showtimesRepository, IMapper mapper, IAuditoriumService auditoriumService, ILogger<SeatService> logger, IAuditoriumsRepository auditoriumsRepository)
         {
             _dbContext = dbContext;
@@ -84,36 +84,8 @@ namespace ApiApplication.Services
             });
         }
 
-       public List<SeatDto> GenerateSeats(int auditoriumId)
-        {
-            short rows;
-            short seatsPerRow;
+      
 
-            switch (auditoriumId)
-            {
-                case 1:
-                    rows = 28;
-                    seatsPerRow = 22;
-                    break;
-                case 2: 
-                    rows = 21;
-                    seatsPerRow = 18; 
-                    break;
-                default:
-                    rows = 15;
-                    seatsPerRow = 21;
-                    break;
-
-            }
-
-            var seats = new List<SeatDto>();
-            for (short r = 1; r <= rows; r++)
-                for (short s = 1; s <= seatsPerRow; s++)
-                    seats.Add(new SeatDto { AuditoriumId = auditoriumId, Row = r, SeatNumber = s });
-
-
-            return seats;
-        }
 
         public List<SeatDto> GrabSeatsAvailable(List<SeatDto> globalSeats, List<SeatDto> reservedSeats) 
         {

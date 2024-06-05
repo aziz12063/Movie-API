@@ -9,8 +9,7 @@ namespace ApiApplication
 {
     public interface ITicketService
     {
-        //bool VerifyIfWeStillHaveTicket();
-        //Task<List<TicketDto>> GetTicketCollection(int auditoriumId, int showtimeId);
+      
         Task<TicketDto> CreateTicketWithDelayAsync(TicketDto ticketDto, int nbrOfSeatsToReserve, CancellationToken cancel);
         Task<bool> ConfirmPayementAsync(Guid id, CancellationToken cancellation);
     }

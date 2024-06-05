@@ -54,30 +54,7 @@ namespace ApiApplication.Database.Repositories
                                         .FirstOrDefaultAsync(s => s.showtimeId == showtimeId);
         }
 
-        public async Task<ShowtimeEntity> GetByIdAsync(int id, CancellationToken cancel)
-        {
-            try
-            {
-                return await _context.Showtimes
-                .FirstOrDefaultAsync(x => x.showtimeId == id, cancel);
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.Message);
-            }
-
-        }
-
-
-        public async Task<ShowtimeEntity> GetWithTicketsByIdAsync(int id, CancellationToken cancel)
-        {
-            return await _context.Showtimes
-                .Include(x => x.Tickets)
-                .ThenInclude(t => t.Seats)
-                .FirstOrDefaultAsync(x => x.showtimeId == id, cancel);
-        }
-
+      
         public async Task<IEnumerable<ShowtimeEntity>> GetAllAsync(Expression<Func<ShowtimeEntity, bool>> filter, CancellationToken cancel)
         {
             if (filter == null)
@@ -92,12 +69,7 @@ namespace ApiApplication.Database.Repositories
                 .ToListAsync(cancel);
         }
 
-        // maybe i will delete this method
-        public async Task<IEnumerable<ShowtimeEntity>> GetAllByAuditoriumIdAsync(int auditoriumId, CancellationToken cancellation)
-        {
-            return await _context.Showtimes.Where(showtime => showtime.AuditoriumId == auditoriumId).ToListAsync(cancellation);
-        }
-
+        
         public async Task<ShowtimeEntity> GetByAuditoriumIdAndSessionDateAsync(int auditoriumId,DateTime sessionDate, CancellationToken cancellation)
         {
             try
@@ -122,15 +94,6 @@ namespace ApiApplication.Database.Repositories
             var showtime = await _context.Showtimes.AddAsync(showtimeEntity, cancel);
             await _context.SaveChangesAsync(cancel);
             ShowtimeDto showtimeDto = _mapper.Map<ShowtimeDto>(showtime.Entity);
-
-            // log the showtimeDto
-            // delete it after
-            var properties = showtimeDto.Movie.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var property in properties)
-            {
-                var value = property.GetValue(showtimeDto.Movie);
-                _logger.LogInformation($"{property.Name}: {value}");
-            }
 
             return showtimeDto;
         }

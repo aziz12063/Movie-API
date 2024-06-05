@@ -6,11 +6,8 @@ using System.Threading;
 using ApiApplication.Database.Repositories.Abstractions;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore.Internal;
-using System.Linq;
 using ApiApplication.CustomExceptions;
-using System.Reflection;
-using ApiApplication.Database.Repositories;
+
 
 namespace ApiApplication.Services
 {
@@ -47,46 +44,45 @@ namespace ApiApplication.Services
                 throw new ArgumentNullException(nameof(showtimeDto));
             }
     
+            ShowtimeEntity showtimeEntity;
+            AuditoriumEntity audi;
             try
             {
+                audi = await _auditoriumRepository.GetByIdWithSeatsAndShowtimesAsync(showtimeDto.AuditoriumId, cancel);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("cannot get auditoriumEntity");
+                throw new DataRetrieveException<AuditoriumEntity>(ex.Message);
+            }
 
-                ShowtimeEntity showtimeEntity;
-                try
-                {
-                    var audi = await _auditoriumRepository.GetByIdWithSeatsAndShowtimesAsync(showtimeDto.AuditoriumId, cancel);
-
-                    showtimeEntity = _mapper.Map<ShowtimeEntity>(showtimeDto);
-                    showtimeEntity.Auditorium = audi;
-                    audi.Showtimes.Add(showtimeEntity);
-
-                    if(showtimeEntity == null)
-                    {
-                        _logger.LogInformation("showtimeEntity not mapped");
-                    }
-                    else
-                    {
-                        // don
-                        _logger.LogInformation("showtimeEntity  mapped");
-                    }
-                }
-                
-                catch (Exception ex) 
-                {
-                    _logger.LogError("canot map to showtimeEntity");
-                    throw new Exception(ex.ToString());
-                }
-
-                ShowtimeDto showtimeDtoCreated = await _showtimesRepository.CreateShowtime(showtimeEntity, cancel);
-
-                return showtimeDtoCreated;
-
+            try
+            {
+                showtimeEntity = _mapper.Map<ShowtimeEntity>(showtimeDto);
             }
 
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError("cannot map to showtimeEntity");
+                throw new MappingException<ShowtimeDto, ShowtimeEntity>(ex.Message, ex);
             }
-            
+
+            try
+            {
+                 showtimeEntity.Auditorium = audi;
+                 audi.Showtimes.Add(showtimeEntity);
+            }
+                
+            catch (Exception ex) 
+            {
+                _logger.LogError("cannot save to showtimeEntity");
+                throw new DataSaveException<ShowtimeEntity>(ex.Message, ex);
+            }
+
+            ShowtimeDto showtimeDtoCreated = await _showtimesRepository.CreateShowtime(showtimeEntity, cancel);
+
+            return showtimeDtoCreated;
+
         }
         
 
@@ -98,10 +94,12 @@ namespace ApiApplication.Services
                 _logger.LogError("the showtime is null");
                 return null;
             }
+            try
+            {
+                 return _mapper.Map<ShowtimeDto>(showtimeEntity);
+            }
 
-            ShowtimeDto showtimeDto = _mapper.Map<ShowtimeDto>(showtimeEntity);
-
-            return showtimeDto;
+            catch (Exception ex) { throw new Exception("Cannot map showtime entity to Dto " + ex.Message); }
         }
 
         public async Task<ShowtimeDto> GetShowtimeWithMovieById(int Id, CancellationToken cancellation)

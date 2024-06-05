@@ -2,7 +2,6 @@
 using ApiApplication.Models;
 using ApiApplication.ProvidedApi.Entities;
 using AutoMapper;
-using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace ApiApplication.Profiles
 {

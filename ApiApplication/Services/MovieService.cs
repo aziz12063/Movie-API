@@ -1,5 +1,4 @@
 ﻿using ApiApplication.Cache;
-using ApiApplication.Database.Entities;
 using ApiApplication.Models;
 using ApiApplication.ProvidedApi.Entities;
 using AutoMapper;
@@ -43,7 +42,6 @@ namespace ApiApplication.Services
         }
    
 
-        // i will implement this method when i work with Provided-api
         public async Task<MovieDto> GetMovieById(string id)
         {
 

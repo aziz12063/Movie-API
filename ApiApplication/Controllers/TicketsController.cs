@@ -1,19 +1,12 @@
 ﻿using ApiApplication.Models;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
 using ApiApplication.Database.Repositories.Abstractions;
 using AutoMapper;
-using ApiApplication.Database.Repositories;
-using System.Linq;
 using ApiApplication.Services.Interfaces;
-using System.Threading.Channels;
-using ApiApplication.Database.Entities;
-using System.Collections.Generic;
 
 namespace ApiApplication.Controllers
 {

@@ -6,13 +6,8 @@ using System.Threading;
 using System;
 using System.Linq;
 using ApiApplication.Database.Repositories.Abstractions;
-using ApiApplication.Services;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Channels;
 using ApiApplication.Services.Interfaces;
-using ApiApplication.Models;
 
 namespace ApiApplication.Database.Repositories
 {
@@ -34,28 +29,6 @@ namespace ApiApplication.Database.Repositories
         public Task<TicketEntity> GetByIdAsync(Guid id, CancellationToken cancel)
         {
             return _context.Tickets.Include(t => t.Seats).FirstOrDefaultAsync(x => x.TicketId == id, cancel);
-        }
-
-        public async Task<IEnumerable<TicketEntity>> GetByShowtimeIdAsync(int showtimeId, CancellationToken cancel)
-        {
-            return await _context.Tickets
-                .Include(x => x.Showtime)
-                .Include(x => x.Seats)
-                .Where(x => x.ShowtimeId == showtimeId)
-                .ToListAsync(cancel);
-        }
-
-        public async Task<TicketEntity> CreateAsync(ShowtimeEntity showtime, IEnumerable<SeatEntity> selectedSeats, CancellationToken cancel)
-        {
-            var ticket = _context.Tickets.Add(new TicketEntity
-            {
-                Showtime = showtime,
-                Seats = new List<SeatEntity>(selectedSeats)
-            });
-
-            await _context.SaveChangesAsync(cancel);
-
-            return ticket.Entity;
         }
 
         public async Task<TicketEntity> CreateAsync(TicketEntity ticketEntity, CancellationToken cancel)
@@ -103,19 +76,6 @@ namespace ApiApplication.Database.Repositories
             return ticket;
         }
 
-        public async Task <TicketEntity> UpdateTicketEntity(Guid guid, List<SeatEntity> seats, CancellationToken cancel)
-        {
-            var ticket = await _context.Tickets.Include(t => t.Seats)
-                                                
-                                                .FirstOrDefaultAsync(t => t.TicketId == guid);
-
-
-
-            ticket.Seats = seats;
-           
-            await _context.SaveChangesAsync(cancel);
-
-            return ticket;
-        }
+       
     }
 }

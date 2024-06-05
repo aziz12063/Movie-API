@@ -5,7 +5,6 @@ using System.Threading;
 using ApiApplication.Database.Repositories.Abstractions;
 using System.Linq;
 using System;
-using ApiApplication.Models;
 
 namespace ApiApplication.Database.Repositories
 {
@@ -47,7 +46,7 @@ namespace ApiApplication.Database.Repositories
 
         }
 
-        public async Task<bool> AuditoriumExestAsync(int auditoriumId)
+        public async Task<bool> AuditoriumExistAsync(int auditoriumId)
         {
             return await _context.Auditoriums
                     .AnyAsync(a => a.auditoriumId == auditoriumId);
