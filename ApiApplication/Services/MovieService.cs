@@ -78,7 +78,7 @@ namespace ApiApplication.Services
                             //movieApi = (MoviesApiEntity)serializer.Deserialize(new StringReader(content));
 
                             // or this to destroy the StringReader object after geting the movieApi
-                            using(var reader = new StreamReader(content))
+                            using(var reader = new StringReader(content))// i change the streamReader to stringReader
                             {
                                 movieApi = (MoviesApiEntity)serializer.Deserialize(reader);
                             }
@@ -134,7 +134,7 @@ namespace ApiApplication.Services
 
 
         // i can delete this
-
+        /*
         public async Task<IEnumerable<MovieDto>> GetMovies()
         {
             try
@@ -173,11 +173,8 @@ namespace ApiApplication.Services
                 // i need to handle that
                 throw new Exception("canot fetch data" + ex);
             }
-
-
-
         }
 
-       
+       */
     }
 }

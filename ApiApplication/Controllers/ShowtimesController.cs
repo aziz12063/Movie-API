@@ -162,6 +162,7 @@ namespace ApiApplication.Controllers
             // add some validation
 
             var showtimeDto = await _showtimeService.GetShowtimeWithMovieById(id, cancellation);
+            if (showtimeDto == null) return NotFound();
             return Ok(showtimeDto);
         }
 

@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{36C8F1EC-DB3A-492E-B93C-1CBF970FD4FC}|ApiApplication.Test\\ApiApplication.Test.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication.test\\services\\auditoriumservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36C8F1EC-DB3A-492E-B93C-1CBF970FD4FC}|ApiApplication.Test\\ApiApplication.Test.csproj|solutionrelative:apiapplication.test\\services\\auditoriumservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\auditoriumservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\auditoriumservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{36C8F1EC-DB3A-492E-B93C-1CBF970FD4FC}|ApiApplication.Test\\ApiApplication.Test.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication.test\\services\\movieservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36C8F1EC-DB3A-492E-B93C-1CBF970FD4FC}|ApiApplication.Test\\ApiApplication.Test.csproj|solutionrelative:apiapplication.test\\services\\movieservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 293,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,28 +38,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AuditoriumService.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\AuditoriumService.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Services\\AuditoriumService.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\AuditoriumService.cs",
-              "RelativeToolTip": "ApiApplication\\Services\\AuditoriumService.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAgwCkAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-05T15:28:39.742Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AuditoriumServiceTest.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.Test\\Services\\AuditoriumServiceTest.cs",
-              "RelativeDocumentMoniker": "ApiApplication.Test\\Services\\AuditoriumServiceTest.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.Test\\Services\\AuditoriumServiceTest.cs*",
-              "RelativeToolTip": "ApiApplication.Test\\Services\\AuditoriumServiceTest.cs*",
-              "ViewState": "AQIAADAAAAAAAAAAAAAgwEIAAAAfAAAA",
+              "Title": "MovieServiceTest.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.Test\\Services\\MovieServiceTest.cs",
+              "RelativeDocumentMoniker": "ApiApplication.Test\\Services\\MovieServiceTest.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.Test\\Services\\MovieServiceTest.cs",
+              "RelativeToolTip": "ApiApplication.Test\\Services\\MovieServiceTest.cs",
+              "ViewState": "AQIAABwAAAAAAAAAAAAgwCIAAABKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-05T15:27:26.966Z",
+              "WhenOpened": "2024-06-13T15:12:29.3Z",
               "EditorCaption": ""
             }
           ]
