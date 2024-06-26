@@ -36,7 +36,6 @@ namespace ApiApplication.Test.Services
             _movieService = new MovieService( _httpClient, _mockMapper.Object, _mockLogger.Object, _mockResponseCacheService.Object );
         }
 
-
         [Fact]
         public async Task GetMovieById_ReturnMovie_WhenApiCallIsSuccessfull_ApplicationJson()
         {
@@ -57,7 +56,6 @@ namespace ApiApplication.Test.Services
             )
                                                 .ReturnsAsync(responseMessage);
 
-
             _mockMapper.Setup(m => m.Map<MovieDto>(It.IsAny<MoviesApiEntity>())).Returns(movieDto);
 
             // Act
@@ -67,7 +65,6 @@ namespace ApiApplication.Test.Services
             Assert.NotNull(result);
             Assert.Equal(movieId, result.movieId);
             Assert.Equal("TestTitle", result.Title);
-
         }
 
         [Fact]
@@ -95,7 +92,6 @@ namespace ApiApplication.Test.Services
             )
                                                 .ReturnsAsync(responseMessage);
 
-
             // Act
             var result = await _movieService.GetMovieById(movieId);
 
@@ -103,7 +99,6 @@ namespace ApiApplication.Test.Services
             Assert.NotNull(result);
             Assert.Equal(movieId, result.movieId);
             Assert.Equal("TestTitle", result.Title);
-
         }
 
         [Fact]
@@ -119,12 +114,12 @@ namespace ApiApplication.Test.Services
             };
 
             _mockHttpMessageHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>()
-                )
-                .ReturnsAsync(responseMessage);
+                                   .Setup<Task<HttpResponseMessage>>(
+                                                                    "SendAsync",
+                                                                    ItExpr.IsAny<HttpRequestMessage>(),
+                                                                    ItExpr.IsAny<CancellationToken>()
+                                                                    )
+                                   .ReturnsAsync(responseMessage);
 
             _mockResponseCacheService.Setup(c => c.GetCachedResponseAsync(It.IsAny<string>())).ReturnsAsync(JsonSerializer.Serialize(movieDto));
 
@@ -161,6 +156,5 @@ namespace ApiApplication.Test.Services
             // Act & Assert
             await Assert.ThrowsAsync<Exception>(() => _movieService.GetMovieById(movieId));
         }
-
     }
 }

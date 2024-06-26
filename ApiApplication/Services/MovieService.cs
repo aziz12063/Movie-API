@@ -4,7 +4,6 @@ using ApiApplication.ProvidedApi.Entities;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
@@ -19,13 +18,11 @@ namespace ApiApplication.Services
         string apiKey = "68e5fbda-9ec9-4858-97b2-4a8349764c63"; // i will perform this key
         int maxAttempt = 3;
         
-
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
         private readonly ILogger<MovieService> _logger;
         private readonly IResponseCacheService _cacheService;
 
-        
         public MovieService(HttpClient httpClient, 
                             IMapper mapper, 
                             ILogger<MovieService> logger,
@@ -41,10 +38,8 @@ namespace ApiApplication.Services
             _cacheService = cacheService;
         }
    
-
         public async Task<MovieDto> GetMovieById(string id)
         {
-
             try
             {
                 int attempt = 1;
@@ -59,7 +54,6 @@ namespace ApiApplication.Services
                     var response = await _httpClient.GetAsync(apiUrl + "/" + id);
                     if (response.IsSuccessStatusCode)
                     {
-
                         MoviesApiEntity movieApi = null; // = new MoviesApiEntity();
                         string content = await response.Content.ReadAsStringAsync();
 
@@ -89,13 +83,8 @@ namespace ApiApplication.Services
                             throw new Exception("Unsupported media type or deserialization error");
                         }
 
-
                          movie =  _mapper.Map<MovieDto>(movieApi);
 
-
-                       
-                        
-                        
                         // i cache the movie response
                         await _cacheService.CacheResponseAsync(cacheKey, JsonSerializer.Serialize(movie));
 

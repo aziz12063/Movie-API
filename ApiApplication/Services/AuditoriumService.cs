@@ -1,27 +1,22 @@
-﻿using ApiApplication.Database;
-using ApiApplication.Database.Repositories.Abstractions;
-using ApiApplication.Models;
+﻿using ApiApplication.Database.Repositories.Abstractions;
 using ApiApplication.Services.Interfaces;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ApiApplication.Services
 {
     public class AuditoriumService : IAuditoriumService
     {
-        private readonly CinemaContext _dbContext;
-        private readonly IMapper _mapper;
+        //private readonly CinemaContext _dbContext;
+        //private readonly IMapper _mapper;
         private readonly IAuditoriumsRepository _auditoriumsRepository;
-        public List<AuditoriumDto> auditoriumDtos = new List<AuditoriumDto>();
+        //public List<AuditoriumDto> auditoriumDtos = new List<AuditoriumDto>();
 
-        public AuditoriumService(CinemaContext dbContext, IMapper mapper, IAuditoriumsRepository auditoriumsRepository) 
+        public AuditoriumService(IAuditoriumsRepository auditoriumsRepository) 
         {
-            _dbContext = dbContext;
+            //_dbContext = dbContext;
             _auditoriumsRepository = auditoriumsRepository;
-            _mapper = mapper;
+            //_mapper = mapper;
         }
 
 

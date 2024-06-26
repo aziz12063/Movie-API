@@ -33,6 +33,7 @@ namespace ApiApplication.Test.ControllerTests
             _mockAuditoriumsRepository = new Mock<IAuditoriumsRepository>();
             _mapper = new Mock<IMapper>();
             _mockLogger = new Mock<ILogger<ShowtimesController>>();
+
             _controller = new ShowtimesController(_mockShowtimeService.Object,
                                                   _mockAuditoriumService.Object,
                                                   _mockMovieService.Object,

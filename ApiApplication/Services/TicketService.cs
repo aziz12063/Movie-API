@@ -17,7 +17,7 @@ namespace ApiApplication.Services
     public class TicketService : ITicketService
     {
 
-        private readonly CinemaContext _dbContext;
+        //private readonly CinemaContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ISeatService _seatService;
         private readonly IShowtimesRepository _showtimesRepository;
@@ -31,7 +31,7 @@ namespace ApiApplication.Services
 
         private const string TicketsCachKey = "Tickets";
 
-        public TicketService(CinemaContext dbContext,
+        public TicketService(/*CinemaContext dbContext,*/ 
                              IMapper mapper,
                              IShowtimesRepository showtimesRepository,
                              ISeatService seatService,
@@ -39,7 +39,7 @@ namespace ApiApplication.Services
                              ITicketsRepository ticketsRepository,
                              IMemoryCache cache)
         {
-            _dbContext = dbContext;
+           // _dbContext = dbContext;
             _mapper = mapper;
             _seatService = seatService;
             _showtimesRepository = showtimesRepository;
@@ -59,11 +59,27 @@ namespace ApiApplication.Services
 
             var showtimeEntityWithTickets = await _showtimesRepository.GetWithAuditAndTicketsAndSeats(ticketDto.ShowtimeId, cancel);
 
+            if (showtimeEntityWithTickets == null)
+            {
+                return null;
+            }
+
+
+            if (showtimeEntityWithTickets.Auditorium.Seats == null)
+            {
+                showtimeEntityWithTickets.Auditorium.Seats = new List<SeatEntity>();
+            }
+
             var availableSeatsEntity = showtimeEntityWithTickets.Auditorium.Seats.Where(s => s.IsReserved == false).ToList();
 
             Guid guid = Guid.NewGuid();
 
             var seatsToReserve = await _seatService.FindSeatsContiguous(availableSeatsEntity, nbrOfSeatsToReserve, cancel);
+
+            if (seatsToReserve == null)
+            {
+                return null; 
+            }
 
             try
             {
@@ -78,6 +94,11 @@ namespace ApiApplication.Services
                     Paid = false,
                     Showtime = showtimeEntityWithTickets
                 };
+
+                if(showtimeEntityWithTickets.Tickets == null)
+                {
+                    showtimeEntityWithTickets.Tickets = new List<TicketEntity>();
+                }
 
                 showtimeEntityWithTickets.Tickets.Add(ticketEntity);
                 ticketDto.CreatedTime = DateTime.Now;

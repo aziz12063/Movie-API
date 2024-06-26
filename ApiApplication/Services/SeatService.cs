@@ -14,29 +14,19 @@ namespace ApiApplication.Services
 {
     public class SeatService : ISeatService
     {
-        private readonly CinemaContext _dbContext;
-        private readonly IMapper _mapper;
         private readonly ILogger<SeatService> _logger;
-        private readonly IAuditoriumService _auditoriumService;
-        private readonly IShowtimesRepository _showtimesRepository;
-        private readonly IAuditoriumsRepository _auditoriumsRepository;
 
         
-        public SeatService(CinemaContext dbContext, IShowtimesRepository showtimesRepository, IMapper mapper, IAuditoriumService auditoriumService, ILogger<SeatService> logger, IAuditoriumsRepository auditoriumsRepository)
+        public SeatService(ILogger<SeatService> logger)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
             _logger = logger;
-            _auditoriumService = auditoriumService;
-            _showtimesRepository = showtimesRepository;
-            _auditoriumsRepository = auditoriumsRepository;
         }
 
-        public async Task<List<SeatEntity>> FindSeatsContiguous(IEnumerable<SeatEntity> availableSeatsDto, int nbrOfSeatsToReserve, CancellationToken cancel)
+        public async Task<List<SeatEntity>> FindSeatsContiguous(IEnumerable<SeatEntity> availableSeats, int nbrOfSeatsToReserve, CancellationToken cancel)
         {
             return await Task.Run(() => {
                 // group seats by row
-                var groupedByRow = availableSeatsDto.GroupBy(s => s.Row);
+                var groupedByRow = availableSeats.GroupBy(s => s.Row);
 
                 foreach (var row in groupedByRow)
                 {
@@ -55,10 +45,9 @@ namespace ApiApplication.Services
 
                 return null;
             });
-            
         }
 
-        private bool IsContiguous(List<SeatEntity> seats)
+        public bool IsContiguous(List<SeatEntity> seats)
         {
 
             for (int i = 0; i < seats.Count-1; i++)
@@ -85,8 +74,6 @@ namespace ApiApplication.Services
         }
 
       
-
-
         public List<SeatDto> GrabSeatsAvailable(List<SeatDto> globalSeats, List<SeatDto> reservedSeats) 
         {
             //List<SeatDto> availablSeatsDto;
@@ -102,11 +89,8 @@ namespace ApiApplication.Services
             }
             //availablSeatsDto = globalSeats.Except(reservedSeats, new SeatDtoEqualityComparer()).ToList();
             return globalSeats;
-
         }
-
-        
-          
+   
     }
 
         
