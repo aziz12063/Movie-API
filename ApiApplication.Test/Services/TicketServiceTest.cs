@@ -13,6 +13,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ApiApplication.Database.Entities;
+using Xunit;
 
 namespace ApiApplication.Test.Services
 {

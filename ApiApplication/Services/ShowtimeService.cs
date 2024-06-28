@@ -17,23 +17,24 @@ namespace ApiApplication.Services
         private readonly IAuditoriumsRepository _auditoriumRepository;
 
         // may be i delete movieservice
-        private readonly IMovieService _movieService;
+        //private readonly IMovieService _movieService;
         private readonly IShowtimesRepository _showtimesRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<ShowtimeService> _logger;
 
         public ShowtimeService(IAuditoriumsRepository auditoriumRepository,
-                                IMovieService movieService,
+                                //IMovieService movieService,
                                 IShowtimesRepository showtimesRepository,
                                 IMapper mapper,
                                 ILogger<ShowtimeService> logger)
         {
 
             _auditoriumRepository = auditoriumRepository;
-            _movieService = movieService;
+            //_movieService = movieService;
             _showtimesRepository = showtimesRepository;
             _mapper = mapper;
             _logger = logger;
+            
 
         }
 
@@ -45,11 +46,17 @@ namespace ApiApplication.Services
                 _logger.LogError("The showtime is null");
                 throw new ArgumentNullException(nameof(showtimeDto));
             }
+
             ShowtimeEntity showtimeEntity;
             AuditoriumEntity audi;
             try
             {
                 audi = await _auditoriumRepository.GetByIdWithSeatsAndShowtimesAsync(showtimeDto.AuditoriumId, cancel);
+                if (audi == null) 
+                { 
+                    _logger.LogWarning("the audit is null"); 
+                    throw new ArgumentException($"Auditorium with Id {showtimeDto.AuditoriumId} was not found.");
+                }
             }
             catch(Exception ex)
             {
@@ -86,28 +93,50 @@ namespace ApiApplication.Services
                 throw new DataSaveException<ShowtimeEntity>(ex.Message, ex);
             }
 
-            ShowtimeDto showtimeDtoCreated = await _showtimesRepository.CreateShowtime(showtimeEntity, cancel);
+            try
+            {
+                ShowtimeDto showtimeDtoCreated = await _showtimesRepository.CreateShowtime(showtimeEntity, cancel);
 
-            return showtimeDtoCreated;
+                return showtimeDtoCreated;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("Error saving showtimeEntity: {Message}", ex.Message);
+                throw new DataSaveException<ShowtimeEntity>(ex.Message, ex);
+            }
 
         }
         
 
         public async Task<ShowtimeDto> GetShowtimeByAuditoriumIdAndSessionDate(int auditoriumId, DateTime sessionDate, CancellationToken cancellationToken)
         {
-            ShowtimeEntity showtimeEntity = await _showtimesRepository.GetByAuditoriumIdAndSessionDateAsync(auditoriumId, sessionDate, cancellationToken);
-            if (showtimeEntity == null)
+            ShowtimeEntity showtimeEntity = new();
+            try
             {
-                _logger.LogError("the showtime is null");
-                return null;
+                showtimeEntity = await _showtimesRepository.GetByAuditoriumIdAndSessionDateAsync(auditoriumId, sessionDate, cancellationToken);
+                if (showtimeEntity == null)
+                {
+                    _logger.LogError("the showtime is null");
+                    return null;
+                }
+
+            }
+            catch 
+            {
+                throw new ArgumentException($"showtime with auditorium Id {auditoriumId} was not found.");
             }
 
+          
             try
             {
                  return _mapper.Map<ShowtimeDto>(showtimeEntity);
             }
 
-            catch (Exception ex) { throw new Exception("Cannot map showtime entity to Dto " + ex.Message); }
+            catch (Exception ex)
+            {
+                throw new MappingException<ShowtimeEntity, ShowtimeDto>(ex.Message, ex);
+                //throw new Exception("Cannot map showtime entity to Dto " + ex.Message); 
+            }
         }
 
         public async Task<ShowtimeDto> GetShowtimeWithMovieById(int Id, CancellationToken cancellation)

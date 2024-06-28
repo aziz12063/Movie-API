@@ -1,4 +1,5 @@
 ﻿using ApiApplication.Models;
+using Xunit;
 
 namespace ApiApplication.Test.Services.Models;
 

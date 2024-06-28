@@ -4,11 +4,13 @@ using ApiApplication.Database.Repositories;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Xunit;
 
 
 namespace ApiApplication.Test.RepositoryTest
 {
-    public class ShowtimesRepositoryTests : IClassFixture<DataBaseFixture>
+    [Collection("DB collection")]
+    public class ShowtimesRepositoryTests //: IClassFixture<DataBaseFixture>
     {
         private readonly DataBaseFixture _fixture;
         private readonly Mock<IMapper> _mapper;

@@ -1,22 +1,12 @@
 ﻿using ApiApplication.Database;
-using ApiApplication.Services;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ApiApplication.Database.Entities;
 using ApiApplication.Database.Repositories;
-using System.Net.Sockets;
 using ApiApplication.Test.TestFixture;
-using Microsoft.Extensions.Options;
+using Xunit;
 
 namespace ApiApplication.Test.RepositoryTest
 {
-    public class AuditoriulRepositoryTest : IClassFixture<DataBaseFixture>
+    [Collection("DB collection")]
+    public class AuditoriulRepositoryTest
     {
         private readonly DataBaseFixture _fixture;
 

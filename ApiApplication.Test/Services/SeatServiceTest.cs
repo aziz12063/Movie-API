@@ -10,6 +10,7 @@ using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
+using Xunit;
 
 
 namespace ApiApplication.Test.Services

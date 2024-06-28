@@ -1,5 +1,6 @@
 ﻿using Moq;
 using ApiApplication.Test.TestFixture;
+using Xunit;
 
 namespace ApiApplication.Test.Services
 {

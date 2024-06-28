@@ -34,6 +34,9 @@
             "projectReferences": {
               "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\ApiApplication.csproj": {
                 "projectPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\ApiApplication.csproj"
+              },
+              "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\SharedFixtureTest\\SharedFixtureTest.csproj": {
+                "projectPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\SharedFixtureTest\\SharedFixtureTest.csproj"
               }
             }
           }
@@ -173,9 +176,13 @@
               "target": "Package",
               "version": "[2.2.0, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
-              "version": "[3.1.22, )"
+              "version": "[6.0.0, )"
             },
             "Microsoft.Extensions.Caching.Abstractions": {
               "target": "Package",
@@ -251,6 +258,98 @@
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Users\\SM\\AppData\\Roaming\\.dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\SharedFixtureTest\\SharedFixtureTest.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\SharedFixtureTest\\SharedFixtureTest.csproj",
+        "projectName": "SharedFixtureTest",
+        "projectPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\SharedFixtureTest\\SharedFixtureTest.csproj",
+        "packagesPath": "C:\\Users\\SM\\.nuget\\packages\\",
+        "outputPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\SharedFixtureTest\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\SM\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\ApiApplication.csproj": {
+                "projectPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\ApiApplication.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "xunit.extensibility.core": {
+              "target": "Package",
+              "version": "[2.4.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.11, 6.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.11, 6.0.11]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.11, 6.0.11]"
+            }
+          ],
+          "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

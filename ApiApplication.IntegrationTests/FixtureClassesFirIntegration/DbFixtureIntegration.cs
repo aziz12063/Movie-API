@@ -1,20 +1,23 @@
-﻿using ApiApplication.Database;
-using ApiApplication.Database.Entities;
+﻿using ApiApplication.Database.Entities;
+using ApiApplication.Database;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace ApiApplication.Test.TestFixture
+namespace ApiApplication.IntegrationTests.FixtureClassesFirIntegration
 {
-    public class DataBaseFixture : IDisposable
+    public class DbFixtureIntegration : IDisposable
     {
-        public DbContextOptions<CinemaContext> _dbContextOptions {get; private set;}
+        public DbContextOptions<CinemaContext> _dbContextOptions { get; private set; }
         public CancellationToken cancellationToken { get; private set; }
+        public CinemaContext context;
 
-        public DataBaseFixture()
+        public DbFixtureIntegration()
         {
             _dbContextOptions = new DbContextOptionsBuilder<CinemaContext>()
-                                            .UseInMemoryDatabase(databaseName: "testDb")
+                                            .UseInMemoryDatabase(databaseName: "testDb2")
                                             .Options;
+            context = new CinemaContext(_dbContextOptions);
+
             SeedData();
             cancellationToken = new CancellationToken();
 
@@ -24,8 +27,8 @@ namespace ApiApplication.Test.TestFixture
         {
             Guid guid1 = Guid.NewGuid();
             Guid guid2 = Guid.NewGuid();
-            using (var context = new CinemaContext(_dbContextOptions))
-            {
+            
+            
                 context.Auditoriums.AddRange(
                     new AuditoriumEntity { auditoriumId = 1 },
                     new AuditoriumEntity { auditoriumId = 2 });
@@ -40,11 +43,11 @@ namespace ApiApplication.Test.TestFixture
                     new TicketEntity { TicketId = guid2 }
                     );
                 context.SaveChanges();
-            }
+            
         }
         public void Dispose()
         {
-           
+            context.Dispose();
         }
     }
 }

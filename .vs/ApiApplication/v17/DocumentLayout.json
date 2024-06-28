@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\auditoriumservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\auditoriumservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FF0DD014-463A-4CA0-9A33-CD31F75C9263}|ApiApplication.IntegrationTests\\ApiApplication.IntegrationTests.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication.integrationtests\\showtimeserviceintegrationtest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF0DD014-463A-4CA0-9A33-CD31F75C9263}|ApiApplication.IntegrationTests\\ApiApplication.IntegrationTests.csproj|solutionrelative:apiapplication.integrationtests\\showtimeserviceintegrationtest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36C8F1EC-DB3A-492E-B93C-1CBF970FD4FC}|ApiApplication.Test\\ApiApplication.Test.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication.test\\repositorytest\\showtimesrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36C8F1EC-DB3A-492E-B93C-1CBF970FD4FC}|ApiApplication.Test\\ApiApplication.Test.csproj|solutionrelative:apiapplication.test\\repositorytest\\showtimesrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\showtimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\showtimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF0DD014-463A-4CA0-9A33-CD31F75C9263}|ApiApplication.IntegrationTests\\ApiApplication.IntegrationTests.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication.integrationtests\\fixtureclassesfirintegration\\dbfixtureintegration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF0DD014-463A-4CA0-9A33-CD31F75C9263}|ApiApplication.IntegrationTests\\ApiApplication.IntegrationTests.csproj|solutionrelative:apiapplication.integrationtests\\fixtureclassesfirintegration\\dbfixtureintegration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,19 +22,32 @@
       "DocumentGroups": [
         {
           "DockedHeight": 293,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ShowtimesRepositoryTests.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.Test\\RepositoryTest\\ShowtimesRepositoryTests.cs",
-              "RelativeDocumentMoniker": "ApiApplication.Test\\RepositoryTest\\ShowtimesRepositoryTests.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.Test\\RepositoryTest\\ShowtimesRepositoryTests.cs",
-              "RelativeToolTip": "ApiApplication.Test\\RepositoryTest\\ShowtimesRepositoryTests.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAQwAYAAAAAAAAA",
+              "DocumentIndex": 2,
+              "Title": "DbFixtureIntegration.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.IntegrationTests\\FixtureClassesFirIntegration\\DbFixtureIntegration.cs",
+              "RelativeDocumentMoniker": "ApiApplication.IntegrationTests\\FixtureClassesFirIntegration\\DbFixtureIntegration.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.IntegrationTests\\FixtureClassesFirIntegration\\DbFixtureIntegration.cs",
+              "RelativeToolTip": "ApiApplication.IntegrationTests\\FixtureClassesFirIntegration\\DbFixtureIntegration.cs",
+              "ViewState": "AQIAABcAAAAAAAAAAAAwwCAAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-25T11:26:10.327Z",
+              "WhenOpened": "2024-06-28T13:41:27.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ShowtimeServiceIntegrationTest.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.IntegrationTests\\ShowtimeServiceIntegrationTest.cs",
+              "RelativeDocumentMoniker": "ApiApplication.IntegrationTests\\ShowtimeServiceIntegrationTest.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.IntegrationTests\\ShowtimeServiceIntegrationTest.cs",
+              "RelativeToolTip": "ApiApplication.IntegrationTests\\ShowtimeServiceIntegrationTest.cs",
+              "ViewState": "AQIAAM0AAAAAAAAAAAAmwOMAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-27T11:52:45.836Z",
               "EditorCaption": ""
             }
           ]
@@ -41,12 +58,12 @@
       "Orientation": 0,
       "VerticalTabListWidth": 256,
       "FloatingWindowState": {
-        "Id": "89841833-c793-4c15-9d9e-c37d9c061b63",
+        "Id": "c8cf86dd-02d5-47b2-aef6-c1b119b765f1",
         "Display": 0,
-        "X": 83,
-        "Y": 101,
-        "Width": 1578,
-        "Height": 807,
+        "X": 85,
+        "Y": 71,
+        "Width": 1432,
+        "Height": 699,
         "WindowState": 2
       },
       "DocumentGroups": [
@@ -56,15 +73,15 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AuditoriumService.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\AuditoriumService.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Services\\AuditoriumService.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\AuditoriumService.cs",
-              "RelativeToolTip": "ApiApplication\\Services\\AuditoriumService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAA3AAAA",
+              "DocumentIndex": 1,
+              "Title": "ShowtimeService.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\ShowtimeService.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Services\\ShowtimeService.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\ShowtimeService.cs",
+              "RelativeToolTip": "ApiApplication\\Services\\ShowtimeService.cs",
+              "ViewState": "AQIAAFoAAAAAAAAAAAAowEoAAABYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-26T18:34:12.591Z",
+              "WhenOpened": "2024-06-28T14:14:56.647Z",
               "EditorCaption": ""
             }
           ]
