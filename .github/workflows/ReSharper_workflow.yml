@@ -84,10 +84,10 @@ jobs:
         
 
         # Define quality gate criteria
-        $maxHints = 1000
-        $maxSuggestions = 2000
-        $maxWarnings = 3000
-        $maxErrors = 1000
+        $maxHints = 10
+        $maxSuggestions = 20
+        $maxWarnings = 10
+        $maxErrors = 5
 
 
          # Evaluate quality gate Severities one by one
