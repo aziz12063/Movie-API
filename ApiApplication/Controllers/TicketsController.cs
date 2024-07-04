@@ -12,7 +12,7 @@ namespace ApiApplication.Controllers
 {
     [ApiController]
     [Route("api/Tickets")]
-    public class TicketsController : Controller
+    public class TicketsController : ControllerBase
     {
         private readonly ITicketService _ticketService;
         private readonly ILogger<TicketsController> _logger;

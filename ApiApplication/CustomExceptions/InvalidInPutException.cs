@@ -12,8 +12,7 @@ namespace ApiApplication.CustomExceptions
         public InvalidInPutException(string message) : base(message) { }
         
     }
-    /*******************************************************************************************************************/
-
+  
     public class MappingException<TSource, TTarget> : Exception
     {
         public MappingException()
@@ -25,7 +24,10 @@ namespace ApiApplication.CustomExceptions
         public MappingException(string message, Exception innerException)
             : base(message, innerException) { }
 
-        // Override ToString to include the custom message
+        /// <summary>
+        /// Override ToString to include the custom message
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             string originalMessage = base.ToString();

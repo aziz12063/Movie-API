@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ApiApplication.Database
 {
-    public class SampleData
+    public static class SampleData
     {
         public static void Initialize(IApplicationBuilder app)
         {

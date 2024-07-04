@@ -10,12 +10,10 @@ namespace ApiApplication.Profiles
         {
             CreateMap<TicketEntity, TicketDto>().ForMember(dest => dest.Seats, opt => opt.MapFrom(src => src.Seats))
                                                 .ForMember(dest => dest.Showtime, opt => opt.MapFrom(src => src.Showtime));
-            //CreateMap<List<TicketEntity>, List<TicketDto>>();
 
             CreateMap<TicketDto, TicketEntity>().ForMember(dest => dest.Seats, opt => opt.MapFrom(src => src.Seats))
                                                 .ForMember(dest => dest.Showtime, opt => opt.MapFrom(src => src.Showtime));
                                                 
-            //CreateMap<List<TicketDto>, List<TicketEntity>>();
         }
     }
 }

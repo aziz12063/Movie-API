@@ -14,9 +14,9 @@ namespace ApiApplication.Services
 {
     public class MovieService : IMovieService
     {
-        string apiUrl = "http://localhost:7172/v1/movies";
+        readonly string apiUrl = "http://localhost:7172/v1/movies";
         string apiKey = "68e5fbda-9ec9-4858-97b2-4a8349764c63"; // i will perform this key
-        int maxAttempt = 3;
+        readonly int maxAttempt = 3;
         
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
@@ -54,7 +54,7 @@ namespace ApiApplication.Services
                     var response = await _httpClient.GetAsync(apiUrl + "/" + id);
                     if (response.IsSuccessStatusCode)
                     {
-                        MoviesApiEntity movieApi = null; // = new MoviesApiEntity();
+                        MoviesApiEntity movieApi = null;
                         string content = await response.Content.ReadAsStringAsync();
 
                         if (response.Content.Headers.ContentType.MediaType == "application/json")
@@ -68,11 +68,8 @@ namespace ApiApplication.Services
                         else if (response.Content.Headers.ContentType.MediaType == "application/xml")
                         {
                             var serializer = new XmlSerializer(typeof(MoviesApiEntity));
-                            // i use this:
-                            //movieApi = (MoviesApiEntity)serializer.Deserialize(new StringReader(content));
-
-                            // or this to destroy the StringReader object after geting the movieApi
-                            using(var reader = new StringReader(content))// i change the streamReader to stringReader
+                            
+                            using(var reader = new StringReader(content))
                             {
                                 movieApi = (MoviesApiEntity)serializer.Deserialize(reader);
                             }
@@ -120,50 +117,6 @@ namespace ApiApplication.Services
                 throw new Exception("canot fetch data" + ex);
             }
         }
-
-
-        // i can delete this
-        /*
-        public async Task<IEnumerable<MovieDto>> GetMovies()
-        {
-            try
-            {
-
-                var response = await _httpClient.GetAsync(apiUrl);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var movies = new List<MovieDto>();
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.Content.Headers.ContentType.MediaType == "application/json")
-                    {
-                        movies = JsonSerializer.Deserialize<List<MovieDto>>(content,
-                        new JsonSerializerOptions()
-                        {
-                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                        });
-                    }
-                    else if (response.Content.Headers.ContentType.MediaType == "application/xml")
-                    {
-                        var serializer = new XmlSerializer(typeof(List<MovieDto>));
-                        movies = (List<MovieDto>)serializer.Deserialize(new StringReader(content));
-                    }
-
-                    // i will process the movies list.
-                    return movies;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                // i need to handle that
-                throw new Exception("canot fetch data" + ex);
-            }
-        }
-
-       */
+ 
     }
 }

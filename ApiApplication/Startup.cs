@@ -39,7 +39,7 @@ namespace ApiApplication
             services.AddScoped<IAuditoriumsRepository, AuditoriumsRepository>();
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IAuditoriumService, AuditoriumService>();
-            //services.AddTransient<IReservationService, ReservationService>();
+
             services.AddScoped<IShowtimeService, ShowtimeService>(); //************
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<ISeatService, SeatService>();
@@ -75,15 +75,7 @@ namespace ApiApplication
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             // i configure swagger to display the URL with endpoint
-            /*
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Cineme API",
-                    Version = "v1"
-                });
-            });*/
+            
 
             // Add HttpClient
             services.AddHttpClient();
@@ -107,8 +99,7 @@ namespace ApiApplication
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-                // i configure swagger to display the URL with endpoint
-                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cinema API v1"));
+               
                 app.UseDeveloperExceptionPage();
                 
             }

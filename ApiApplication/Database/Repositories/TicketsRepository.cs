@@ -45,7 +45,6 @@ namespace ApiApplication.Database.Repositories
 
                 if (existingSeat != null)
                 {
-                    //_context.ChangeTracker.Entries<SeatEntity>();
                     _context.Entry(existingSeat).State = EntityState.Modified;
 
                     seats.Add(existingSeat);

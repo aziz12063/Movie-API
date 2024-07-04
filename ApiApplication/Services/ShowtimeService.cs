@@ -133,7 +133,7 @@ namespace ApiApplication.Services
             catch (Exception ex)
             {
                 throw new MappingException<ShowtimeEntity, ShowtimeDto>(ex.Message, ex);
-                //throw new Exception("Cannot map showtime entity to Dto " + ex.Message); 
+               
             }
         }
 

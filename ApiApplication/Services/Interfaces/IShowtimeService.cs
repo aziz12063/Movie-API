@@ -10,7 +10,6 @@ namespace ApiApplication
 {
     public interface IShowtimeService
     {
-        //Task<bool> CreateShowTime(ShowtimeDto showtimeDto, CancellationToken cancel);
         Task<ShowtimeDto> CreateShowTime(ShowtimeDto showtimeDto, CancellationToken cancel);
         Task<ShowtimeDto> GetShowtimeByAuditoriumIdAndSessionDate(int auditoriumId, DateTime sessionDate, CancellationToken cancellationToken);
 

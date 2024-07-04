@@ -15,8 +15,6 @@ namespace ApiApplication.Services
 {
     public class TicketService : ITicketService
     {
-
-        //private readonly CinemaContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ISeatService _seatService;
         private readonly IShowtimesRepository _showtimesRepository;
@@ -24,21 +22,18 @@ namespace ApiApplication.Services
         private readonly ITicketsRepository _ticketsRepository;
         private readonly IMemoryCache _cache;
 
-
-        //private Dictionary<Guid, TicketDto> _tickets = new();
         private Dictionary<Guid, Timer> _timers = new();
 
         private const string TicketsCachKey = "Tickets";
 
-        public TicketService(/*CinemaContext dbContext,*/ 
-                             IMapper mapper,
+        public TicketService(IMapper mapper,
                              IShowtimesRepository showtimesRepository,
                              ISeatService seatService,
                              ILogger<TicketService> logger,
                              ITicketsRepository ticketsRepository,
                              IMemoryCache cache)
         {
-           // _dbContext = dbContext;
+          
             _mapper = mapper;
             _seatService = seatService;
             _showtimesRepository = showtimesRepository;

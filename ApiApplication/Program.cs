@@ -5,7 +5,7 @@ using Serilog;
 
 namespace ApiApplication
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -23,7 +23,7 @@ namespace ApiApplication
                 {
                     webBuilder.ConfigureLogging(options =>
                     {
-                        //options.AddConsole();
+                        options.AddConsole();
                         //options.SetMinimumLevel(LogLevel.Information);
                         
                     });

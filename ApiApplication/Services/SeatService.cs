@@ -1,9 +1,6 @@
-﻿using ApiApplication.Database;
-using ApiApplication.Database.Entities;
-using ApiApplication.Database.Repositories.Abstractions;
+﻿using ApiApplication.Database.Entities;
 using ApiApplication.Models;
 using ApiApplication.Services.Interfaces;
-using AutoMapper;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,7 +72,7 @@ namespace ApiApplication.Services
       
         public List<SeatDto> GrabSeatsAvailable(List<SeatDto> globalSeats, List<SeatDto> reservedSeats) 
         {
-            //List<SeatDto> availablSeatsDto;
+           
             foreach(var seat in globalSeats)
             {
                 foreach(var s in reservedSeats)
@@ -86,7 +83,7 @@ namespace ApiApplication.Services
                     }
                 }
             }
-            //availablSeatsDto = globalSeats.Except(reservedSeats, new SeatDtoEqualityComparer()).ToList();
+            
             return globalSeats;
         }
    
