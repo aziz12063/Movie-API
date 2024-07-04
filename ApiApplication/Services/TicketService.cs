@@ -1,5 +1,4 @@
-﻿using ApiApplication.Database;
-using ApiApplication.Database.Entities;
+﻿using ApiApplication.Database.Entities;
 using ApiApplication.Database.Repositories.Abstractions;
 using ApiApplication.Models;
 using ApiApplication.Services.Interfaces;
@@ -49,14 +48,10 @@ namespace ApiApplication.Services
         }
 
 
-      
-
-
         public async Task<TicketDto> CreateTicketWithDelayAsync(TicketDto ticketDto, int nbrOfSeatsToReserve, CancellationToken cancel)
         {
             // i should first check if the showtime exist
-            // 
-
+            
             var showtimeEntityWithTickets = await _showtimesRepository.GetWithAuditAndTicketsAndSeats(ticketDto.ShowtimeId, cancel);
 
             if (showtimeEntityWithTickets == null)

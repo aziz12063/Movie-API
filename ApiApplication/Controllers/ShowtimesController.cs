@@ -47,18 +47,18 @@ namespace ApiApplication.Controllers
         [HttpPost("{movieId}/{sessionDate:CustomDate}/{auditoriumId:int}", Name = "CreateShowtime")]
         public async Task<ActionResult<ShowtimeDto>> CreateShowtime(string movieId, int auditoriumId, DateTime sessionDate, CancellationToken cancel)
         {
-            
+
             // validate the input values:
-            if( auditoriumId <= 0)
+            if (auditoriumId <= 0)
             {
                 _logger.LogError("Invalid auditoriumId {auditoriumId}", auditoriumId);// NB
                 return BadRequest($"Invalid auditoriumId {auditoriumId}");
             }
 
-            if(sessionDate <= DateTime.Now)
+            if (sessionDate <= DateTime.Now)
             {
                 _logger.LogError($"Invalid sessionDate {sessionDate}");
-               
+
                 return BadRequest($"Invalid sessionDate {sessionDate}");
             }
 
@@ -69,9 +69,10 @@ namespace ApiApplication.Controllers
             {
                 _logger.LogError("Invalid auditoriumId {auditoriumId}", auditoriumId);// NB
                 return BadRequest($"AuditoriumId with Id: {auditoriumId} could not be found");
+                
             }
-            
-            if(await _showtimeService.ShowtimeExistAsync(auditoriumId, sessionDate)) 
+
+            if (await _showtimeService.ShowtimeExistAsync(auditoriumId, sessionDate))
             {
                 _logger.LogError("Canot create the showtime because it's already exist");
                 return Conflict("showtimetime already exist");
@@ -109,17 +110,14 @@ namespace ApiApplication.Controllers
                 throw new InvalidInPutException("the Movie is null");
             }
 
-           
-
             ShowtimeDto showtimeDto = new()
             {
                 Movie = movie,
                 SessionDate = sessionDate,
                 AuditoriumId = auditoriumId,
-                
             };
 
-            ShowtimeDto createdShowtimeDto =  await _showtimeService.CreateShowTime(showtimeDto, cancel);
+            ShowtimeDto createdShowtimeDto = await _showtimeService.CreateShowTime(showtimeDto, cancel);
 
             if (createdShowtimeDto == null)
             {
@@ -127,34 +125,34 @@ namespace ApiApplication.Controllers
                 // modify this return
                 return StatusCode(500, " Cannot save the showtime just created");
             }
-           
+
+            // i have a probleme here
 
             // Generate and write the cURL command to the cUrls.txt file
-            string curlCommand = Request.GetDisplayUrl();
-            _logger.LogInformation("the curlCommand {curlCommand}", curlCommand);
-            await WriteCurlCommandToFile(curlCommand);/////////////////////////////////////
 
-            int x = createdShowtimeDto.showtimeId;
+            //string curlCommand = Request.GetDisplayUrl();
+            //_logger.LogInformation("the curlCommand {curlCommand}", curlCommand);
+            //await WriteCurlCommandToFile(curlCommand);/////////////////////////////////////
+
+
 
             return CreatedAtRoute("GetShowtimeWithMovie",
                     new
                     {
-                        id = x, //showtime.Value.Id
-                                            },
+                        id = createdShowtimeDto.showtimeId
+                    },
                     createdShowtimeDto
                     );
         }
 
         // this private method for test to write the curl to file
-       
+
         private async Task WriteCurlCommandToFile(string curlCommand)
         {
             string solutionDirectory = Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName;
             string filePath = Path.Combine(solutionDirectory, "cUrls.txt");
             await System.IO.File.AppendAllTextAsync(filePath, curlCommand + Environment.NewLine);
         }
-
-
 
         [HttpGet("{id}", Name = "GetShowtimeWithMovie")]
         public async Task<ActionResult<ShowtimeDto>> GetShowtimeWithMovie(int id, CancellationToken cancellation)
@@ -166,9 +164,9 @@ namespace ApiApplication.Controllers
             return Ok(showtimeDto);
         }
 
-        
+
         [HttpGet("{movieId}/{sessionDate}/{auditoriumId}", Name = "GetShowtimeByAuditoriumIdAndSessionDate")]
-        public async Task<ActionResult<ShowtimeDto>> GetShowtimeByAuditoriumIdAndSessionDate(int auditoriumId, DateTime sessionDate, CancellationToken cancel )
+        public async Task<ActionResult<ShowtimeDto>> GetShowtimeByAuditoriumIdAndSessionDate(int auditoriumId, DateTime sessionDate, CancellationToken cancel)
         {
             ShowtimeDto createdShowtimeDto = await _showtimeService.GetShowtimeByAuditoriumIdAndSessionDate(auditoriumId, sessionDate, cancel);
             if (createdShowtimeDto == null)

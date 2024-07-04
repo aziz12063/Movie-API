@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FF0DD014-463A-4CA0-9A33-CD31F75C9263}|ApiApplication.IntegrationTests\\ApiApplication.IntegrationTests.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication.integrationtests\\showtimeserviceintegrationtest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FF0DD014-463A-4CA0-9A33-CD31F75C9263}|ApiApplication.IntegrationTests\\ApiApplication.IntegrationTests.csproj|solutionrelative:apiapplication.integrationtests\\showtimeserviceintegrationtest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\services\\showtimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\services\\showtimeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FF0DD014-463A-4CA0-9A33-CD31F75C9263}|ApiApplication.IntegrationTests\\ApiApplication.IntegrationTests.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication.integrationtests\\ticketscontrollerintegrationtest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF0DD014-463A-4CA0-9A33-CD31F75C9263}|ApiApplication.IntegrationTests\\ApiApplication.IntegrationTests.csproj|solutionrelative:apiapplication.integrationtests\\ticketscontrollerintegrationtest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FF0DD014-463A-4CA0-9A33-CD31F75C9263}|ApiApplication.IntegrationTests\\ApiApplication.IntegrationTests.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication.integrationtests\\fixtureclassesfirintegration\\dbfixtureintegration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FF0DD014-463A-4CA0-9A33-CD31F75C9263}|ApiApplication.IntegrationTests\\ApiApplication.IntegrationTests.csproj|solutionrelative:apiapplication.integrationtests\\fixtureclassesfirintegration\\dbfixtureintegration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|d:\\dotnetclasslibrariesc#\\projectimadtomodify\\apiapplication\\controllers\\ticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{979FF842-D59A-44BD-A726-4850A4B9647A}|ApiApplication\\ApiApplication.csproj|solutionrelative:apiapplication\\controllers\\ticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,32 +22,32 @@
       "DocumentGroups": [
         {
           "DockedHeight": 293,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "TicketsControllerIntegrationtest.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.IntegrationTests\\TicketsControllerIntegrationtest.cs",
+              "RelativeDocumentMoniker": "ApiApplication.IntegrationTests\\TicketsControllerIntegrationtest.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.IntegrationTests\\TicketsControllerIntegrationtest.cs*",
+              "RelativeToolTip": "ApiApplication.IntegrationTests\\TicketsControllerIntegrationtest.cs*",
+              "ViewState": "AQIAAGwAAAAAAAAAAAAuwH8AAAA7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:33:03.952Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "DbFixtureIntegration.cs",
               "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.IntegrationTests\\FixtureClassesFirIntegration\\DbFixtureIntegration.cs",
               "RelativeDocumentMoniker": "ApiApplication.IntegrationTests\\FixtureClassesFirIntegration\\DbFixtureIntegration.cs",
               "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.IntegrationTests\\FixtureClassesFirIntegration\\DbFixtureIntegration.cs",
               "RelativeToolTip": "ApiApplication.IntegrationTests\\FixtureClassesFirIntegration\\DbFixtureIntegration.cs",
-              "ViewState": "AQIAABcAAAAAAAAAAAAwwCAAAAApAAAA",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAAsAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T13:41:27.875Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ShowtimeServiceIntegrationTest.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.IntegrationTests\\ShowtimeServiceIntegrationTest.cs",
-              "RelativeDocumentMoniker": "ApiApplication.IntegrationTests\\ShowtimeServiceIntegrationTest.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication.IntegrationTests\\ShowtimeServiceIntegrationTest.cs",
-              "RelativeToolTip": "ApiApplication.IntegrationTests\\ShowtimeServiceIntegrationTest.cs",
-              "ViewState": "AQIAAM0AAAAAAAAAAAAmwOMAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-27T11:52:45.836Z",
+              "WhenOpened": "2024-07-02T19:19:36.953Z",
               "EditorCaption": ""
             }
           ]
@@ -58,12 +58,12 @@
       "Orientation": 0,
       "VerticalTabListWidth": 256,
       "FloatingWindowState": {
-        "Id": "c8cf86dd-02d5-47b2-aef6-c1b119b765f1",
+        "Id": "d8743e2d-074f-4b05-925c-7ce9f3f0eaaa",
         "Display": 0,
-        "X": 85,
-        "Y": 71,
-        "Width": 1432,
-        "Height": 699,
+        "X": 86,
+        "Y": 118,
+        "Width": 1520,
+        "Height": 683,
         "WindowState": 2
       },
       "DocumentGroups": [
@@ -73,15 +73,15 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ShowtimeService.cs",
-              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\ShowtimeService.cs",
-              "RelativeDocumentMoniker": "ApiApplication\\Services\\ShowtimeService.cs",
-              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Services\\ShowtimeService.cs",
-              "RelativeToolTip": "ApiApplication\\Services\\ShowtimeService.cs",
-              "ViewState": "AQIAAFoAAAAAAAAAAAAowEoAAABYAAAA",
+              "DocumentIndex": 2,
+              "Title": "TicketsController.cs",
+              "DocumentMoniker": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Controllers\\TicketsController.cs",
+              "RelativeDocumentMoniker": "ApiApplication\\Controllers\\TicketsController.cs",
+              "ToolTip": "D:\\DotNETClassLibrariesC#\\ProjectImadToModify\\ApiApplication\\Controllers\\TicketsController.cs",
+              "RelativeToolTip": "ApiApplication\\Controllers\\TicketsController.cs",
+              "ViewState": "AQIAADAAAAAAAAAAAAAowEwAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T14:14:56.647Z",
+              "WhenOpened": "2024-07-03T13:35:17.289Z",
               "EditorCaption": ""
             }
           ]

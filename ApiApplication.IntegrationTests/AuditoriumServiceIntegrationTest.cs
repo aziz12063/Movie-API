@@ -7,18 +7,19 @@ using Xunit;
 using ApiApplication.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using SharedFixtureTest;
+using ApiApplication.IntegrationTests.FixtureClassesFirIntegration;
 
 namespace ApiApplication.IntegrationTests
 {
-    //[Collection("SharedDB")]
-    public class AuditoriumServiceIntegrationTest : IClassFixture<DbFixtureShared>
+    [Collection("DB collection")]
+    public class AuditoriumServiceIntegrationTest //: IClassFixture<DbFixtureShared>
     {
         private  AuditoriumService _service;
        // private  CinemaContext _dbContext;
         private  IAuditoriumsRepository _auditoriumsRepository;
-        private  DbFixtureShared _fixture;
+        private DbFixtureIntegration _fixture;
 
-        public AuditoriumServiceIntegrationTest(DbFixtureShared fixture)
+        public AuditoriumServiceIntegrationTest(DbFixtureIntegration fixture)
         {
             //var options = new DbContextOptionsBuilder<CinemaContext>()
             //                .UseInMemoryDatabase(databaseName: "TestCinemaDatabase")
@@ -30,7 +31,6 @@ namespace ApiApplication.IntegrationTests
             _service = new AuditoriumService(_auditoriumsRepository);
         }
 
-       
 
         [Fact]
         public async Task AuditoriumExistAsync_ShouldReturnTrue_WhenAuditoriumExists()

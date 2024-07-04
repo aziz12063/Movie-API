@@ -6,11 +6,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ApiApplication.Test.ControllerTests
@@ -44,6 +39,82 @@ namespace ApiApplication.Test.ControllerTests
         }
 
         [Fact]
+        public async Task CreateShowtime_InvalidAuditoId_ReturnBadRequest()
+        {
+            // Arrange
+            var auditId = -1;
+            string movieId = "x";
+            DateTime dateTime = DateTime.UtcNow;
+            CancellationToken cancellationToken = new CancellationToken();
+
+
+            // Act
+            var result = await _controller.CreateShowtime(movieId,auditId, dateTime, cancellationToken);
+
+            // Assert
+           var badRequest = Assert.IsType<BadRequestObjectResult>(result.Result); // to verify that the response is BadRequest
+            Assert.Equal($"Invalid auditoriumId {auditId}", badRequest.Value);
+        }
+
+
+        [Fact]
+        public async Task CreateShowtime_ReturnOk()
+        {
+            // Arrange
+            var auditId = 1;
+            string movieId = "x";
+            DateTime dateTime = DateTime.Now.AddDays(1);
+            CancellationToken cancellationToken = new CancellationToken();
+            MovieDto movieDto = new MovieDto
+            {
+                movieId = movieId,
+            };
+
+            ShowtimeDto showtimeDto = new ShowtimeDto
+            {
+                AuditoriumId = auditId,
+                Movie = movieDto,
+                SessionDate = dateTime,
+                showtimeId = 3
+                
+            };
+
+            _mockAuditoriumService.Setup(s => s.AuditoriumExistAsync(It.IsAny<int>())).ReturnsAsync(true);
+            _mockShowtimeService.Setup(s => s.ShowtimeExistAsync(It.IsAny<int>(), It.IsAny<DateTime>())).ReturnsAsync(false);
+            _mockMovieService.Setup(s => s.GetMovieById(It.IsAny<string>())).ReturnsAsync(movieDto);
+
+            _mockShowtimeService.Setup(service => service.CreateShowTime(It.IsAny<ShowtimeDto>(), cancellationToken)).ReturnsAsync(showtimeDto);
+
+            //// Mock HttpContext and HttpRequest
+            //var mockHttpContext = new Mock<HttpContext>();
+            //var mockHttpRequest = new Mock<HttpRequest>();
+            //var mockHttpResponse = new Mock<HttpResponse>();
+
+            //mockHttpContext.SetupGet(x => x.Request).Returns(mockHttpRequest.Object);
+            //mockHttpContext.SetupGet(x => x.Response).Returns(mockHttpResponse.Object);
+
+            //// Mock the GetDisplayUrl extension method
+            //var mockUrlHelper = new Mock<IUrlHelper>();
+            //mockUrlHelper.Setup(x => x.Link(It.IsAny<string>(), It.IsAny<object>()))
+            //    .Returns("http://test.com/api/showtimes/1");
+            //_controller.Url = mockUrlHelper.Object;
+
+
+            // Act
+            var result = await _controller.CreateShowtime(movieId, auditId, dateTime, cancellationToken); 
+
+            // Assert
+            
+            var actionResult = Assert.IsType<ActionResult<ShowtimeDto>>(result);
+            var createdAtRouteResult = Assert.IsType<CreatedAtRouteResult>(actionResult.Result);
+            Assert.Equal("GetShowtimeWithMovie", createdAtRouteResult.RouteName);
+            Assert.Equal(showtimeDto.showtimeId, createdAtRouteResult.RouteValues["id"]);
+            Assert.Equal(showtimeDto, createdAtRouteResult.Value);
+
+        }
+
+
+        [Fact]
         public async Task GetShowtimeWithMovieById_ReturnsOkResult_WhenShowtimeExists()
         {
             // Arrange
@@ -58,6 +129,7 @@ namespace ApiApplication.Test.ControllerTests
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result); // to verify that the response is OkObjectResult
+
             var returnValue = Assert.IsType<ShowtimeDto>(okResult.Value);// to verify that the response value is of type ShowtimeDto
             Assert.Equal(id, returnValue.showtimeId);
            

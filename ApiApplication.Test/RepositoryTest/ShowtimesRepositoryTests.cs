@@ -38,7 +38,6 @@ namespace ApiApplication.Test.RepositoryTest
                 // Assert
                 Assert.NotNull(result);
                 Assert.Equal(id, result.showtimeId);
-
         }
 
         [Fact]
@@ -52,8 +51,6 @@ namespace ApiApplication.Test.RepositoryTest
             // Assert
             Assert.Null(result);
         }
-
-       
 
     }
 

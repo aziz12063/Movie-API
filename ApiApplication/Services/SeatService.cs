@@ -15,7 +15,6 @@ namespace ApiApplication.Services
     public class SeatService : ISeatService
     {
         private readonly ILogger<SeatService> _logger;
-
         
         public SeatService(ILogger<SeatService> logger)
         {

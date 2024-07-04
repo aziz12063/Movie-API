@@ -7,42 +7,38 @@ using ApiApplication.IntegrationTests.FixtureClassesFirIntegration;
 using ApiApplication.Models;
 using ApiApplication.Services;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Serilog;
-using SharedFixtureTest;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
-using static StackExchange.Redis.Role;
 
 namespace ApiApplication.IntegrationTests
 {
-    public class ShowtimeServiceIntegrationTest : IClassFixture<DbFixtureIntegration>, IClassFixture<DependenciesTestFixture>
+    [Collection("DB collection")]
+    public class ShowtimeServiceIntegrationTest //: IClassFixture<DbFixtureIntegration>//, IClassFixture<DependenciesTestFixture>
     {
-        private readonly DbFixtureIntegration _dbFixtureShared;
-        private readonly IMapper _mapper;
-        private readonly ILogger<ShowtimeService> _logger;
+        private DbFixtureIntegration _dbFixtureShared;
+        private IMapper _mapper;
+        private ILogger<ShowtimeService> _logger;
         private CinemaContext _dbContext;
 
 
-        private readonly IAuditoriumsRepository _auditoriumsRepository;
+        private IAuditoriumsRepository _auditoriumsRepository;
 
-        private readonly IShowtimesRepository _showtimesRepository;
+        private IShowtimesRepository _showtimesRepository;
 
-        private readonly ILogger<ShowtimesRepository> repoLogger;
+        private ILogger<ShowtimesRepository> repoLogger;
 
         private ShowtimeService _showtimeService;
 
         public ShowtimeServiceIntegrationTest(DbFixtureIntegration dbFixtureShared)
         {
             _dbFixtureShared = dbFixtureShared;
+            InitializeServices();
+        }
+
+        private void InitializeServices()
+        {
             var config = new MapperConfiguration(cfg =>
             {
                 // Automatically load profiles from the assembly containing the profiles
@@ -50,8 +46,8 @@ namespace ApiApplication.IntegrationTests
             });
             _mapper = config.CreateMapper();
             Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console()
-            .CreateLogger();
+                .WriteTo.Console()
+                .CreateLogger();
 
             var loggerFactory = LoggerFactory.Create(builder =>
             {
@@ -70,12 +66,13 @@ namespace ApiApplication.IntegrationTests
                                                    _showtimesRepository,
                                                    _mapper,
                                                    _logger);
-
         }
+
 
         [Fact]
         public async void CreateShowtime_Success()
         {
+         
             // Arrange
             var showtimeDto = new ShowtimeDto { AuditoriumId = 1 };
 
@@ -92,6 +89,7 @@ namespace ApiApplication.IntegrationTests
         [Fact]
         public async void CreateShowtime_NullShowtimeDto_ShouldThrowsArgNullExce()
         {
+         
             ShowtimeDto? showtimeDto = null;
 
             await Assert.ThrowsAsync<ArgumentNullException>(() =>
@@ -103,17 +101,18 @@ namespace ApiApplication.IntegrationTests
         [Fact]
         public async void CreateShowtime_GetAuditById_ThrowExce()
         {
+    
             var showtimedto = new ShowtimeDto { AuditoriumId = 3 };
             CancellationToken cancel = new CancellationToken();
 
-            await Assert.ThrowsAsync<DataRetrieveException<AuditoriumEntity>>(()
+            await Assert.ThrowsAsync<ArgumentException>(()
                                     => _showtimeService.CreateShowTime(showtimedto, cancel));
         }
 
         [Fact]
         public async void CreateShowtime_ErrorMap()
         {
-
+   
             var mapperMock = new Mock<IMapper>();
             mapperMock.Setup(m => m.Map<ShowtimeEntity>(It.IsAny<ShowtimeDto>()))
                       .Throws(new MappingException<ShowtimeDto, ShowtimeEntity>("Mapping error"));
@@ -136,7 +135,8 @@ namespace ApiApplication.IntegrationTests
         [Fact]
         public async void GetShowtimeByAuditoriumIdAndSessionDate_Success()
         {
-            int auditoriumId = 1;
+     
+            int auditoriumId = 5;
             DateTime sessionDate = DateTime.Now;
             CancellationToken cancellationToken = new CancellationToken();
             ShowtimeEntity showtimeEntity = new ShowtimeEntity
@@ -150,15 +150,19 @@ namespace ApiApplication.IntegrationTests
             _dbContext.Showtimes.Add(showtimeEntity);
             _dbContext.SaveChanges();
 
-            var result = await _showtimeService.GetShowtimeByAuditoriumIdAndSessionDate(auditoriumId, sessionDate, cancellationToken);
+            var result = await _showtimesRepository.GetByAuditoriumIdAndSessionDateAsync(auditoriumId, sessionDate, cancellationToken);
 
             Assert.NotNull(result);
             // add gere others assert
+
+
+
         }
 
         [Fact]
         public async void GetShowtimeByAuditoriumIdAndSessionDate_ShowtimeEntityNull_ReturnNull()
         {
+           
             int auditoriumId = 1;
             DateTime sessionDate = DateTime.Now;
             CancellationToken cancellationToken = new CancellationToken();
@@ -174,19 +178,20 @@ namespace ApiApplication.IntegrationTests
         [Fact]
         public async void GetShowtimeByAuditoriumIdAndSessionDate_Throwsexception()
         {
+           
             int auditoriumId = 1;
             DateTime sessionDate = DateTime.Now;
 
             var showtimesRepository = new Mock<IShowtimesRepository>();
-                showtimesRepository.Setup(repo => repo.GetByAuditoriumIdAndSessionDateAsync
-                                                (auditoriumId, sessionDate, _dbFixtureShared.cancellationToken))
-                                    .ThrowsAsync(new ArgumentException($"showtime with auditorium Id {auditoriumId} was not found."));
+            showtimesRepository.Setup(repo => repo.GetByAuditoriumIdAndSessionDateAsync
+                                            (auditoriumId, sessionDate, _dbFixtureShared.cancellationToken))
+                                .ThrowsAsync(new ArgumentException($"showtime with auditorium Id {auditoriumId} was not found."));
 
-             var showtimeService = new ShowtimeService(_auditoriumsRepository,
-                                                  showtimesRepository.Object,
-                                                  _mapper,
-                                                  _logger);
-            var result = await Assert.ThrowsAsync<ArgumentException>(() => 
+            var showtimeService = new ShowtimeService(_auditoriumsRepository,
+                                                 showtimesRepository.Object,
+                                                 _mapper,
+                                                 _logger);
+            var result = await Assert.ThrowsAsync<ArgumentException>(() =>
                                                     showtimeService.GetShowtimeByAuditoriumIdAndSessionDate(auditoriumId,
                                                                                                             sessionDate,
                                                                                                             _dbFixtureShared.cancellationToken));
@@ -196,6 +201,7 @@ namespace ApiApplication.IntegrationTests
         [Fact]
         public async void GetShowtimeByAuditoriumIdAndSessionDate_ThrowsexceptionMapping()
         {
+          
             int auditoriumId = 1;
             DateTime sessionDate = DateTime.Now;
 

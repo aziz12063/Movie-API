@@ -16,25 +16,21 @@ namespace ApiApplication.Services
     {
         private readonly IAuditoriumsRepository _auditoriumRepository;
 
-        // may be i delete movieservice
-        //private readonly IMovieService _movieService;
         private readonly IShowtimesRepository _showtimesRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<ShowtimeService> _logger;
 
         public ShowtimeService(IAuditoriumsRepository auditoriumRepository,
-                                //IMovieService movieService,
                                 IShowtimesRepository showtimesRepository,
                                 IMapper mapper,
                                 ILogger<ShowtimeService> logger)
         {
 
             _auditoriumRepository = auditoriumRepository;
-            //_movieService = movieService;
             _showtimesRepository = showtimesRepository;
             _mapper = mapper;
             _logger = logger;
-            
+
 
         }
 
@@ -52,16 +48,18 @@ namespace ApiApplication.Services
             try
             {
                 audi = await _auditoriumRepository.GetByIdWithSeatsAndShowtimesAsync(showtimeDto.AuditoriumId, cancel);
-                if (audi == null) 
-                { 
-                    _logger.LogWarning("the audit is null"); 
-                    throw new ArgumentException($"Auditorium with Id {showtimeDto.AuditoriumId} was not found.");
-                }
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError("cannot get auditoriumEntity");
                 throw new DataRetrieveException<AuditoriumEntity>(ex.Message);
+            }
+
+            if (audi == null)
+            {
+                _logger.LogError("the audit is null");
+                throw new ArgumentException($"Auditorium with Id {showtimeDto.AuditoriumId} was not found.");
             }
 
             try
@@ -77,7 +75,7 @@ namespace ApiApplication.Services
 
             try
             {
-                 showtimeEntity.Auditorium = audi;
+                showtimeEntity.Auditorium = audi;
 
                 if (audi.Showtimes == null)
                 {
@@ -86,8 +84,8 @@ namespace ApiApplication.Services
 
                 audi.Showtimes.Add(showtimeEntity);
             }
-                
-            catch (Exception ex) 
+
+            catch (Exception ex)
             {
                 _logger.LogError("cannot save to showtimeEntity");
                 throw new DataSaveException<ShowtimeEntity>(ex.Message, ex);
@@ -99,14 +97,14 @@ namespace ApiApplication.Services
 
                 return showtimeDtoCreated;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError("Error saving showtimeEntity: {Message}", ex.Message);
                 throw new DataSaveException<ShowtimeEntity>(ex.Message, ex);
             }
 
         }
-        
+
 
         public async Task<ShowtimeDto> GetShowtimeByAuditoriumIdAndSessionDate(int auditoriumId, DateTime sessionDate, CancellationToken cancellationToken)
         {
@@ -121,15 +119,15 @@ namespace ApiApplication.Services
                 }
 
             }
-            catch 
+            catch
             {
                 throw new ArgumentException($"showtime with auditorium Id {auditoriumId} was not found.");
             }
 
-          
+
             try
             {
-                 return _mapper.Map<ShowtimeDto>(showtimeEntity);
+                return _mapper.Map<ShowtimeDto>(showtimeEntity);
             }
 
             catch (Exception ex)
@@ -142,7 +140,7 @@ namespace ApiApplication.Services
         public async Task<ShowtimeDto> GetShowtimeWithMovieById(int Id, CancellationToken cancellation)
         {
             ShowtimeEntity showtimeEntity = await _showtimesRepository.GetWithMoviesByIdAsync(Id, cancellation);
-            return(_mapper.Map<ShowtimeDto>(showtimeEntity));
+            return (_mapper.Map<ShowtimeDto>(showtimeEntity));
         }
 
         public async Task<bool> ShowtimeExistAsync(int auditoriumId, DateTime sessionDate)

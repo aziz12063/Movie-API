@@ -2,7 +2,7 @@
 
 namespace ApiApplication.IntegrationTests.FixtureClassesFirIntegration
 {
-    [CollectionDefinition("DB collection integration")]
+    [CollectionDefinition("DB collection")]
     public class FixtureCollectionForIntegration : ICollectionFixture<DbFixtureIntegration>
     {
     }
