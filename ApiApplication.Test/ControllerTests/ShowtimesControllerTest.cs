@@ -108,8 +108,8 @@ namespace ApiApplication.Test.ControllerTests
             var actionResult = Assert.IsType<ActionResult<ShowtimeDto>>(result);
             var createdAtRouteResult = Assert.IsType<CreatedAtRouteResult>(actionResult.Result);
             Assert.Equal("GetShowtimeWithMovie", createdAtRouteResult.RouteName);
-            Assert.Equal(showtimeDto.showtimeId, createdAtRouteResult.RouteValues["id"]);
-            Assert.Equal(showtimeDto, createdAtRouteResult.Value);
+            Assert.Equal(showtimeDto.showtimeId, createdAtRouteResult?.RouteValues?["id"]);
+            Assert.Equal(showtimeDto, createdAtRouteResult?.Value);
 
         }
 

@@ -113,9 +113,6 @@ namespace ApiApplication.Services
             {
                 throw new Exception(ex.Message);
             }
-
-
-   
         }
 
         // To do: logic to cancel the ticket

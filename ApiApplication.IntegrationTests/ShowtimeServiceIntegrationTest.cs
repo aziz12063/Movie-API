@@ -34,11 +34,6 @@ namespace ApiApplication.IntegrationTests
         public ShowtimeServiceIntegrationTest(DbFixtureIntegration dbFixtureShared)
         {
             _dbFixtureShared = dbFixtureShared;
-            InitializeServices();
-        }
-
-        private void InitializeServices()
-        {
             var config = new MapperConfiguration(cfg =>
             {
                 // Automatically load profiles from the assembly containing the profiles
@@ -66,6 +61,7 @@ namespace ApiApplication.IntegrationTests
                                                    _showtimesRepository,
                                                    _mapper,
                                                    _logger);
+            
         }
 
 

@@ -20,7 +20,6 @@ namespace ApiApplication.Test.Services
     public class ShowtimeServiceTest
     {
         private readonly Mock<IAuditoriumsRepository> _mockAuditoriumsRepository;
-        //private readonly Mock<IMovieService> _movieServiceMock;
         private readonly Mock<IShowtimesRepository> _mockShowtimesRepository;
         private readonly Mock<IMapper> _mockMapper;
         private readonly Mock<ILogger<ShowtimeService>> _loggerMock;
@@ -30,22 +29,15 @@ namespace ApiApplication.Test.Services
         public ShowtimeServiceTest()
         {
             _mockAuditoriumsRepository = new Mock<IAuditoriumsRepository>();
-           // _movieServiceMock = new Mock<IMovieService>();
             _mockShowtimesRepository = new Mock<IShowtimesRepository>();
             _mockMapper = new Mock<IMapper>();
             _loggerMock = new Mock<ILogger<ShowtimeService>>();
 
             _showtimeService = new ShowtimeService(_mockAuditoriumsRepository.Object,
-                                                    //_movieServiceMock.Object,
                                                     _mockShowtimesRepository.Object,
                                                     _mockMapper.Object,
                                                     _loggerMock.Object);
-
         }
-
-       
-
-
 
         [Fact]
         public async void CreateShowtime_Success()
