@@ -94,11 +94,11 @@ namespace ApiApplication.Services
                 ticketDto.CreatedTime = DateTime.Now;
 
 
-                Dictionary<Guid, TicketDto> _tickets = GetTicketsFromCache();
+                Dictionary<Guid, TicketDto> tickets = GetTicketsFromCache();
 
-                _tickets.Add(guid, ticketDto);
+                tickets.Add(guid, ticketDto);
 
-                SetTicketInCache(_tickets);
+                SetTicketInCache(tickets);
 
                 Timer timer = new Timer(HandleCancellation, guid, TimeSpan.FromMinutes(10), Timeout.InfiniteTimeSpan);
 
@@ -122,9 +122,9 @@ namespace ApiApplication.Services
 
             _logger.LogInformation("in ticketService, HandleCancellation 1");
 
-            Dictionary<Guid, TicketDto> _tickets = GetTicketsFromCache();
+            Dictionary<Guid, TicketDto> tickets = GetTicketsFromCache();
 
-            if ((_tickets.TryGetValue(guid, out TicketDto ticketDto)))
+            if ((tickets.TryGetValue(guid, out TicketDto ticketDto)))
             {
                 // Check if seats are paid after 10 minutes
                 if (!ticketDto.Paid)
@@ -136,8 +136,8 @@ namespace ApiApplication.Services
 
                     
                     // this remove ticket from dic, handle other remove scenario
-                    RemoveTicket(guid, _tickets);
-                    SetTicketInCache(_tickets);
+                    RemoveTicket(guid, tickets);
+                    SetTicketInCache(tickets);
 
                     _logger.LogInformation("Reservation {ReservationId} canceled because seats were not paid.", ticketDto.TicketId);
                 }
@@ -155,14 +155,14 @@ namespace ApiApplication.Services
         // change the return on this method
         public async Task<bool> ConfirmPayementAsync(Guid id, CancellationToken cancellation)
         {
-            Dictionary<Guid, TicketDto> _tickets = GetTicketsFromCache();
+            Dictionary<Guid, TicketDto> tickets = GetTicketsFromCache();
 
 
             TicketEntity ticketEntity;
             // icheck if ticket is still alive
             
            
-            bool exist = _tickets.ContainsKey(id);
+            bool exist = tickets.ContainsKey(id);
             if (exist)
             {
                 _logger.LogInformation(" the guid exist from ConfirmationPayment");

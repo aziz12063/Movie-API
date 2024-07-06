@@ -7,7 +7,6 @@ using System;
 using System.Linq;
 using ApiApplication.Database.Repositories.Abstractions;
 using Microsoft.Extensions.Logging;
-using ApiApplication.Services.Interfaces;
 
 namespace ApiApplication.Database.Repositories
 {
@@ -15,15 +14,15 @@ namespace ApiApplication.Database.Repositories
     {
         private readonly CinemaContext _context;
         private readonly ILogger<TicketsRepository> _logger;
-        private readonly IShowtimesRepository _showtimesRepository;
-        private readonly ISeatService _seatService;
+        //private readonly IShowtimesRepository _showtimesRepository;
+        //private readonly ISeatService _seatService;
 
-        public TicketsRepository(CinemaContext context, IShowtimesRepository showtimesRepository, ILogger<TicketsRepository> logger, ISeatService seatService)
+        public TicketsRepository(CinemaContext context, ILogger<TicketsRepository> logger)
         {
             _context = context;
             _logger = logger;
-            _showtimesRepository = showtimesRepository;
-            _seatService = seatService;
+            //_showtimesRepository = showtimesRepository;
+           // _seatService = seatService;
         }
 
         public Task<TicketEntity> GetByIdAsync(Guid id, CancellationToken cancel)

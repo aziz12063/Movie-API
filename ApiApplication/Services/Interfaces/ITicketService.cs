@@ -1,11 +1,9 @@
 ﻿using ApiApplication.Models;
-using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ApiApplication
+namespace ApiApplication.Services.Interfaces
 {
     public interface ITicketService
     {

@@ -11,7 +11,7 @@ namespace ApiApplication.IntegrationTests.FixtureClassesFirIntegration
 {
     public class DbFixtureIntegration : IDisposable
     {
-        public DbContextOptions<CinemaContext> _dbContextOptions { get; private set; }
+        private DbContextOptions<CinemaContext> _dbContextOptions { get; }
         public CancellationToken cancellationToken { get; private set; }
         public CinemaContext context;
         public  IMapper _mapper;
@@ -55,12 +55,12 @@ namespace ApiApplication.IntegrationTests.FixtureClassesFirIntegration
             
             
                 context.Auditoriums.AddRange(
-                    new AuditoriumEntity { auditoriumId = 1 },
-                    new AuditoriumEntity { auditoriumId = 2 });
+                    new AuditoriumEntity { AuditoriumId = 1 },
+                    new AuditoriumEntity { AuditoriumId = 2 });
 
                 context.Showtimes.AddRange(
-                    new ShowtimeEntity { showtimeId = 1 },
-                    new ShowtimeEntity { showtimeId = 2 }
+                    new ShowtimeEntity { ShowtimeId = 1 },
+                    new ShowtimeEntity { ShowtimeId = 2 }
                     );
 
                 context.Tickets.AddRange(
@@ -70,7 +70,7 @@ namespace ApiApplication.IntegrationTests.FixtureClassesFirIntegration
 
             AuditoriumEntity Auditorium = new AuditoriumEntity
             {
-                auditoriumId = 10,
+                AuditoriumId = 10,
                 Seats = new List<SeatEntity>
                 {
                     new SeatEntity { Row = 1, SeatNumber = 2, IsReserved = false },
@@ -83,7 +83,7 @@ namespace ApiApplication.IntegrationTests.FixtureClassesFirIntegration
 
             ShowtimeEntity showtimeEntity = new ShowtimeEntity
             {
-                showtimeId = 10,
+                ShowtimeId = 10,
                 Auditorium = Auditorium
             };
 

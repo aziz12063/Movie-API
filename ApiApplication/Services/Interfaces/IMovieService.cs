@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace ApiApplication
+namespace ApiApplication.Services.Interfaces
 {
     public interface IMovieService
     {

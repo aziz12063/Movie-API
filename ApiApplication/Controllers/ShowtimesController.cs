@@ -6,16 +6,12 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.IO;
-using Microsoft.AspNetCore.Http.Extensions;
 using ApiApplication.CustomExceptions;
-using ApiApplication.Services;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Text.Json;
 using ApiApplication.Services.Interfaces;
-using ApiApplication.Database.Repositories.Abstractions;
-using System.Reflection;
-using AutoMapper;
+
 
 namespace ApiApplication.Controllers
 {
@@ -26,20 +22,19 @@ namespace ApiApplication.Controllers
         private readonly IShowtimeService _showtimeService;
         private readonly IMovieService _movieService;
         private readonly IAuditoriumService _auditoriumService;
-        private readonly IAuditoriumsRepository _auditoriumsRepository;
-        private readonly IMapper _mapper;
 
         private readonly ILogger<ShowtimesController> _logger;
 
-        public ShowtimesController(IShowtimeService showtimeService, IAuditoriumService auditoriumService, IMovieService movieService, ILogger<ShowtimesController> logger, IAuditoriumsRepository auditoriumsRepository, IMapper mapper)
+        public ShowtimesController(IShowtimeService showtimeService,
+                                   IAuditoriumService auditoriumService,
+                                   IMovieService movieService,
+                                   ILogger<ShowtimesController> logger)
         {
             _showtimeService = showtimeService;
             _movieService = movieService;
             _auditoriumService = auditoriumService;
-
             _logger = logger;
-            _auditoriumsRepository = auditoriumsRepository;
-            _mapper = mapper;
+
         }
 
 
@@ -139,7 +134,7 @@ namespace ApiApplication.Controllers
             return CreatedAtRoute("GetShowtimeWithMovie",
                     new
                     {
-                        id = createdShowtimeDto.showtimeId
+                        id = createdShowtimeDto.ShowtimeId
                     },
                     createdShowtimeDto
                     );
@@ -149,9 +144,17 @@ namespace ApiApplication.Controllers
 
         private async Task WriteCurlCommandToFile(string curlCommand)
         {
-            string solutionDirectory = Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName;
-            string filePath = Path.Combine(solutionDirectory, "cUrls.txt");
-            await System.IO.File.AppendAllTextAsync(filePath, curlCommand + Environment.NewLine);
+            try
+            {
+                string solutionDirectory = Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.FullName;
+                string filePath = Path.Combine(solutionDirectory, "cUrls.txt");
+                await System.IO.File.AppendAllTextAsync(filePath, curlCommand + Environment.NewLine);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+           
         }
 
         [HttpGet("{id}", Name = "GetShowtimeWithMovie")]

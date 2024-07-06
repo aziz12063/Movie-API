@@ -14,7 +14,6 @@ namespace ApiApplication.Test.RepositoryTest
     {
         private readonly DataBaseFixture _fixture;
         private readonly Mock<IMapper> _mapper;
-        private readonly Mock<ILogger<ShowtimesRepository>> _logger;
         private readonly CinemaContext context;
         private readonly ShowtimesRepository repo;
 
@@ -22,9 +21,8 @@ namespace ApiApplication.Test.RepositoryTest
         {
             _fixture = fixture;
             _mapper = new Mock<IMapper>();
-            _logger = new Mock<ILogger<ShowtimesRepository>>();
             context = new CinemaContext(_fixture._dbContextOptions);
-            repo = new ShowtimesRepository(context, _mapper.Object, _logger.Object);
+            repo = new ShowtimesRepository(context, _mapper.Object);
         }
 
         [Fact]
@@ -37,7 +35,7 @@ namespace ApiApplication.Test.RepositoryTest
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.Equal(id, result.showtimeId);
+                Assert.Equal(id, result.ShowtimeId);
         }
 
         [Fact]

@@ -1,8 +1,8 @@
 ﻿using ApiApplication.Cache;
 using ApiApplication.Models;
 using ApiApplication.ProvidedApi.Entities;
+using ApiApplication.Services.Interfaces;
 using AutoMapper;
-using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Net.Http;
@@ -14,27 +14,27 @@ namespace ApiApplication.Services
 {
     public class MovieService : IMovieService
     {
-        readonly string apiUrl = "http://localhost:7172/v1/movies";
-        string apiKey = "68e5fbda-9ec9-4858-97b2-4a8349764c63"; // i will perform this key
-        readonly int maxAttempt = 3;
+        readonly string _apiUrl = "http://localhost:7172/v1/movies";
+        string _apiKey = "68e5fbda-9ec9-4858-97b2-4a8349764c63"; // i will perform this key
+        readonly int _maxAttempt = 3;
         
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
-        private readonly ILogger<MovieService> _logger;
+        //private readonly ILogger<MovieService> _logger;
         private readonly IResponseCacheService _cacheService;
 
         public MovieService(HttpClient httpClient, 
                             IMapper mapper, 
-                            ILogger<MovieService> logger,
+                           // ILogger<MovieService> logger,
                             IResponseCacheService cacheService)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri(apiUrl);
+            _httpClient.BaseAddress = new Uri(_apiUrl);
             _httpClient.Timeout = new TimeSpan(0, 0, 30);
             _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Add("x-apikey", apiKey);
+            _httpClient.DefaultRequestHeaders.Add("x-apikey", _apiKey);
             _mapper = mapper;
-            _logger = logger;
+            //_logger = logger;
             _cacheService = cacheService;
         }
    
@@ -48,10 +48,10 @@ namespace ApiApplication.Services
                 var cacheKey = $"movie-{id}";
 
                 // i want to fetch just one movie
-                while(attempt <= maxAttempt)
+                while(attempt <= _maxAttempt)
                 {
                     Console.WriteLine("in GetMovieById, attempt N°: " + attempt);
-                    var response = await _httpClient.GetAsync(apiUrl + "/" + id);
+                    var response = await _httpClient.GetAsync(_apiUrl + "/" + id);
                     if (response.IsSuccessStatusCode)
                     {
                         MoviesApiEntity movieApi = null;
@@ -86,7 +86,7 @@ namespace ApiApplication.Services
                         await _cacheService.CacheResponseAsync(cacheKey, JsonSerializer.Serialize(movie));
 
                         // log the info of the movie to the console, not needed i can delete it later
-                        Console.WriteLine("the Id is: " + movie.movieId);
+                        Console.WriteLine("the Id is: " + movie.MovieId);
                         Console.WriteLine("the Title is: " + movie.Title);
                         Console.WriteLine("the ImdbId is: " + movie.ImdbId);
                         Console.WriteLine("the ReleaseDate is: " + movie.ReleaseDate);

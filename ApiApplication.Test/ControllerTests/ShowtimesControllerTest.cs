@@ -33,9 +33,7 @@ namespace ApiApplication.Test.ControllerTests
             _controller = new ShowtimesController(_mockShowtimeService.Object,
                                                   _mockAuditoriumService.Object,
                                                   _mockMovieService.Object,
-                                                  _mockLogger.Object,
-                                                  _mockAuditoriumsRepository.Object,
-                                                  _mapper.Object);
+                                                  _mockLogger.Object);
         }
 
         [Fact]
@@ -67,7 +65,7 @@ namespace ApiApplication.Test.ControllerTests
             CancellationToken cancellationToken = new CancellationToken();
             MovieDto movieDto = new MovieDto
             {
-                movieId = movieId,
+                MovieId = movieId,
             };
 
             ShowtimeDto showtimeDto = new ShowtimeDto
@@ -75,7 +73,7 @@ namespace ApiApplication.Test.ControllerTests
                 AuditoriumId = auditId,
                 Movie = movieDto,
                 SessionDate = dateTime,
-                showtimeId = 3
+                ShowtimeId = 3
                 
             };
 
@@ -108,7 +106,7 @@ namespace ApiApplication.Test.ControllerTests
             var actionResult = Assert.IsType<ActionResult<ShowtimeDto>>(result);
             var createdAtRouteResult = Assert.IsType<CreatedAtRouteResult>(actionResult.Result);
             Assert.Equal("GetShowtimeWithMovie", createdAtRouteResult.RouteName);
-            Assert.Equal(showtimeDto.showtimeId, createdAtRouteResult?.RouteValues?["id"]);
+            Assert.Equal(showtimeDto.ShowtimeId, createdAtRouteResult?.RouteValues?["id"]);
             Assert.Equal(showtimeDto, createdAtRouteResult?.Value);
 
         }
@@ -120,7 +118,7 @@ namespace ApiApplication.Test.ControllerTests
             // Arrange
             var id = 1;
             CancellationToken cancellationToken = new CancellationToken();
-            ShowtimeDto showtimeDto = new ShowtimeDto { showtimeId = id };
+            ShowtimeDto showtimeDto = new ShowtimeDto { ShowtimeId = id };
 
             _mockShowtimeService.Setup(service => service.GetShowtimeWithMovieById(id, cancellationToken)).ReturnsAsync(showtimeDto);
 
@@ -131,7 +129,7 @@ namespace ApiApplication.Test.ControllerTests
             var okResult = Assert.IsType<OkObjectResult>(result.Result); // to verify that the response is OkObjectResult
 
             var returnValue = Assert.IsType<ShowtimeDto>(okResult.Value);// to verify that the response value is of type ShowtimeDto
-            Assert.Equal(id, returnValue.showtimeId);
+            Assert.Equal(id, returnValue.ShowtimeId);
            
         }
 
@@ -141,7 +139,7 @@ namespace ApiApplication.Test.ControllerTests
             // Arrange
             var id = 1;
             CancellationToken cancellationToken = new CancellationToken();
-            ShowtimeDto showtimeDto = new ShowtimeDto { showtimeId = id };
+            ShowtimeDto showtimeDto = new ShowtimeDto { ShowtimeId = id };
 
             _mockShowtimeService.Setup(service => service.GetShowtimeWithMovieById(id, cancellationToken)).ReturnsAsync((ShowtimeDto?)null);
 

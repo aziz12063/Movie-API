@@ -8,6 +8,7 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using ApiApplication.CustomExceptions;
 using System.Collections.Generic;
+using ApiApplication.Services.Interfaces;
 
 
 namespace ApiApplication.Services
@@ -108,7 +109,7 @@ namespace ApiApplication.Services
 
         public async Task<ShowtimeDto> GetShowtimeByAuditoriumIdAndSessionDate(int auditoriumId, DateTime sessionDate, CancellationToken cancellationToken)
         {
-            ShowtimeEntity showtimeEntity = new();
+            ShowtimeEntity showtimeEntity;
             try
             {
                 showtimeEntity = await _showtimesRepository.GetByAuditoriumIdAndSessionDateAsync(auditoriumId, sessionDate, cancellationToken);
@@ -137,9 +138,9 @@ namespace ApiApplication.Services
             }
         }
 
-        public async Task<ShowtimeDto> GetShowtimeWithMovieById(int Id, CancellationToken cancellation)
+        public async Task<ShowtimeDto> GetShowtimeWithMovieById(int id, CancellationToken cancellation)
         {
-            ShowtimeEntity showtimeEntity = await _showtimesRepository.GetWithMoviesByIdAsync(Id, cancellation);
+            ShowtimeEntity showtimeEntity = await _showtimesRepository.GetWithMoviesByIdAsync(id, cancellation);
             return (_mapper.Map<ShowtimeDto>(showtimeEntity));
         }
 

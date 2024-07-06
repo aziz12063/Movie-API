@@ -14,10 +14,10 @@ namespace ApiApplication.IntegrationTests
     [Collection("DB collection")]
     public class AuditoriumServiceIntegrationTest //: IClassFixture<DbFixtureShared>
     {
-        private  AuditoriumService _service;
+        private readonly  AuditoriumService _service;
        // private  CinemaContext _dbContext;
-        private  IAuditoriumsRepository _auditoriumsRepository;
-        private DbFixtureIntegration _fixture;
+        private readonly  IAuditoriumsRepository _auditoriumsRepository;
+        private readonly DbFixtureIntegration _fixture;
 
         public AuditoriumServiceIntegrationTest(DbFixtureIntegration fixture)
         {
@@ -37,12 +37,12 @@ namespace ApiApplication.IntegrationTests
         {
             // Arrange
             //InitializeTest();
-            var auditorium = new AuditoriumEntity { auditoriumId = 1 };
+            var auditorium = new AuditoriumEntity { AuditoriumId = 1 };
            // _dbContext.Auditoriums.Add(auditorium);
             //await _dbContext.SaveChangesAsync();
 
             // Act
-            bool result = await _service.AuditoriumExistAsync(auditorium.auditoriumId);
+            bool result = await _service.AuditoriumExistAsync(auditorium.AuditoriumId);
 
             // Assert
             result.Should().BeTrue();

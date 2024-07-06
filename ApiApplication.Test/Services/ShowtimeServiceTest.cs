@@ -45,7 +45,7 @@ namespace ApiApplication.Test.Services
             // Arrange
             var showtimeDto = new ShowtimeDto { AuditoriumId = 1 };
             var cancellationToken = CancellationToken.None;
-            var auditoriumEntity = new AuditoriumEntity { auditoriumId = 1 };
+            var auditoriumEntity = new AuditoriumEntity { AuditoriumId = 1 };
             var showtimeEntity = new ShowtimeEntity();
             var createdShowtimeDto = new ShowtimeDto { AuditoriumId = 1 };
 
@@ -115,7 +115,7 @@ namespace ApiApplication.Test.Services
         {
             var showtimeDto = new ShowtimeDto { AuditoriumId = 1 };
             var cancellationToken = CancellationToken.None;
-            var auditoriumEntity = new AuditoriumEntity { auditoriumId = 1 };
+            var auditoriumEntity = new AuditoriumEntity { AuditoriumId = 1 };
 
             _mockAuditoriumsRepository.Setup(repo =>
                                             repo.GetByIdWithSeatsAndShowtimesAsync(It.IsAny<int>(), cancellationToken))

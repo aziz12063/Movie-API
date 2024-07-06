@@ -5,7 +5,7 @@ namespace ApiApplication.Database.Entities
 {
     public class MovieEntity
     {
-        public int movieIntId { get; set; }
+        public int MovieIntId { get; set; }
         public string Title { get; set; }
         public string ImdbId { get; set; }
         public string Stars { get; set; }

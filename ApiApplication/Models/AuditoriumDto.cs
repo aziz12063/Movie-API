@@ -4,7 +4,7 @@ namespace ApiApplication.Models
 {
     public class AuditoriumDto
     {
-        public int auditoriumId { get; set; }
+        public int AuditoriumId { get; set; }
         public List<ShowtimeDto> Showtimes { get; set; }
         public ICollection<SeatDto> Seats { get; set; }
     }

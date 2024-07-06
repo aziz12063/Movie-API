@@ -9,7 +9,6 @@ using System.Linq.Expressions;
 using ApiApplication.Database.Repositories.Abstractions;
 using ApiApplication.Models;
 using AutoMapper;
-using System.Reflection;
 using Microsoft.Extensions.Logging;
 
 namespace ApiApplication.Database.Repositories
@@ -18,13 +17,13 @@ namespace ApiApplication.Database.Repositories
     {
         private readonly CinemaContext _context;
         private readonly IMapper _mapper;
-        private readonly ILogger<ShowtimesRepository> _logger;
+       // private readonly ILogger<ShowtimesRepository> _logger;
 
-        public ShowtimesRepository(CinemaContext context, IMapper mapper, ILogger<ShowtimesRepository> logger)
+        public ShowtimesRepository(CinemaContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _logger = logger;
+           
         }
 
 
@@ -34,7 +33,7 @@ namespace ApiApplication.Database.Repositories
             {
                 return await _context.Showtimes
                 .Include(x => x.Movie)
-                .FirstOrDefaultAsync(x => x.showtimeId == id, cancel);
+                .FirstOrDefaultAsync(x => x.ShowtimeId == id, cancel);
             }
             catch (Exception ex)
             {
@@ -51,7 +50,7 @@ namespace ApiApplication.Database.Repositories
                                         .ThenInclude(x => x.Seats)
                                         .Include(x => x.Auditorium)
                                         .ThenInclude(a => a.Seats)
-                                        .FirstOrDefaultAsync(s => s.showtimeId == showtimeId);
+                                        .FirstOrDefaultAsync(s => s.ShowtimeId == showtimeId);
         }
 
       

@@ -31,7 +31,6 @@ namespace ApiApplication.IntegrationTests
         private readonly ITicketsRepository _ticketRepository;
 
         private readonly ILogger<TicketService> _loggerTicketService;
-        private readonly ILogger<ShowtimesRepository> _loggerShowtimeRepo;
         private readonly ILogger<SeatService> _loggerSeatService;
         private readonly ILogger<TicketsRepository> _loggerTicketRepo;
 
@@ -66,15 +65,15 @@ namespace ApiApplication.IntegrationTests
             });
 
             _loggerTicketService = loggerFactory.CreateLogger<TicketService>();
-            _loggerShowtimeRepo = loggerFactory.CreateLogger<ShowtimesRepository>();
+           
             _loggerSeatService = loggerFactory.CreateLogger<SeatService>();
             _loggerTicketRepo = loggerFactory.CreateLogger<TicketsRepository>();
 
             _cache = new MemoryCache(new MemoryCacheOptions());
 
-            _showtimesRepository = new ShowtimesRepository(_dbContext, _mapper, _loggerShowtimeRepo);
+            _showtimesRepository = new ShowtimesRepository(_dbContext, _mapper);
             _seatService = new SeatService(_loggerSeatService);
-            _ticketRepository = new TicketsRepository(_dbContext, _showtimesRepository, _loggerTicketRepo, _seatService);
+            _ticketRepository = new TicketsRepository(_dbContext, _loggerTicketRepo);
 
             _ticketService = new TicketService(_mapper,
                                                _showtimesRepository,
@@ -121,8 +120,8 @@ namespace ApiApplication.IntegrationTests
             Assert.NotNull(showtimeEntity);
             Assert.NotNull(result);
             Assert.NotNull(showtimeEntity.Auditorium);
-            Assert.Equal(showtimeId, showtimeEntity.showtimeId);
-            Assert.Equal(10, showtimeEntity.Auditorium.auditoriumId);
+            Assert.Equal(showtimeId, showtimeEntity.ShowtimeId);
+            Assert.Equal(10, showtimeEntity.Auditorium.AuditoriumId);
             //Assert.NotEmpty(seatsToReserve); //this not passed
             Assert.NotNull(mappedResult);
             Assert.NotNull(returnDto);

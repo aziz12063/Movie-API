@@ -9,14 +9,7 @@ using ApiApplication.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
-using Serilog.Core;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace ApiApplication.IntegrationTests
@@ -62,15 +55,12 @@ namespace ApiApplication.IntegrationTests
             _cache = new MemoryCache(new MemoryCacheOptions());
 
             _showtimesRepository = new ShowtimesRepository(_dbContext,
-                                                           _mapper,
-                                                           _loggerShowtimeRepo);
+                                                           _mapper);
 
             _seatService = new SeatService(_loggerSeatService);
 
             _ticketsRepository = new TicketsRepository(_dbContext,
-                                                       _showtimesRepository,
-                                                       _loggerTicketsRepository,
-                                                       _seatService);
+                                                       _loggerTicketsRepository );
 
             _ticketService = new TicketService(_mapper,
                                                _showtimesRepository,
@@ -85,12 +75,11 @@ namespace ApiApplication.IntegrationTests
             
 
             _ticketsController = new TicketsController(_ticketService,
-                                                       _loggerTicketsController,
-                                                       _showtimesRepository,
-                                                       _mapper,
-                                                       _auditoriumsRepository,
-                                                       _seatService,
-                                                       _ticketsRepository);
+                                                       _loggerTicketsController
+                                                       //_showtimesRepository
+
+                                                     //_mapper
+                                                       );
 
 
 

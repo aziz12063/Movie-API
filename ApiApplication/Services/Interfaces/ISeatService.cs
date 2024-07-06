@@ -11,7 +11,7 @@ namespace ApiApplication.Services.Interfaces
     {
         Task<List<SeatEntity>> FindSeatsContiguous(IEnumerable<SeatEntity> availableSeatsDto, int nbrOfSeatsToReserve, CancellationToken cancel);
         Task<List<SeatEntity>> UpdateSeatsState(List<SeatEntity> seats);
-        List<SeatDto> GrabSeatsAvailable(List<SeatDto> globalSeats, List<SeatDto> reservedSeats);
+       
 
     }
 }

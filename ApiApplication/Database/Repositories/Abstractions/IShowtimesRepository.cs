@@ -11,7 +11,7 @@ namespace ApiApplication.Database.Repositories.Abstractions
     public interface IShowtimesRepository
     {
         Task<ShowtimeDto> CreateShowtime(ShowtimeEntity showtimeEntity, CancellationToken cancel);
-        Task<IEnumerable<ShowtimeEntity>> GetAllAsync(Expression<Func<ShowtimeEntity, bool>> filter, CancellationToken cancel);
+       
         Task<ShowtimeEntity> GetWithMoviesByIdAsync(int id, CancellationToken cancel);
         
         

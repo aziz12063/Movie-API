@@ -79,7 +79,7 @@ namespace ApiApplication.Test.Services
             TicketDto ticketDto = new TicketDto {TicketId = new Guid() };
             int nbrOfSeatsToReserve = 2;
 
-            ShowtimeEntity showtimeEntity = new ShowtimeEntity {showtimeId = 1, AuditoriumId = 1, Auditorium = new(), Movie = new(), SessionDate = DateTime.Now };
+            ShowtimeEntity showtimeEntity = new ShowtimeEntity {ShowtimeId = 1, AuditoriumId = 1, Auditorium = new(), Movie = new(), SessionDate = DateTime.Now };
 
             List<SeatEntity>? seats = null;
 

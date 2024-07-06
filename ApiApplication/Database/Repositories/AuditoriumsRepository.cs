@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Threading;
 using ApiApplication.Database.Repositories.Abstractions;
-using System.Linq;
-using System;
 
 namespace ApiApplication.Database.Repositories
 {
@@ -22,34 +20,14 @@ namespace ApiApplication.Database.Repositories
             return await _context.Auditoriums
                 .Include(x => x.Seats)
                 .Include(x => x.Showtimes)
-                .FirstOrDefaultAsync(x => x.auditoriumId == auditoriumId, cancel);
+                .FirstOrDefaultAsync(x => x.AuditoriumId == auditoriumId, cancel);
         }
 
-        public async Task<AuditoriumEntity> GetByIdIncludShowtimeAsync(int auditoriumId, CancellationToken cancel)
-        {
-            return await _context.Auditoriums
-                .Include(x => x.Showtimes)
-                .FirstOrDefaultAsync(x => x.auditoriumId == auditoriumId, cancel);
-        }
-
-
-        // delete this mothod
-        public bool IsTheAuditoriumAvailable(int auditoriumId, DateTime sessionDate)
-        {
-            // here i check only if the auditorium exist
-            _context.Auditoriums.Any(x => x.auditoriumId == auditoriumId);
-
-            // here i check the availability of the auditorium
-            return _context.Auditoriums.Where(auditorium => auditorium.auditoriumId == auditoriumId &&
-                                              auditorium.Showtimes.Any(showtime => showtime.SessionDate == sessionDate))
-                                       .Any();
-
-        }
 
         public async Task<bool> AuditoriumExistAsync(int auditoriumId)
         {
             return await _context.Auditoriums
-                    .AnyAsync(a => a.auditoriumId == auditoriumId);
+                    .AnyAsync(a => a.AuditoriumId == auditoriumId);
         }
     }
 }

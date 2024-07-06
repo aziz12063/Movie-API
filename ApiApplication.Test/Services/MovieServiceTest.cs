@@ -20,7 +20,6 @@ namespace ApiApplication.Test.Services
         private readonly Mock<HttpMessageHandler> _mockHttpMessageHandler;
         private readonly HttpClient _httpClient;
         private readonly Mock<IMapper> _mockMapper;
-        private readonly Mock<ILogger<MovieService>> _mockLogger;
         private readonly Mock<IResponseCacheService> _mockResponseCacheService;
         private readonly MovieService _movieService;
 
@@ -32,9 +31,8 @@ namespace ApiApplication.Test.Services
                 BaseAddress = new Uri("http://localhost:7172/v1/movies")
             };
             _mockMapper = new Mock<IMapper>();
-            _mockLogger = new Mock<ILogger<MovieService>>();
             _mockResponseCacheService = new Mock<IResponseCacheService>();
-            _movieService = new MovieService( _httpClient, _mockMapper.Object, _mockLogger.Object, _mockResponseCacheService.Object );
+            _movieService = new MovieService( _httpClient, _mockMapper.Object, _mockResponseCacheService.Object );
         }
 
         [Fact]
@@ -43,7 +41,7 @@ namespace ApiApplication.Test.Services
             // Arrange
             var movieId = "1";
             var movieApiEntity = new MoviesApiEntity { Id = movieId, Title = "TestTitle", ImDbRating = "tt1234567" };
-            var movieDto = new MovieDto { movieId = movieId, Title = "TestTitle", ImdbId = "tt1234567", ReleaseDate = DateTime.Now };
+            var movieDto = new MovieDto { MovieId = movieId, Title = "TestTitle", ImdbId = "tt1234567", ReleaseDate = DateTime.Now };
 
             var responseMessage = new HttpResponseMessage
             {
@@ -64,7 +62,7 @@ namespace ApiApplication.Test.Services
 
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(movieId, result.movieId);
+            Assert.Equal(movieId, result.MovieId);
             Assert.Equal("TestTitle", result.Title);
         }
 
@@ -74,7 +72,7 @@ namespace ApiApplication.Test.Services
             // Arrange
             var movieId = "1";
             var movieApiEntity = new MoviesApiEntity { Id = movieId, Title = "TestTitle", ImDbRating = "tt1234567" };
-            var movieDto = new MovieDto { movieId = movieId, Title = "TestTitle", ImdbId = "tt1234567", ReleaseDate = DateTime.Now };
+            var movieDto = new MovieDto { MovieId = movieId, Title = "TestTitle", ImdbId = "tt1234567", ReleaseDate = DateTime.Now };
 
             _mockMapper.Setup(m => m.Map<MovieDto>(It.IsAny<MoviesApiEntity>())).Returns(movieDto);
 
@@ -98,7 +96,7 @@ namespace ApiApplication.Test.Services
 
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(movieId, result.movieId);
+            Assert.Equal(movieId, result.MovieId);
             Assert.Equal("TestTitle", result.Title);
         }
 
@@ -107,13 +105,12 @@ namespace ApiApplication.Test.Services
         {
             // Arrange
             var movieId = "1";
-            var movieDto = new MovieDto { movieId = movieId, Title = "Cached Movie", ImdbId = "tt1234567", ReleaseDate = DateTime.Now };
+            var movieDto = new MovieDto { MovieId = movieId, Title = "Cached Movie", ImdbId = "tt1234567", ReleaseDate = DateTime.Now };
 
             var responseMessage = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.InternalServerError
             };
-
             _mockHttpMessageHandler.Protected()
                                    .Setup<Task<HttpResponseMessage>>(
                                                                     "SendAsync",
@@ -129,7 +126,7 @@ namespace ApiApplication.Test.Services
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(movieId, result.movieId);
+            Assert.Equal(movieId, result.MovieId);
             Assert.Equal("Cached Movie", result.Title);
         }
 
@@ -143,7 +140,6 @@ namespace ApiApplication.Test.Services
             {
                 StatusCode = HttpStatusCode.InternalServerError
             };
-
             _mockHttpMessageHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
@@ -151,9 +147,7 @@ namespace ApiApplication.Test.Services
                     ItExpr.IsAny<CancellationToken>()
                 )
                 .ReturnsAsync(responseMessage);
-
             _mockResponseCacheService.Setup(c => c.GetCachedResponseAsync(It.IsAny<string>())).ReturnsAsync(string.Empty);
-
             // Act & Assert
             await Assert.ThrowsAsync<Exception>(() => _movieService.GetMovieById(movieId));
         }

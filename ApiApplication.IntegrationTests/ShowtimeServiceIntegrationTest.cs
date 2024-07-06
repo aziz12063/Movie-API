@@ -22,12 +22,9 @@ namespace ApiApplication.IntegrationTests
         private ILogger<ShowtimeService> _logger;
         private CinemaContext _dbContext;
 
-
         private IAuditoriumsRepository _auditoriumsRepository;
 
         private IShowtimesRepository _showtimesRepository;
-
-        private ILogger<ShowtimesRepository> repoLogger;
 
         private ShowtimeService _showtimeService;
 
@@ -50,25 +47,21 @@ namespace ApiApplication.IntegrationTests
             });
 
             _logger = loggerFactory.CreateLogger<ShowtimeService>();
-            repoLogger = loggerFactory.CreateLogger<ShowtimesRepository>();
-
+           
             _dbContext = _dbFixtureShared.context;
 
             _auditoriumsRepository = new AuditoriumsRepository(_dbContext);
-            _showtimesRepository = new ShowtimesRepository(_dbContext, _mapper, repoLogger);
+            _showtimesRepository = new ShowtimesRepository(_dbContext, _mapper);
 
             _showtimeService = new ShowtimeService(_auditoriumsRepository,
                                                    _showtimesRepository,
                                                    _mapper,
                                                    _logger);
-            
         }
-
 
         [Fact]
         public async void CreateShowtime_Success()
         {
-         
             // Arrange
             var showtimeDto = new ShowtimeDto { AuditoriumId = 1 };
 
@@ -85,19 +78,15 @@ namespace ApiApplication.IntegrationTests
         [Fact]
         public async void CreateShowtime_NullShowtimeDto_ShouldThrowsArgNullExce()
         {
-         
             ShowtimeDto? showtimeDto = null;
 
             await Assert.ThrowsAsync<ArgumentNullException>(() =>
                                 _showtimeService.CreateShowTime(showtimeDto, new CancellationToken()));
-
-
         }
 
         [Fact]
         public async void CreateShowtime_GetAuditById_ThrowExce()
         {
-    
             var showtimedto = new ShowtimeDto { AuditoriumId = 3 };
             CancellationToken cancel = new CancellationToken();
 
@@ -108,7 +97,6 @@ namespace ApiApplication.IntegrationTests
         [Fact]
         public async void CreateShowtime_ErrorMap()
         {
-   
             var mapperMock = new Mock<IMapper>();
             mapperMock.Setup(m => m.Map<ShowtimeEntity>(It.IsAny<ShowtimeDto>()))
                       .Throws(new MappingException<ShowtimeDto, ShowtimeEntity>("Mapping error"));
@@ -120,24 +108,22 @@ namespace ApiApplication.IntegrationTests
 
             var showtimeDto = new ShowtimeDto { AuditoriumId = 1 };
             var cancellationToken = CancellationToken.None;
-            var auditoriumEntity = new AuditoriumEntity { auditoriumId = 1 };
+            var auditoriumEntity = new AuditoriumEntity { AuditoriumId = 1 };
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<MappingException<ShowtimeDto, ShowtimeEntity>>(() =>
                                                     showtimeService.CreateShowTime(showtimeDto, cancellationToken));
         }
 
-
         [Fact]
         public async void GetShowtimeByAuditoriumIdAndSessionDate_Success()
         {
-     
             int auditoriumId = 5;
             DateTime sessionDate = DateTime.Now;
             CancellationToken cancellationToken = new CancellationToken();
             ShowtimeEntity showtimeEntity = new ShowtimeEntity
             {
-                showtimeId = 3,
+                ShowtimeId = 3,
                 SessionDate = sessionDate,
                 AuditoriumId = auditoriumId,
                 Movie = null,
@@ -150,31 +136,24 @@ namespace ApiApplication.IntegrationTests
 
             Assert.NotNull(result);
             // add gere others assert
-
-
-
         }
 
         [Fact]
         public async void GetShowtimeByAuditoriumIdAndSessionDate_ShowtimeEntityNull_ReturnNull()
         {
-           
             int auditoriumId = 1;
             DateTime sessionDate = DateTime.Now;
             CancellationToken cancellationToken = new CancellationToken();
 
-
             var result = await _showtimeService.GetShowtimeByAuditoriumIdAndSessionDate(auditoriumId, sessionDate, cancellationToken);
 
             Assert.Null(result);
-
         }
 
 
         [Fact]
         public async void GetShowtimeByAuditoriumIdAndSessionDate_Throwsexception()
         {
-           
             int auditoriumId = 1;
             DateTime sessionDate = DateTime.Now;
 
@@ -197,7 +176,6 @@ namespace ApiApplication.IntegrationTests
         [Fact]
         public async void GetShowtimeByAuditoriumIdAndSessionDate_ThrowsexceptionMapping()
         {
-          
             int auditoriumId = 1;
             DateTime sessionDate = DateTime.Now;
 
@@ -212,7 +190,7 @@ namespace ApiApplication.IntegrationTests
 
             ShowtimeEntity showtimeEntity = new ShowtimeEntity
             {
-                showtimeId = 3,
+                ShowtimeId = 3,
                 SessionDate = sessionDate,
                 AuditoriumId = auditoriumId,
                 Movie = null,
@@ -220,7 +198,6 @@ namespace ApiApplication.IntegrationTests
             };
             _dbContext.Showtimes.Add(showtimeEntity);
             _dbContext.SaveChanges();
-
 
             var exception = await Assert.ThrowsAsync<MappingException<ShowtimeEntity, ShowtimeDto>>(() =>
                                                     showtimeService.GetShowtimeByAuditoriumIdAndSessionDate(auditoriumId,

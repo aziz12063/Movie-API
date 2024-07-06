@@ -50,7 +50,7 @@ namespace ApiApplication.Test.RepositoryTest
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.Equal(expectedAuditoriumId, result.auditoriumId);
+                Assert.Equal(expectedAuditoriumId, result.AuditoriumId);
             }
         }
 

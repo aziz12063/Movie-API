@@ -4,7 +4,7 @@ namespace ApiApplication.Database.Entities
 {
     public class AuditoriumEntity
     {
-        public int auditoriumId { get; set; }
+        public int AuditoriumId { get; set; }
         public List<ShowtimeEntity> Showtimes { get; set; }
         public ICollection<SeatEntity> Seats { get; set; }
        

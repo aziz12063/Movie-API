@@ -4,8 +4,6 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-using ApiApplication.Database.Repositories.Abstractions;
-using AutoMapper;
 using ApiApplication.Services.Interfaces;
 
 namespace ApiApplication.Controllers
@@ -16,27 +14,23 @@ namespace ApiApplication.Controllers
     {
         private readonly ITicketService _ticketService;
         private readonly ILogger<TicketsController> _logger;
-        private readonly IShowtimesRepository _showtimesRepository;
-        private readonly IMapper _mapper;
-        private readonly IAuditoriumsRepository _auditoriumsRepository;
-        private readonly ISeatService _seatService;
-        private readonly ITicketsRepository _ticketsRepository;
+       // private readonly IShowtimesRepository _showtimesRepository;
+       // private readonly IMapper _mapper;
+        
+       
+        
 
         public TicketsController(ITicketService ticketService,
-                                ILogger<TicketsController> logger,
-                                IShowtimesRepository showtimesRepository,
-                                IMapper mapper,
-                                IAuditoriumsRepository auditoriumsRepository,
-                                ISeatService seatService,
-                                ITicketsRepository ticketsRepository)
+                                ILogger<TicketsController> logger
+                               // IShowtimesRepository showtimesRepository
+                                //IMapper mapper
+                                )
         {
             _ticketService = ticketService;
             _logger = logger;
-            _showtimesRepository = showtimesRepository;
-            _mapper = mapper;
-            _auditoriumsRepository = auditoriumsRepository;
-            _seatService = seatService;
-            _ticketsRepository = ticketsRepository;
+            //_showtimesRepository = showtimesRepository;
+            //_mapper = mapper;
+           
         }
 
         

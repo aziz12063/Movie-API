@@ -30,12 +30,12 @@ namespace SharedFixtureTest
             
             
                 context.Auditoriums.AddRange(
-                    new AuditoriumEntity { auditoriumId = 1 },
-                    new AuditoriumEntity { auditoriumId = 2 });
+                    new AuditoriumEntity { AuditoriumId = 1 },
+                    new AuditoriumEntity { AuditoriumId = 2 });
 
                 context.Showtimes.AddRange(
-                    new ShowtimeEntity { showtimeId = 1 },
-                    new ShowtimeEntity { showtimeId = 2 }
+                    new ShowtimeEntity { ShowtimeId = 1 },
+                    new ShowtimeEntity { ShowtimeId = 2 }
                     );
 
                 context.Tickets.AddRange(

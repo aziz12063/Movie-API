@@ -42,7 +42,7 @@ namespace ApiApplication.IntegrationTests
         private readonly IShowtimesRepository _showtimesRepository;
         private readonly ILogger<ShowtimeService> _loggerShowtimeService;
 
-        private readonly ILogger<ShowtimesRepository> _loggerShowtimeRepo;
+       
 
         private DbFixtureIntegration _dbFixtureShared;
         private CinemaContext _dbContext;
@@ -60,15 +60,14 @@ namespace ApiApplication.IntegrationTests
             _mapper = _dbFixtureShared._mapper;
             var loggerFactory = _dbFixtureShared._loggerFactory;
 
-            _loggerShowtimeRepo = loggerFactory.CreateLogger<ShowtimesRepository>();
+            
             _loggerShowtimesController = loggerFactory.CreateLogger<ShowtimesController>();
             _loggerShowtimeService = loggerFactory.CreateLogger<ShowtimeService>();
 
 
             _auditoriumsRepository = new AuditoriumsRepository(_dbContext);
             _showtimesRepository = new ShowtimesRepository(_dbContext,
-                                                           _mapper,
-                                                           _loggerShowtimeRepo);
+                                                           _mapper );
 
             _showtimeService = new ShowtimeService(_auditoriumsRepository,
                                                    _showtimesRepository,
@@ -80,9 +79,7 @@ namespace ApiApplication.IntegrationTests
             _showtimesController = new ShowtimesController(_showtimeService,
                                                            _auditoriumService,
                                                            _mockMovieService.Object,
-                                                           _loggerShowtimesController,
-                                                           _auditoriumsRepository,
-                                                           _mapper);
+                                                           _loggerShowtimesController);
         }
 
         [Fact]
@@ -95,7 +92,7 @@ namespace ApiApplication.IntegrationTests
 
             MovieDto movieDto = new MovieDto()
             {
-                movieId = movieId,
+                MovieId = movieId,
                 Title = "test"
             };
 
@@ -104,7 +101,7 @@ namespace ApiApplication.IntegrationTests
                 AuditoriumId = auditoriumId,
                 Movie = movieDto,
                 SessionDate = sessionDate,
-                showtimeId = 11
+                ShowtimeId = 11
 
             };
 
@@ -116,7 +113,7 @@ namespace ApiApplication.IntegrationTests
             var actionResult = Assert.IsType<ActionResult<ShowtimeDto>>(result);
             var createdAtRouteResult = Assert.IsType<CreatedAtRouteResult>(actionResult.Result);
             Assert.Equal("GetShowtimeWithMovie", createdAtRouteResult.RouteName);
-            Assert.Equal(showtimeDto.showtimeId, createdAtRouteResult.RouteValues["id"]);
+            Assert.Equal(showtimeDto.ShowtimeId, createdAtRouteResult.RouteValues["id"]);
             //Assert.Equal(showtimeDto, createdAtRouteResult.Value);
         }
 
@@ -134,7 +131,7 @@ namespace ApiApplication.IntegrationTests
             var okResult = Assert.IsType<OkObjectResult>(result.Result); // to verify that the response is OkObjectResult
 
             var returnValue = Assert.IsType<ShowtimeDto>(okResult.Value);// to verify that the response value is of type ShowtimeDto
-            Assert.Equal(id, returnValue.showtimeId);
+            Assert.Equal(id, returnValue.ShowtimeId);
 
         }
     }
